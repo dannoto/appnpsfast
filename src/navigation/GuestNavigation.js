@@ -47,22 +47,7 @@ export default function GuestNavigation(props) {
 		)
 	};
 
-	const Logout = () => {
-		// if (theme === "dark") {
-		// 	toggleTheme("dark");
 
-		// } else {
-		// 	toggleTheme("light");
-		// }
-		console.log('deslogado')
-	}
-
-	const ButtonLogout = () => {
-		return (
-			<IconButton icon={"logout"} style={{ marginHorizontal: 15, color:  "black", marginVertical:15 }} size={iconSize} onPress={() => Logout()} />
-			
-		)
-	};
 
 	const navigatorOptions = {
 		headerStyle: {
@@ -89,13 +74,13 @@ export default function GuestNavigation(props) {
 
 			<RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />
 			<RootStack.Screen name="recuperacao" component={Recuperacao} options={{ title: null, headerLeft: () => buttonBack() }} />
-
+{/* 
 			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: false, Style: {headerBackground:'#FFFF'}, headerLeft: ()=> ButtonLogout(), }} />
 			<RootStack.Screen name="stepnps" component={StepNps} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 			<RootStack.Screen name="stepfullnps" component={StepFullNps} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 			<RootStack.Screen name="stepsugestion" component={StepSugestion} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 			<RootStack.Screen name="stepcontact" component={StepContact} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepobrigado" component={StepObrigado} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="stepobrigado" component={StepObrigado} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  /> */}
 
 
 		</RootStack.Navigator>

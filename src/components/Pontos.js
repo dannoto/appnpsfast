@@ -10,19 +10,20 @@ import Empty from './Empty';
 
 import { TouchableOpacity } from 'react-native-web';
 import ColorsApp from '../config/ColorsApp';
-import { npsFiliais } from '../config/DataApp';
+import { npsJornadas, npsPontosContato } from '../config/DataApp';
 import { map } from 'lodash';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PontosContato from '../screens/PontosContato';
 
 
-export default function Filiais(props) {
+export default function Pontos(props) {
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
     const [isLoaded, setIsLoaded] = useState(false);
-    const [filiais, setFiliais] = useState([]);
+    const [pontosdeContato, setPontosdeContato] = useState([]);
     const [IconSize, setIconSize] = useState("");
 
 
@@ -34,7 +35,7 @@ export default function Filiais(props) {
     };
 
 
-    const getFiliais = async () => {
+    const getJornadas = async () => {
 
         try {
 
@@ -46,49 +47,79 @@ export default function Filiais(props) {
 
                     if (data.token) {
 
-                        npsFiliais(data.token).then((response) => {
+
+                        // Inicio Pegando Jornadas
+                        npsJornadas(data.token).then((response) => {
 
                             try {
 
                                 if (response.results.length > 0) {
 
-                                    setFiliais([])
-                                    setFiliais(response.results)
+                                    var jornadas = response.results
+
+                                    jornadas.forEach(resp => {
+
+                                        // Inicio Pontos de Contato
+                                        npsPontosContato(data.token, resp.codJornada).then((respPC) => {
+
+
+                                            respPC.forEach(respPCEach => {
+                                
+                                                setPontosdeContato(oldArray => [...oldArray, { codPontoContato: respPCEach.codPontoContato, descPontoContato: respPCEach.descPontoContato}]);
+
+                                            })
+
+                                            setIsLoaded(true)
+
+                                        }).catch((error) =>
+
+                                            setIsLoaded(true)
+
+                                        )
+                                        // Fim Pontos de Contato
+
+
+
+
+                                    });
+
 
                                 } else {
                                     console.log("vazio")
+                                    setIsLoaded(true)
                                 }
 
-                                setIsLoaded(true)
 
                             } catch (error) {
 
                                 console.log(error)
-                                console.log('Suas filiais estão incorretas.')
+                                console.log('Suas Jornadas estão incorretas.')
 
                                 setIsLoaded(true)
-                
+
                             }
 
                         }).catch((error) =>
 
-                            // console.log("npsFiliais(data.token).then((response) => {")
+                            // console.log("Erro na requisição. Contate o suporte.")
                             setIsLoaded(true)
-                           
+
                         )
+                        // Fim Pegando jornadas
+
 
 
 
                     } else {
                         console.log('if (data.token) {')
-                        setIsLoaded(true)
+                        // setIsLoaded(true)
 
                     }
 
                 } else {
 
                     console.log('if (result) {')
-                    setIsLoaded(true)
+                    // setIsLoaded(true)
 
                 }
 
@@ -103,10 +134,13 @@ export default function Filiais(props) {
 
 
 
-
     useEffect(() => {
 
-        getFiliais()
+        // setIsLoaded(true)
+
+        getJornadas()
+
+        console.log(pontosdeContato)
 
 
         if (screenWidth >= 768) {
@@ -122,9 +156,7 @@ export default function Filiais(props) {
     }, []);
 
     const StartPesquisa = async (nomeFilial) => {
-
-        onChangeScreen('pontoscontato');
-
+        onChangeScreen('stepnps');
     }
 
 
@@ -143,23 +175,19 @@ export default function Filiais(props) {
                     <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
 
 
-                        {map(filiais, (item, i) => (
-
-                            // filiais.length > 0 ?
-
+                        {map(pontosdeContato, (item, i) => (
 
                             <View key={i} style={screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox}>
-                                <TouchableOpacity onPress={() => StartPesquisa(item.codFilial)}>
+                                <TouchableOpacity onPress={() => StartPesquisa(item.codPontoContato)}>
                                     <IconButton icon="crosshairs-gps" iconColor={ColorsApp.SECONDARY} size={IconSize} style={Styles.FiliaisBoxIcon} />
-                                    <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >{item.nomeFilial}</Text>
+                                    <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >x{item.descPontoContato}</Text>
                                 </TouchableOpacity>
                             </View>
-
 
                         ))}
 
                         {
-                            filiais.length == 0 ?
+                            pontosdeContato.length == 0 ?
 
                                 <Empty />
 

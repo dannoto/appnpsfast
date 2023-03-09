@@ -20,8 +20,9 @@ export default function App() {
 
   useEffect(() => {
 
-
     const getItemFromStorage = async () => {
+
+      console.log('running auth')
 
       try {
 
@@ -33,20 +34,22 @@ export default function App() {
             var data = JSON.parse(result)
 
             if (data.token) {
-              
-              console.log('logado')
+
+              console.log('logado app.js')
               console.log(data.token)
               setIsLogged(true)
 
             } else {
               console.log('nao logado')
               setIsLogged(false)
+              return false;
 
 
             }
 
           } else {
-            return JSON.stringfy(error);
+
+            return false;
             setIsLogged(false)
 
           }
@@ -55,7 +58,7 @@ export default function App() {
 
       } catch (error) {
 
-        return JSON.stringfy(error);
+        return false;
         setIsLogged(false)
 
 
@@ -82,11 +85,11 @@ export default function App() {
 
   } else {
     return (
-   
+
       <NavigationContainer >
         {isLogged ? <DrawerNavigation /> : <GuestNavigation />}
       </NavigationContainer>
-      
+
     );
   }
 }

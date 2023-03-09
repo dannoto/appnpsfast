@@ -42,6 +42,40 @@ export async function npsLogin(email, password) {
   }
 }
 
+export async function npsRecuperacao(email) {
+  try {
+    const url = 'https://app.npsfast.com.br/api/Account/PasswordRecovery';
+    let response = await fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            "Email": email,
+          }
+        )
+      });
+    let responseJson = await response.json();
+    return responseJson;
+  } catch (error) {
+
+    return error;
+
+    //   Alert.alert('Opss', 'Erro na api.', [
+    //     {
+    //         text: 'Cancel',
+    //         onPress: () => console.log('Cancel Pressed'),
+    //         style: 'cancel',
+    //     },
+    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
+    // ]);
+
+  }
+}
+
 
 export async function npsFiliais(token) {
   try {
@@ -59,9 +93,28 @@ export async function npsFiliais(token) {
       }
     );
 
-    let responseJson = await response.json();
+    // let responseJson = await response.json();
 
-    return responseJson;
+    // return responseJson;
+
+    var data =
+
+    {
+      "results": [
+        {
+          "codFilial": 0,
+          "nomeFilial": "string",
+          "flagAtivo": true
+        },
+        {
+          "codFilial": 1,
+          "nomeFilial": "string",
+          "flagAtivo": true
+        },
+      ]
+    };
+
+    return data;
 
   } catch (error) {
 
@@ -103,22 +156,19 @@ export async function npsFilial(token, filial_id) {
 }
 
 
-export async function npsRecuperacao(email) {
+export async function npsJornadas(token) {
   try {
-    const url = 'https://app.npsfast.com.br/api/Account/PasswordRecovery';
+    const url = 'https://app.npsfast.com.br/api/jornadas';
     let response = await fetch(url,
       {
-        method: 'POST',
+        method: 'GET',
         headers: {
+          'Authorization': 'Bearer ' + token,
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(
-          {
-            "Email": email,
-          }
-        )
-      });
+      }
+    );
     let responseJson = await response.json();
     return responseJson;
   } catch (error) {
@@ -137,4 +187,33 @@ export async function npsRecuperacao(email) {
   }
 }
 
+export async function npsPontosContato(token, codJornada) {
+  try {
+    const url = 'https://app.npsfast.com.br/api/PontosContato?codJornada='+codJornada;
+    let response = await fetch(url,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    let responseJson = await response.json();
+    return responseJson;
+  } catch (error) {
 
+    return error;
+
+    //   Alert.alert('Opss', 'Erro na api.', [
+    //     {
+    //         text: 'Cancel',
+    //         onPress: () => console.log('Cancel Pressed'),
+    //         style: 'cancel',
+    //     },
+    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
+    // ]);
+
+  }
+}

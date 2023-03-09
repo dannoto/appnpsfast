@@ -116,14 +116,14 @@ export default StyleSheet.create({
 
     AuthButtonLabel: {
         letterSpacing: 0,
-        fontWeight: 'bold',
+        fontWeight: 600,
 
     },
 
 
     TabletAuthButtonLabel: {
         letterSpacing: 0,
-        fontWeight: 'bold',
+        fontWeight: 600,
         fontSize: 25
     },
 
@@ -240,7 +240,7 @@ export default StyleSheet.create({
     },
 
     DrawerTitleHeader: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         fontSize: 20,
         marginBottom: 8
     },
@@ -268,7 +268,7 @@ export default StyleSheet.create({
 
     headingTitle: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     headingSubTitle: {
@@ -285,7 +285,7 @@ export default StyleSheet.create({
 
     headingButtonText: {
         fontSize: 12,
-        fontWeight: 'bold',
+        fontWeight: 600,
         textTransform: 'uppercase'
     },
 
@@ -345,7 +345,7 @@ export default StyleSheet.create({
     },
 
     ButtonLabelProfile: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         fontSize: 16,
     },
 
@@ -367,7 +367,7 @@ export default StyleSheet.create({
     TextProfile: {
         fontSize: 18,
         marginRight: 4,
-        fontWeight: 'bold',
+        fontWeight: 600,
         marginBottom: 5
     },
 
@@ -420,12 +420,12 @@ export default StyleSheet.create({
 
     card1_title: {
         color: "#fff",
-        fontWeight: 'bold',
+        fontWeight: 600,
     },
 
     card1_subtitle: {
         color: PrimaryColor,
-        fontWeight: 'bold',
+        fontWeight: 600,
     },
 
     card1_viewicon: {
@@ -439,7 +439,7 @@ export default StyleSheet.create({
 
     card1_icon: {
         color: PrimaryColor,
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     card2_view: {
@@ -463,7 +463,7 @@ export default StyleSheet.create({
     card3_title: {
         color: '#FFF',
         fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     card3_subtitle: {
@@ -476,7 +476,7 @@ export default StyleSheet.create({
     card3_category: {
         marginBottom: 6,
         color: PrimaryColor,
-        fontWeight: 'bold',
+        fontWeight: 600,
         fontSize: 16,
     },
 
@@ -529,7 +529,7 @@ export default StyleSheet.create({
     card4_title: {
         color: '#FFF',
         fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     card4_viewicon: {
@@ -564,7 +564,7 @@ export default StyleSheet.create({
     card5_title: {
         color: '#FFF',
         fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     card5_border: {
@@ -619,7 +619,7 @@ export default StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 10,
         color: '#fff',
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     itemListView: {
@@ -657,7 +657,7 @@ export default StyleSheet.create({
     title_categories: {
         color: '#FFF',
         fontSize: 14,
-        fontWeight: 'bold'
+        fontWeight: 600
     },
 
     title_categories_background: {
@@ -811,11 +811,11 @@ export default StyleSheet.create({
     ExerciseTitle: {
         fontSize: 18,
         alignSelf: 'center',
-        fontWeight: 'bold',
+        fontWeight: 600,
     },
 
     ExerciseSubTitle: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         color: PrimaryColor
     },
 
@@ -828,7 +828,7 @@ export default StyleSheet.create({
 
     ExerciseColTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: 600,
         marginBottom: 5
     },
 
@@ -846,7 +846,7 @@ export default StyleSheet.create({
     },
 
     ExerciseAccordionTitle: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         fontSize: 16
     },
 
@@ -873,7 +873,7 @@ export default StyleSheet.create({
     },
 
     HeaderTitle: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         color: '#fff',
         fontSize: 16,
         marginBottom: 8,
@@ -881,7 +881,7 @@ export default StyleSheet.create({
     },
 
     HeaderSubTitle: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         color: PrimaryColor,
         fontSize: 16
     },
@@ -901,13 +901,13 @@ export default StyleSheet.create({
     },
 
     Header2Category: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         color: PrimaryColor,
         fontSize: 16,
     },
 
     Header2Title: {
-        fontWeight: 'bold',
+        fontWeight: 600,
         color: '#fff',
         fontSize: 20,
         marginVertical: 8,
@@ -930,7 +930,7 @@ export default StyleSheet.create({
     WorkoutGridTitle: {
         fontSize: 16,
         color: 'rgba(0,0,0,0.7)',
-        fontWeight: 'bold',
+        fontWeight: 600,
     },
 
     WorkoutGridSubTitle: {
@@ -951,7 +951,7 @@ export default StyleSheet.create({
         fontSize: 16,
         marginBottom: 5,
         color: 'rgba(0,0,0,0.7)',
-        fontWeight: 'bold',
+        fontWeight: 600,
     },
 
     DietGridSubTitle: {

@@ -51,13 +51,15 @@ export default function Login(props) {
                 try {
 
                     if (response.token.length > 0) {
-                        // console.log('logado com sucesso')
-                        // console.log(response.token)
+                        console.log('logado com sucesso')
+                        console.log(response.token)
 
                         AsyncStorage.setItem(
                             'auth',
                             JSON.stringify(response)
                         );
+
+                        // onChangeScreen('home')
 
 
 
@@ -71,7 +73,7 @@ export default function Login(props) {
 
                 } catch (error) {
 
-                    console.log('Suas credenciais estão incorretas.')
+                    console.log('Catch erro.')
                     // Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
 
                     //     { text: 'OK', onPress: () => console.log('OK Pressed') },
