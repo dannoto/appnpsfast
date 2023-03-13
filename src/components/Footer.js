@@ -28,7 +28,7 @@ export default function Filiais(props) {
     const navigation = useNavigation();
 
     const onChangeScreen = (screen) => {
-        props.navigation.navigate(screen);
+        navigation.navigate(screen);
     };
 
     useEffect(() => {
@@ -37,6 +37,12 @@ export default function Filiais(props) {
         setIsLoaded(true);
         // });
     }, []);
+
+
+    const toFiliais = () => {
+        console.log('to filiais')
+        onChangeScreen('home');
+    }
 
     const StartPesquisa = async () => {
 
@@ -62,7 +68,9 @@ export default function Filiais(props) {
                 <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 5, paddingTop:15,paddingLeft:10, paddingRight:10, paddingBottom:10, flexDirection: 'row', justifyContent:'space-between',  }}>
                    
                         {/* <View style={{width:'50%', flexDirection:'row' , justifyContent:'flex-start'}}> */}
-                            <Image resizeMode={"contain"} source={require('./../../assets/logo.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
+                        <TouchableOpacity onPress={() => { toFiliais()}}>
+                            <Image resizeMode={"contain"}  source={require('./../../assets/logo.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
+                        </TouchableOpacity>
                         {/* </View> */}
                         {/* <View style={{width:'50%', alignItems:'flex-end'}}> */}
                             <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>

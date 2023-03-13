@@ -8,6 +8,8 @@ import AppLoading from '../components/AppLoading';
 
 
 import Pontos from '../components/Pontos';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { useIsFocused } from "@react-navigation/native";
 
 
 export default function PontosContato(props) {
@@ -22,9 +24,18 @@ export default function PontosContato(props) {
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
     };
+    // const isFocused = useIsFocused();
 
 
     useEffect(() => {
+
+        AsyncStorage.removeItem('dataAnswer');
+        AsyncStorage.removeItem('currentIndex');
+        AsyncStorage.removeItem('currentType');
+        AsyncStorage.removeItem('codCliente');
+        AsyncStorage.removeItem('dataQuestions');
+        AsyncStorage.removeItem('dataRespondente');
+
 
             setLoading(true)
 

@@ -1,0 +1,28 @@
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, Alert, ScrollView, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { Text, TextInput, Button } from 'react-native-paper';
+import Styles from '../config/Styles';
+import ColorsApp from '../config/ColorsApp';
+
+import AppLoading from '../components/AppLoading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Pontos from '../components/Pontos';
+
+
+import RadioBottom from '../screens/Questoes/RadioBottom';
+import CaixaDeTexto from '../screens/Questoes/CaixaDeTexto';
+import CheckBox from '../screens/Questoes/CheckBox';
+import Label from '../screens/Questoes/Label';
+import Emoji from '../screens/Questoes/Emoji';
+
+
+export default function Current(props) {
+
+
+    const [daniel, setDaniel] = useState('ribeiro do amaral')
+
+    // console.log(daniel)
+
+    return daniel;
+
+}

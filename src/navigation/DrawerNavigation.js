@@ -11,16 +11,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Home from '../screens/Home';
 import PontosContato from '../screens/PontosContato';
-import StepNps from '../screens/StepNps';
-import StepFullNps from '../screens/StepFullNps';
-import StepSugestion from '../screens/StepSugestion';
+import RunPesquisa from '../screens/RunPesquisa';
+
+
+import RadioBottom from '../screens/Questoes/RadioBottom';
+import CheckBox from '../screens/Questoes/CheckBox';
+import CaixaDeTexto from '../screens/Questoes/CaixaDeTexto';
+import Emoji from '../screens/Questoes/Emoji';
+import Label from '../screens/Questoes/Label';
+
+
 import StepContact from '../screens/StepContact';
 import StepObrigado from '../screens/StepObrigado';
 
 
-
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+// import { CheckBox } from 'react-native-web';
 
 const RootStack = createStackNavigator();
 
@@ -91,17 +98,23 @@ export default function DrawerNavigation(props) {
 
 		<RootStack.Navigator screenOptions={(route) => { return navigatorOptions }}>
 
-			{/* <RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />
-			<RootStack.Screen name="recuperacao" component={Recuperacao} options={{ title: null, headerLeft: () => buttonBack() }} /> */}
+
 
 			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: false, Style: {headerBackground:'#FFFF'}, headerLeft: ()=> ButtonLogout(), }} />
             <RootStack.Screen name="pontoscontato" component={PontosContato} options={{ title: null, headerLeft: () => buttonBack() }}  />
+            <RootStack.Screen name="runpesquisa" component={RunPesquisa} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 
-            <RootStack.Screen name="stepnps" component={StepNps} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepfullnps" component={StepFullNps} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepsugestion" component={StepSugestion} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			
+			<RootStack.Screen name="radiobottom" component={RadioBottom} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="caixadetexto" component={CaixaDeTexto} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="check" component={CheckBox} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="label" component={Label} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="emoji" component={Emoji} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+
+
 			<RootStack.Screen name="stepcontact" component={StepContact} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 			<RootStack.Screen name="stepobrigado" component={StepObrigado} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+
 
 
 		</RootStack.Navigator>

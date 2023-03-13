@@ -10,6 +10,7 @@ import GuestNavigation from './src/navigation/GuestNavigation';
 
 import Loading from './src/components/AppLoading';
 import ColorsApp from './src/config/ColorsApp';
+// import { useIsFocused } from "@react-navigation/native";
 
 export default function App() {
 
@@ -17,12 +18,14 @@ export default function App() {
   const [isReady, setIsReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
+  // const isFocused = useIsFocused();
+
 
   useEffect(() => {
 
     const getItemFromStorage = async () => {
 
-      console.log('running auth')
+      // console.log('running auth')
 
       try {
 
@@ -35,12 +38,12 @@ export default function App() {
 
             if (data.token) {
 
-              console.log('logado app.js')
-              console.log(data.token)
+              // console.log('logado app.js')
+              // console.log(data.token)
               setIsLogged(true)
 
             } else {
-              console.log('nao logado')
+              // console.log('nao logado')
               setIsLogged(false)
               return false;
 

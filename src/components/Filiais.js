@@ -56,15 +56,15 @@ export default function Filiais(props) {
                                     setFiliais(response.results)
 
                                 } else {
-                                    console.log("vazio")
+                                    // console.log("vazio")
                                 }
 
                                 setIsLoaded(true)
 
                             } catch (error) {
 
-                                console.log(error)
-                                console.log('Suas filiais estão incorretas.')
+                                // console.log(error)
+                                // console.log('Suas filiais estão incorretas.')
 
                                 setIsLoaded(true)
                 
@@ -80,14 +80,14 @@ export default function Filiais(props) {
 
 
                     } else {
-                        console.log('if (data.token) {')
+                        // console.log('if (data.token) {')
                         setIsLoaded(true)
 
                     }
 
                 } else {
 
-                    console.log('if (result) {')
+                    // console.log('if (result) {')
                     setIsLoaded(true)
 
                 }
@@ -96,7 +96,7 @@ export default function Filiais(props) {
             });
 
         } catch (error) {
-            console.log('1 CACH ERROR')
+            // console.log('1 CACH ERROR')
             setIsLoaded(true)
         }
     }
@@ -121,7 +121,7 @@ export default function Filiais(props) {
 
     }, []);
 
-    const StartPesquisa = async (nomeFilial) => {
+    const toPontosContato = async (nomeFilial) => {
 
         onChangeScreen('pontoscontato');
 
@@ -149,7 +149,7 @@ export default function Filiais(props) {
 
 
                             <View key={i} style={screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox}>
-                                <TouchableOpacity onPress={() => StartPesquisa(item.codFilial)}>
+                                <TouchableOpacity onPress={() => toPontosContato(item.codFilial)}>
                                     <IconButton icon="crosshairs-gps" iconColor={ColorsApp.SECONDARY} size={IconSize} style={Styles.FiliaisBoxIcon} />
                                     <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >{item.nomeFilial}</Text>
                                 </TouchableOpacity>

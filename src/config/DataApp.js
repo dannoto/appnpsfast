@@ -217,3 +217,102 @@ export async function npsPontosContato(token, codJornada) {
 
   }
 }
+
+
+
+export async function npsQuestoes(token, codPontoContato) {
+  try {
+    const url = 'https://app.npsfast.com.br/api/Questoes?codPontoContato='+codPontoContato;
+    let response = await fetch(url,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    let responseJson = await response.json();
+    return responseJson;
+  } catch (error) {
+
+    return error;
+
+    //   Alert.alert('Opss', 'Erro na api.', [
+    //     {
+    //         text: 'Cancel',
+    //         onPress: () => console.log('Cancel Pressed'),
+    //         style: 'cancel',
+    //     },
+    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
+    // ]);
+
+  }
+}
+
+
+export async function npsRespostas(token, codCliente) {
+  try {
+    const url = 'https://app.npsfast.com.br/api/Respostas?codRespondente='+codCliente;
+    let response = await fetch(url,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    let responseJson = await response.json();
+    return responseJson;
+  } catch (error) {
+
+    return error;
+
+    //   Alert.alert('Opss', 'Erro na api.', [
+    //     {
+    //         text: 'Cancel',
+    //         onPress: () => console.log('Cancel Pressed'),
+    //         style: 'cancel',
+    //     },
+    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
+    // ]);
+
+  }
+}
+
+
+
+export async function npsEnviarRespostas(token, resposta) {
+
+  console.log('call nps enviar resposta')
+
+
+  try {
+    const url = 'https://app.npsfast.com.br/api/Respondentes';
+    let response = await fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify( resposta )
+      }
+    );
+    let responseJson = await response.json();
+
+    console.log(responseJson)
+    // return responseJson;
+  } catch (error) {
+
+    // return error;
+    console.lolg('erro')
+    console.log(error)
+
+  }
+}
+
