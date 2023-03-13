@@ -1361,8 +1361,9 @@ export default StyleSheet.create({
         borderWidth:2,
         borderColor: ColorsApp.PRIMARY,
         backgroundColor: 'transparent',
-        textAlignVertical: 'top',
-        fontSize: 22
+        // textAlignVertical: 'top',
+        fontSize: 22,
+        padding:12
     },
 
     InputDefault: {
@@ -1375,7 +1376,8 @@ export default StyleSheet.create({
         borderColor: ColorsApp.PRIMARY,
         fontSize: 15,
         backgroundColor: 'transparent',
-        textAlignVertical: 'top'
+        // textAlignVertical: 'top',
+        padding:12
 
     },
 

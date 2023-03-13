@@ -40,6 +40,219 @@ export default function RadioBottom(props) {
     const [question, setQuestion] = useState([]);
 
 
+   
+ 
+    // Start Expiration Pack
+    const [countDown, setCountDown] = useState();
+
+
+    const resetRoute = () => {
+
+        AsyncStorage.setItem(
+            'currentIndex',
+            JSON.stringify(0)
+        );
+
+        AsyncStorage.removeItem('dataAnswer');
+        AsyncStorage.removeItem('dataRespondente');
+        // AsyncStorage.removeItem('currentIndex');
+        // AsyncStorage.removeItem('currentType');
+        // AsyncStorage.removeItem('codCliente');
+        // AsyncStorage.removeItem('dataQuestions');
+    }
+
+
+    const sendResposta = async () => {
+
+
+        var codCliente = null;
+        var codFilial = null;
+        var contato = null;
+        var email = null;
+        var ddd1 = null;
+        var telefone1 = null;
+        var codPontoContato = null;
+        var respostas = [];
+
+        await AsyncStorage.getItem('codCliente', (error, result) => {
+            console.log('Pegou codCliente: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codCliente = result
+
+            } else {
+                codCliente = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('dataRespondente', (error, result) => {
+            console.log('Pegou dataRespondente: ' + result)
+
+            if (result) {
+
+                var data = JSON.parse(result)
+                // console.log(result)
+                contato = data.nome
+                email = data.email
+                telefone1 = data.telefone
+
+            } else {
+                contato = null
+                email = null
+                telefone1 = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('codPontoContato', (error, result) => {
+            console.log('Pegou codPontoContato: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codPontoContato = result
+
+            } else {
+                codPontoContato = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('dataAnswer', (error, result) => {
+            console.log('Pegou dataAnswer: ')
+            // console.log(result)
+
+            if (result) {
+
+                var data = JSON.parse(result)
+
+                console.log(data.answers)
+
+                respostas = data.answers
+
+            } else {
+                respostas = []
+            }
+        }
+        )
+
+
+
+
+
+        var resposta = {
+            "codClienteFastQuest": codCliente,
+            "codFilial": codFilial,
+            "contato": contato,
+            "email": email,
+            "ddd1": ddd1,
+            "telefone1": telefone1,
+            "codPontoContato": codPontoContato,
+            "codStatus": 102,
+            "respostas": respostas
+        }
+
+        console.log(resposta)
+
+
+        if (respostas.length > 0 ) {
+
+            console.log("resposta enviada")
+        } else {
+           console.log("nao tem respostas, ent n enviou")
+
+        }
+
+
+
+
+        resetRoute();
+        onChangeScreen('runpesquisa')
+
+
+
+    }
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+
+
+            var savedData = "";
+            var current = "";
+
+
+            AsyncStorage.getItem('expiration', (error, result) => {
+
+                if (result) {
+                    // console.log(result);
+                    savedData = result
+
+                } else {
+                    // savedData = "99"
+                }
+
+            });
+
+            AsyncStorage.getItem('currentIndex', (error, result) => {
+
+                if (result) {
+                    // console.log(result);
+                    current = result
+
+                } else {
+                    // savedData = "99"
+                }
+
+            });
+
+            // console.log(savedData)
+
+            const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
+
+            if (currentTimestamp >= savedData) {
+                console.log('   expirouuuuuu')
+
+                if (current != 0) {
+                    sendResposta()
+                    const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                    AsyncStorage.setItem(
+                        'expiration',
+                        JSON.stringify(expiryTimeInTimestamp)
+                    );
+                } else {
+                    console.log('current é 0, nao precisa resetar')
+                    console.log('renovando counter')
+
+                    const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+                    
+                    AsyncStorage.setItem(
+                        'expiration',
+                        JSON.stringify(expiryTimeInTimestamp)
+                    );
+                }
+            } else {
+                // console.log(' nao  expirouuuuuu')
+            }
+
+        }, 10000);
+
+        return () => clearInterval(interval);
+    }, [countDown]);
+
+    //  End Expiration Pack
 
     useEffect(() => {
 
@@ -84,6 +297,10 @@ export default function RadioBottom(props) {
 
     }, []);
 
+
+    // useEffect(() => {
+
+    //   }, []);
 
 
 
@@ -158,8 +375,6 @@ export default function RadioBottom(props) {
 
 
         }
-
-
 
 
         // Gerencia o route

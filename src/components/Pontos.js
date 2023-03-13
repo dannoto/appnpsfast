@@ -58,7 +58,7 @@ export default function Pontos(props) {
                                     var jornadas = response.results
 
                                     jornadas.forEach(resp => {
-                                        
+
                                         // Salvalndo codCliente
                                         AsyncStorage.setItem(
                                             'codCliente',
@@ -66,9 +66,9 @@ export default function Pontos(props) {
                                         );
 
 
-                                      
 
-                            
+
+
 
                                         // Inicio Pontos de Contato
                                         npsPontosContato(data.token, resp.codJornada).then((respPC) => {
@@ -197,9 +197,27 @@ export default function Pontos(props) {
                                     );
 
                                     AsyncStorage.setItem(
+                                        'codPontoContato',
+                                        JSON.stringify(codPontoContato)
+                                    );
+
+                                    //Definindo expiração
+                                    const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+                                    
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp )
+                                    );
+
+                                    AsyncStorage.setItem(
                                         'dataQuestions',
                                         JSON.stringify(
-                                            { expiration: 12, qtd: response.results.length, questions: response.results }
+                                            {qtd: response.results.length, questions: response.results }
 
                                         )
                                     );
@@ -216,7 +234,7 @@ export default function Pontos(props) {
                                     // );
 
                                     onChangeScreen('runpesquisa')
-                                    
+
 
                                 } else {
                                     console.log("nenhuma questao cadastrada.")

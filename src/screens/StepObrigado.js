@@ -10,17 +10,18 @@ import Header from '../components/Header';
 // import { ScrollView } from 'react-native-web';
 
 import { npsEnviarRespostas } from '../config/DataApp';
+// import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
+import { useIsFocused } from "@react-navigation/native";
 
 
 export default function StepObrigado(props) {
-
+    const isFocused = useIsFocused();
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
     const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
 
 
     const [orientation, setOrientation] = useState("PORTRAIT");
@@ -50,8 +51,9 @@ export default function StepObrigado(props) {
                 'currentIndex',
                 JSON.stringify(0)
             );
-
+    
             AsyncStorage.removeItem('dataAnswer');
+            AsyncStorage.removeItem('dataRespondente');
             // AsyncStorage.removeItem('currentIndex');
             // AsyncStorage.removeItem('currentType');
             // AsyncStorage.removeItem('codCliente');
@@ -61,69 +63,107 @@ export default function StepObrigado(props) {
 
         const sendResposta = async () => {
 
-            // try {
 
-            //     await AsyncStorage.getItem('auth', (error, result) => {
+            var codCliente = null;
+            var codFilial = null;
+            var contato = null;
+            var email = null;
+            var ddd1 = null;
+            var telefone1 = null;
+            var codPontoContato = null;
+            var respostas = [];
 
-            //         if (result) {
-            //             // console.log(result);
+            await AsyncStorage.getItem('codCliente', (error, result) => {
+                console.log('Pegou codCliente: '+result)
 
-            //             var data = JSON.parse(result)
+                        if (result) {
+                            // console.log(result)
+                            codCliente = result
 
-            //             if (data.token) {
+                        } else {
+                            codCliente = null
+                        }
+                }
+            )
 
-            //                 // console.log(data.token)
+            await AsyncStorage.getItem('dataRespondente', (error, result) => {
+                console.log('Pegou dataRespondente: '+result)
 
-            //                 var resposta = {
-            //                     "codClienteFastQuest": 94,
-            //                     "codFilial": 12,
-            //                     "contato": "Daniel Ribeiro",
-            //                     "email": "dantars@outlook.com",
-            //                     "ddd1": "62",
-            //                     "telefone1": "993615459",
-            //                     "codPontoContato": 5,
-            //                     "codStatus": 102,
-            //                     "respostas": [
-            //                         {
-            //                             "codQuestao": 23,
-            //                             "resposta": "5"
-            //                         }
-            //                     ]
-            //                 }
+                        if (result) {
 
-            //                 console.log(resposta)
+                            var data = JSON.parse(result)
+                            // console.log(result)
+                            contato = data.nome
+                            email = data.email
+                            telefone1 = data.telefone
 
-            //                 npsEnviarRespostas(data.token, resposta)
+                        } else {
+                            contato = null
+                            email = null
+                            telefone1 = null
+                        }
+                }
+            )
 
-            //             } else {
-            //                 console.log('nao logado')
-            //                 return false;
+             await AsyncStorage.getItem('codPontoContato', (error, result) => {
+                console.log('Pegou codPontoContato: '+result)
+
+                        if (result) {
+                            // console.log(result)
+                            codPontoContato = result
+
+                        } else {
+                            codPontoContato = null
+                        }
+                }
+            )
+
+            await AsyncStorage.getItem('dataAnswer', (error, result) => {
+                console.log('Pegou dataAnswer: ')
+                // console.log(result)
+
+                        if (result) {
+
+                          var data = JSON.parse(result)
+
+                          console.log(data.answers)
+
+                           respostas = data.answers
+
+                        } else {
+                            respostas = []
+                        }
+                }
+            )
 
 
-            //             }
-
-            //         } else {
-
-            //             // return false;
-            //             console.log('false get auth sendResposta')
-
-            //             // setIsLogged(false)
-
-            //         }
-
-            //     });
-
-            // } catch (error) {
-
-            //     // return false;
-
-            //     console.log('catch sendResposta')
-            //     // setIsLogged(false)
 
 
-            // }
 
-            console.log("resposta enviada")
+            var resposta = {
+                "codClienteFastQuest": codCliente,
+                "codFilial": codFilial,
+                "contato": contato,
+                "email": email,
+                "ddd1": ddd1,
+                "telefone1": telefone1,
+                "codPontoContato": codPontoContato,
+                "codStatus": 102,
+                "respostas": respostas
+            }
+
+            console.log(resposta)
+
+
+            if (respostas.length > 0 ) {
+    
+                console.log("resposta enviada")
+            } else {
+               console.log("nao tem respostas, ent n enviou")
+    
+            }
+        
+            resetRoute();
 
 
 
@@ -133,12 +173,12 @@ export default function StepObrigado(props) {
 
 
         sendResposta()
-        resetRoute();
+        // resetRoute();
 
 
 
 
-    }, []);
+    }, [isFocused]);
 
     const onChangeScreen = (screen) => {
         props.navigation.navigate(screen);
@@ -180,7 +220,7 @@ export default function StepObrigado(props) {
 
                         <IconButton icon="check-decagram" iconColor={"green"} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
-                        <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>Seu RESPOSTA foi ENVIADA com sucesso</Text>
+                        <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
                         <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>
 
 

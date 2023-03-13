@@ -36,6 +36,7 @@ export default function Home(props) {
         AsyncStorage.removeItem('codCliente');
         AsyncStorage.removeItem('dataQuestions');
         AsyncStorage.removeItem('dataRespondente');
+        AsyncStorage.removeItem('codPontoContato');
 
             setLoading(true)
 

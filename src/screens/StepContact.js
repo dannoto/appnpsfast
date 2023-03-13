@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions } from 'react-native-web';
-import { Text, TextInput, Button, IconButton } from 'react-native-paper';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity,TextInput ,Image, Dimensions } from 'react-native-web';
+import { Text, Button, IconButton } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
 import { useNavigation } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { TextInputMask } from 'react-native-text-input-mask';
+// import { TextInputMask } from 'react-native-text-input-mask';
 
 export default function StepContact(props) {
 
@@ -26,6 +26,205 @@ export default function StepContact(props) {
 
     const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState(80);
+
+     // Start Expiration Pack
+     const [countDown, setCountDown] = useState();
+
+
+     const resetRoute = () => {
+
+        AsyncStorage.setItem(
+            'currentIndex',
+            JSON.stringify(0)
+        );
+
+        AsyncStorage.removeItem('dataAnswer');
+        AsyncStorage.removeItem('dataRespondente');
+        // AsyncStorage.removeItem('currentIndex');
+        // AsyncStorage.removeItem('currentType');
+        // AsyncStorage.removeItem('codCliente');
+        // AsyncStorage.removeItem('dataQuestions');
+    }
+     const sendResposta = async () => {
+ 
+ 
+         var codCliente = null;
+         var codFilial = null;
+         var contato = null;
+         var email = null;
+         var ddd1 = null;
+         var telefone1 = null;
+         var codPontoContato = null;
+         var respostas = [];
+ 
+         await AsyncStorage.getItem('codCliente', (error, result) => {
+             console.log('Pegou codCliente: ' + result)
+ 
+             if (result) {
+                 // console.log(result)
+                 codCliente = result
+ 
+             } else {
+                 codCliente = null
+             }
+         }
+         )
+ 
+         await AsyncStorage.getItem('dataRespondente', (error, result) => {
+             console.log('Pegou dataRespondente: ' + result)
+ 
+             if (result) {
+ 
+                 var data = JSON.parse(result)
+                 // console.log(result)
+                 contato = data.nome
+                 email = data.email
+                 telefone1 = data.telefone
+ 
+             } else {
+                 contato = null
+                 email = null
+                 telefone1 = null
+             }
+         }
+         )
+ 
+         await AsyncStorage.getItem('codPontoContato', (error, result) => {
+             console.log('Pegou codPontoContato: ' + result)
+ 
+             if (result) {
+                 // console.log(result)
+                 codPontoContato = result
+ 
+             } else {
+                 codPontoContato = null
+             }
+         }
+         )
+ 
+         await AsyncStorage.getItem('dataAnswer', (error, result) => {
+             console.log('Pegou dataAnswer: ')
+             // console.log(result)
+ 
+             if (result) {
+ 
+                 var data = JSON.parse(result)
+ 
+                 console.log(data.answers)
+ 
+                 respostas = data.answers
+ 
+             } else {
+                 respostas = []
+             }
+         }
+         )
+ 
+ 
+ 
+ 
+ 
+         var resposta = {
+             "codClienteFastQuest": codCliente,
+             "codFilial": codFilial,
+             "contato": contato,
+             "email": email,
+             "ddd1": ddd1,
+             "telefone1": telefone1,
+             "codPontoContato": codPontoContato,
+             "codStatus": 102,
+             "respostas": respostas
+         }
+ 
+         console.log(resposta)
+
+
+         if (respostas.length > 0 ) {
+ 
+             console.log("resposta enviada")
+         } else {
+            console.log("nao tem respostas, ent n enviou")
+ 
+         }
+ 
+ 
+ 
+ 
+         resetRoute();
+         onChangeScreen('runpesquisa')
+ 
+ 
+ 
+     }
+ 
+ 
+     useEffect(() => {
+         const interval = setInterval(() => {
+ 
+ 
+             var savedData = "";
+ 
+ 
+             AsyncStorage.getItem('expiration', (error, result) => {
+ 
+                 if (result) {
+                     // console.log(result);
+                     savedData = result
+                     //   var data = JSON.parse(result)
+ 
+                     //   if (data.expiration) {
+ 
+                     //    savedData = data.expiration
+ 
+                     //   } else {
+ 
+                     //     // savedData = "00"
+ 
+                     //   }
+ 
+                 } else {
+                     // savedData = "99"
+                 }
+ 
+             });
+ 
+             console.log(savedData)
+ 
+             // if (savedData !== null) {
+             //     // check if we got a valid data before calling JSON.parse
+             //     savedData = JSON.parse(savedData);
+             //     console.log(savedData)
+             // } else {
+             //     console.log('savedData é null')
+             // }
+ 
+             const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
+ 
+             if (currentTimestamp >= savedData) {
+                 console.log('   expirouuuuuu')
+ 
+                 sendResposta()
+                 const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+ 
+                 const now = new Date();
+                 now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                 const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+ 
+ 
+                 AsyncStorage.setItem(
+                     'expiration',
+                     JSON.stringify(expiryTimeInTimestamp)
+                 );
+             } else {
+                 console.log(' nao  expirouuuuuu')
+             }
+ 
+         }, 10000);
+ 
+         return () => clearInterval(interval);
+     }, [countDown]);
+ 
+     //  End Expiration Pack
 
     useEffect(() => {
 
@@ -101,46 +300,29 @@ export default function StepContact(props) {
 
 
                     <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Nome</Text>
-                    <TextInputMask
+                    <TextInput
                         multiline={false}
                         numberOfLines={1}
                         value = {nome}
-                        onChangeText = { 
-                            
-                            
-                            text => setNome(text)
-                        }
+                        onChangeText = {  text => setNome(text)}
                         style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
                     />
 
                     <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu E-mail</Text>
-                    <TextInputMask
+                    <TextInput
                         multiline={false}
                         numberOfLines={1}
                         value = {email}
-                        onChangeText = {
-
-                          
-                                text => setEmail(text)
-                              
-                        }
+                        onChangeText = { text => setEmail(text) }
                         style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
                     />
 
                     <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Telefone</Text>
-                    <TextInputMask
+                    <TextInput
                         multiline={false}
                         numberOfLines={1}
-                        mask="(99) 999-9999"
                         value = {telefone}
-                        onChangeText = {
-
-                            (formatted, extracted) => {
-                                console.log(formatted); // +1 (123) 456-7890
-                                console.log(extracted); // 1234567890
-                                text => setTelefone(extracted)
-                              }
-                        }
+                        onChangeText = { text => setTelefone(text) }
                         keyboardType="numeric"
                         style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
                     />

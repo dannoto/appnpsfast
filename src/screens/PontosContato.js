@@ -26,6 +26,7 @@ export default function PontosContato(props) {
     };
     // const isFocused = useIsFocused();
 
+   
 
     useEffect(() => {
 
@@ -35,9 +36,10 @@ export default function PontosContato(props) {
         AsyncStorage.removeItem('codCliente');
         AsyncStorage.removeItem('dataQuestions');
         AsyncStorage.removeItem('dataRespondente');
+        AsyncStorage.removeItem('codPontoContato');
 
 
-            setLoading(true)
+        setLoading(true)
 
     }, []);
 
@@ -69,7 +71,7 @@ export default function PontosContato(props) {
                                 <Image source={require('./../../assets/logo.png')} resizeMode={'contain'} style={Styles.AuthLogo} />
                             </View>
                         </View> */}
-                        <View style={{ marginBottom: 50, marginTop:50 }}>
+                        <View style={{ marginBottom: 50, marginTop: 50 }}>
                             <View>
                                 <Text style={screenWidth >= 768 ? Styles.HomeSubtitleTablet : Styles.HomeSubtitle}>PONTOS DE CONTATO</Text>
                             </View>
