@@ -11,8 +11,11 @@ import Empty from '../../components/Empty';
 
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
+import { useKeepAwake } from 'expo-keep-awake';
 
 export default function CheckBox(props) {
+    
+    useKeepAwake();
 
 
     const screenWidth = Math.round(Dimensions.get('window').width);

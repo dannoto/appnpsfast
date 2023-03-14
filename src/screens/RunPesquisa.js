@@ -4,7 +4,7 @@ import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
 
-import InnerLoading from '../components/InnerLoading';
+import AppLoading from '../components/AppLoading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Pontos from '../components/Pontos';
 
@@ -21,9 +21,12 @@ import Emoji from './Questoes/Emoji';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useKeepAwake } from 'expo-keep-awake';
 
 
 export default function RunPesquisa(props) {
+        useKeepAwake();
+
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -174,11 +177,11 @@ export default function RunPesquisa(props) {
 
         return (
 
- <View>
-  <Header />
-            <InnerLoading />
-            <Footer/>
-</View>
+
+  
+            <AppLoading />
+            
+
         );
 
     } else {

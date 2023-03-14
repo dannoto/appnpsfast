@@ -16,9 +16,12 @@ import Empty from '../../components/Empty';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
+import { useKeepAwake } from 'expo-keep-awake';
+
+
 export default function CaixaDeTexto(props) {
 
-
+    useKeepAwake();
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -55,118 +58,138 @@ export default function CaixaDeTexto(props) {
         // AsyncStorage.removeItem('dataQuestions');
     }
  
-     const sendResposta = async () => {
- 
- 
-         var codCliente = null;
-         var codFilial = null;
-         var contato = null;
-         var email = null;
-         var ddd1 = null;
-         var telefone1 = null;
-         var codPontoContato = null;
-         var respostas = [];
- 
-         await AsyncStorage.getItem('codCliente', (error, result) => {
-             console.log('Pegou codCliente: ' + result)
- 
-             if (result) {
-                 // console.log(result)
-                 codCliente = result
- 
-             } else {
-                 codCliente = null
-             }
-         }
-         )
- 
-         await AsyncStorage.getItem('dataRespondente', (error, result) => {
-             console.log('Pegou dataRespondente: ' + result)
- 
-             if (result) {
- 
-                 var data = JSON.parse(result)
-                 // console.log(result)
-                 contato = data.nome
-                 email = data.email
-                 telefone1 = data.telefone
- 
-             } else {
-                 contato = null
-                 email = null
-                 telefone1 = null
-             }
-         }
-         )
- 
-         await AsyncStorage.getItem('codPontoContato', (error, result) => {
-             console.log('Pegou codPontoContato: ' + result)
- 
-             if (result) {
-                 // console.log(result)
-                 codPontoContato = result
- 
-             } else {
-                 codPontoContato = null
-             }
-         }
-         )
- 
-         await AsyncStorage.getItem('dataAnswer', (error, result) => {
-             console.log('Pegou dataAnswer: ')
-             // console.log(result)
- 
-             if (result) {
- 
-                 var data = JSON.parse(result)
- 
-                 console.log(data.answers)
- 
-                 respostas = data.answers
- 
-             } else {
-                 respostas = []
-             }
-         }
-         )
- 
- 
- 
- 
- 
-         var resposta = {
-             "codClienteFastQuest": codCliente,
-             "codFilial": codFilial,
-             "contato": contato,
-             "email": email,
-             "ddd1": ddd1,
-             "telefone1": telefone1,
-             "codPontoContato": codPontoContato,
-             "codStatus": 102,
-             "respostas": respostas
-         }
- 
-         console.log(resposta)
+    const sendResposta = async () => {
 
 
-         if (respostas.length > 0 ) {
+            var token = null;
+            var codCliente = null;
+            var codFilial = null;
+            var contato = null;
+            var email = null;
+            var ddd1 = null;
+            var telefone1 = null;
+            var codPontoContato = null;
+            var respostas = [];
 
-             console.log("resposta enviada")
-         } else {
-            console.log("nao tem respostas, ent n enviou")
+            await AsyncStorage.getItem('auth', (error, result) => {
+                console.log('Pegou auth: '+result)
 
-         }
- 
- 
- 
- 
-         resetRoute();
-         onChangeScreen('runpesquisa')
- 
- 
- 
-     }
- 
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+                            // console.log(result)
+                            token = data.token
+
+                        } else {
+                            token = null
+                        }
+                }
+            )
+
+            await AsyncStorage.getItem('codCliente', (error, result) => {
+                console.log('Pegou codCliente: '+result)
+
+                        if (result) {
+                            // console.log(result)
+                            codCliente = result
+
+                        } else {
+                            codCliente = null
+                        }
+                }
+            )
+
+            await AsyncStorage.getItem('dataRespondente', (error, result) => {
+                console.log('Pegou dataRespondente: '+result)
+
+                        if (result) {
+
+                            var data = JSON.parse(result)
+                            // console.log(result)
+                            contato = data.nome
+                            email = data.email
+                            telefone1 = data.telefone
+
+                        } else {
+                            contato = null
+                            email = null
+                            telefone1 = null
+                        }
+                }
+            )
+
+            await AsyncStorage.getItem('codPontoContato', (error, result) => {
+                console.log('Pegou codPontoContato: '+result)
+
+                    if (result) {
+                                // console.log(result)
+                                codPontoContato = result
+
+                    } else {
+                                codPontoContato = null
+                    }
+            })
+
+            await AsyncStorage.getItem('dataAnswer', (error, result) => {
+                console.log('Pegou dataAnswer: ')
+                // console.log(result)
+
+                        if (result) {
+
+                          var data = JSON.parse(result)
+
+                          console.log(data.answers)
+
+                           respostas = data.answers
+
+                        } else {
+                            respostas = []
+                        }
+                }
+            )
+
+          var resposta = {
+                "codClienteFastQuest": codCliente,
+                "codFilial": codFilial,
+                "contato": contato,
+                "email": email,
+                "ddd1": ddd1,
+                "telefone1": telefone1,
+                "codPontoContato": codPontoContato,
+                "codStatus": 102,
+                "respostas": respostas
+            }
+
+            console.log(resposta)
+
+
+            if (respostas.length > 0 ) {
+
+                npsEnviarRespostas(token, respostas).then((response) => {
+                            
+                    console.log("resposta enviada")
+                    console.log(response)
+
+                }).catch((error) => {
+
+                    console.log("erro ao enviar resposta")
+                    console.log(error)
+               
+                })
+
+    
+            } else {
+               console.log("nao tem respostas, ent n enviou")
+    
+            }
+        
+            resetRoute();
+            onChangeScreen('runpesquisa')
+
+
+
+    }
+
  
      useEffect(() => {
          const interval = setInterval(() => {
@@ -209,7 +232,7 @@ export default function CaixaDeTexto(props) {
  
                  if (current != 0) {
                      sendResposta()
-                     const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
  
                      const now = new Date();
                      now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
@@ -224,7 +247,7 @@ export default function CaixaDeTexto(props) {
                      console.log('current é 0, nao precisa resetar')
                      console.log('renovando counter')
  
-                     const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
  
                      const now = new Date();
                      now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time

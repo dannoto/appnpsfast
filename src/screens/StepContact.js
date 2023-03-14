@@ -8,10 +8,12 @@ import { useNavigation } from '@react-navigation/native';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useKeepAwake } from 'expo-keep-awake';
 
 
 export default function StepContact(props) {
 
+    useKeepAwake();
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -203,7 +205,7 @@ export default function StepContact(props) {
                  console.log('   expirouuuuuu')
  
                  sendResposta()
-                 const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+                 const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
  
                  const now = new Date();
                  now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time

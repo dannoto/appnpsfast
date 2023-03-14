@@ -6,8 +6,8 @@ import ColorsApp from '../config/ColorsApp.js';
 export default function AppLoading(){
 
 		return(
-			<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: ColorsApp.PRIMARY}}>
-			<ActivityIndicator color={'#FFF'} size={"large"} />
+			<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF'}}>
+				<ActivityIndicator color={ColorsApp.PRIMARY} size={"large"} />
 			</View>
 			);
 }

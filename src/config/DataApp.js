@@ -93,28 +93,28 @@ export async function npsFiliais(token) {
       }
     );
 
-    // let responseJson = await response.json();
+    let responseJson = await response.json();
 
-    // return responseJson;
+    return responseJson;
 
-    var data =
+    // var data =
 
-    {
-      "results": [
-        {
-          "codFilial": 0,
-          "nomeFilial": "string",
-          "flagAtivo": true
-        },
-        {
-          "codFilial": 1,
-          "nomeFilial": "string",
-          "flagAtivo": true
-        },
-      ]
-    };
+    // {
+    //   "results": [
+    //     {
+    //       "codFilial": 0,
+    //       "nomeFilial": "string",
+    //       "flagAtivo": true
+    //     },
+    //     {
+    //       "codFilial": 1,
+    //       "nomeFilial": "string",
+    //       "flagAtivo": true
+    //     },
+    //   ]
+    // };
 
-    return data;
+    // return data;
 
   } catch (error) {
 
@@ -202,6 +202,25 @@ export async function npsPontosContato(token, codJornada) {
     );
     let responseJson = await response.json();
     return responseJson;
+
+    //  var data =
+
+    // {
+    //   "results": [
+    //     // {
+    //     //   "codFilial": 0,
+    //     //   "nomeFilial": "string",
+    //     //   "flagAtivo": true
+    //     // },
+    //     // {
+    //     //   "codFilial": 1,
+    //     //   "nomeFilial": "string",
+    //     //   "flagAtivo": true
+    //     // },
+    //   ]
+    // };
+
+    // return data;
   } catch (error) {
 
     return error;
@@ -300,7 +319,7 @@ export async function npsEnviarRespostas(token, resposta) {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify( resposta )
+        body: JSON.stringify(resposta)
       }
     );
     let responseJson = await response.json();

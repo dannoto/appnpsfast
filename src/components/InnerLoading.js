@@ -7,7 +7,7 @@ export default function InnerLoading(){
 
 		return(
 			<View style={{marginVertical:50}}>
-			<ActivityIndicator color={ColorsApp.PRIMARY} size={50} />
+				<ActivityIndicator color={ColorsApp.PRIMARY} size={50} />
 			</View>
 			);
 }

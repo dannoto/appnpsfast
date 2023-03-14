@@ -5,9 +5,11 @@ import Styles from '../config/Styles';
 
 import { npsRecuperacao } from '../config/DataApp'
 import { ScrollView } from 'react-native-gesture-handler';
+import { useKeepAwake } from 'expo-keep-awake';
 
 export default function Recuperacao(props) {
 
+    useKeepAwake();
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);

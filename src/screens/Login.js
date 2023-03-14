@@ -7,9 +7,11 @@ import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
 import { npsLogin } from '../config/DataApp'
 import Loading from '../components/AppLoading';
+import { useKeepAwake } from 'expo-keep-awake';
 
 
 export default function Login(props) {
+    useKeepAwake();
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);

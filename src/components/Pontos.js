@@ -80,12 +80,10 @@ export default function Pontos(props) {
 
                                             })
 
-                                            setIsLoaded(true)
 
                                         }).catch((error) =>
 
-                                            setIsLoaded(true)
-
+                                            console.log(error)
                                         )
                                         // Fim Pontos de Contato
 
@@ -94,6 +92,7 @@ export default function Pontos(props) {
 
                                     });
 
+                                    setIsLoaded(true)
 
                                 } else {
                                     console.log("vazio")
@@ -106,14 +105,16 @@ export default function Pontos(props) {
                                 console.log(error)
                                 console.log('Suas Jornadas estão incorretas.')
 
-                                setIsLoaded(true)
+                                setIsLoaded(false)
 
                             }
 
                         }).catch((error) =>
 
-                            // console.log("Erro na requisição. Contate o suporte.")
-                            setIsLoaded(true)
+                            {
+                                console.log("Erro na requisição. Contate o suporte.")
+                            setIsLoaded(false)
+                            }
 
                         )
                         // Fim Pegando jornadas
@@ -122,15 +123,13 @@ export default function Pontos(props) {
 
 
                     } else {
-                        console.log('if (data.token) {')
-                        // setIsLoaded(true)
+                        onChangeScreen('login')
 
                     }
 
                 } else {
 
-                    console.log('if (result) {')
-                    // setIsLoaded(true)
+                    onChangeScreen('login')
 
                 }
 
@@ -139,7 +138,7 @@ export default function Pontos(props) {
 
         } catch (error) {
             console.log('1 CACH ERROR')
-            setIsLoaded(true)
+            setIsLoaded(false)
         }
     }
 
@@ -202,7 +201,7 @@ export default function Pontos(props) {
                                     );
 
                                     //Definindo expiração
-                                    const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
 
                                     const now = new Date();
                                     now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time

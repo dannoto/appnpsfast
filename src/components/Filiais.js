@@ -58,6 +58,7 @@ export default function Filiais(props) {
                                     setFiliais(response.results)
 
                                 } else {
+                                     setFiliais([])
                                     console.log("vazio")
                                 }
 
@@ -68,30 +69,31 @@ export default function Filiais(props) {
                                 // console.log(error)
                                 console.log('Suas filiais estão incorretas.')
 
-                                // setIsLoaded(true)
+                                setIsLoaded(false)
                 
                             }
 
                         }).catch((error) =>
 
-                            console.log("npsFiliais(data.token).then((response) => {")
-                            // setIsLoaded(true)
+                           {
+
+                             console.log("npsFiliais(data.token).then((response) => {")
+                           setIsLoaded(false)
+                           }
                            
                         )
 
 
 
                     } else {
-                        console.log('if (data.token) {')
-                        // setIsLoaded(true)
+                       
+                        onChangeScreen('login')
 
                     }
 
                 } else {
 
-                    console.log('if (result) {')
-                    // setIsLoaded(true)
-
+                    onChangeScreen('login')
                 }
 
 
@@ -99,7 +101,7 @@ export default function Filiais(props) {
 
         } catch (error) {
             console.log('1 CACH ERROR')
-            // setIsLoaded(true)
+            setIsLoaded(false)
         }
     }
 
@@ -160,9 +162,14 @@ export default function Filiais(props) {
                         ))}
 
                         {
-                            !filiais ?
+                            !filiais.results  ?
 
+                                <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
                                 <Empty />
+                                <TouchableOpacity  onPress={() => onChangeScreen('pontoscontato') }>
+                                     <Text style={{color:ColorsApp.PRIMARY, fontSize: 18}}> ACESSAR PONTOS DE CONTATO</Text>
+                                </TouchableOpacity>
+                                </View>
 
                                 :
 

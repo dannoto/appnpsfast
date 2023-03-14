@@ -3,15 +3,20 @@ import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensi
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IconButton } from 'react-native-paper';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 import { npsEnviarRespostas } from '../config/DataApp';
 import { useIsFocused } from "@react-navigation/native";
+import { useKeepAwake } from 'expo-keep-awake';
 
 
 export default function StepObrigado(props) {
+
+    useKeepAwake();
+
     const isFocused = useIsFocused();
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -60,7 +65,7 @@ export default function StepObrigado(props) {
 
         const sendResposta = async () => {
 
-
+            var token = null;
             var codCliente = null;
             var codFilial = null;
             var contato = null;
@@ -69,6 +74,21 @@ export default function StepObrigado(props) {
             var telefone1 = null;
             var codPontoContato = null;
             var respostas = [];
+
+            await AsyncStorage.getItem('auth', (error, result) => {
+                console.log('Pegou auth: '+result)
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+                            // console.log(result)
+                            token = data.token
+
+                        } else {
+                            token = null
+                        }
+                }
+            )
 
             await AsyncStorage.getItem('codCliente', (error, result) => {
                 console.log('Pegou codCliente: '+result)
@@ -102,18 +122,17 @@ export default function StepObrigado(props) {
                 }
             )
 
-             await AsyncStorage.getItem('codPontoContato', (error, result) => {
+            await AsyncStorage.getItem('codPontoContato', (error, result) => {
                 console.log('Pegou codPontoContato: '+result)
 
-                        if (result) {
-                            // console.log(result)
-                            codPontoContato = result
+                    if (result) {
+                                // console.log(result)
+                                codPontoContato = result
 
-                        } else {
-                            codPontoContato = null
-                        }
-                }
-            )
+                    } else {
+                                codPontoContato = null
+                    }
+            })
 
             await AsyncStorage.getItem('dataAnswer', (error, result) => {
                 console.log('Pegou dataAnswer: ')
@@ -134,9 +153,6 @@ export default function StepObrigado(props) {
             )
 
 
-
-
-
             var resposta = {
                 "codClienteFastQuest": codCliente,
                 "codFilial": codFilial,
@@ -153,8 +169,20 @@ export default function StepObrigado(props) {
 
 
             if (respostas.length > 0 ) {
+
+                npsEnviarRespostas(token, respostas).then((response) => {
+                            
+                    console.log("resposta enviada")
+                    console.log(response)
+
+                }).catch((error) => {
+
+                    console.log("erro ao enviar resposta")
+                    console.log(error)
+               
+                })
+
     
-                console.log("resposta enviada")
             } else {
                console.log("nao tem respostas, ent n enviou")
     
@@ -213,7 +241,8 @@ export default function StepObrigado(props) {
                 <View style={screenWidth >= 768 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
 
                     <View style={{ flex: 1 }}>
-
+          
+<IconButton icon="check-decagram" iconColor={"green"} size={ IconSize } style={ screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
                         <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
                         <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>

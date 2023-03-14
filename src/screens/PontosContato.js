@@ -11,8 +11,10 @@ import Pontos from '../components/Pontos';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { useIsFocused } from "@react-navigation/native";
 
+import { useKeepAwake } from 'expo-keep-awake';
 
 export default function PontosContato(props) {
+    useKeepAwake();
 
 
     const screenWidth = Math.round(Dimensions.get('window').width);
