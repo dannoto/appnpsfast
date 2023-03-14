@@ -40,10 +40,59 @@ export default function Home(props) {
         AsyncStorage.removeItem('dataRespondente');
         AsyncStorage.removeItem('codPontoContato');
 
-            setLoading(true)
+        setLoading(true)
 
     }, [isFocused]);
 
+
+    useEffect(() => {
+
+        const checkAutentication = async () => {
+
+            // console.log('running auth')
+
+            try {
+
+                await AsyncStorage.getItem('auth', (error, result) => {
+
+                    if (result) {
+                        console.log(result);
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+
+                            console.log('sucessfull check autentiocatoin')
+                           
+
+                        } else {
+                            console.log('no data.token  check autentiocatoin')
+                            onChangeScreen('login')
+
+
+                        }
+
+                    } else {
+
+                        console.log('result false check autentiocatoin')
+                        onChangeScreen('login')
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.log('catch erroe check autentiocatoin')
+                onChangeScreen('login')
+
+            }
+        }
+
+        checkAutentication()
+
+
+
+    }, []);
 
 
     if (!loading) {
@@ -56,11 +105,11 @@ export default function Home(props) {
 
     } else {
 
-        return ( 
+        return (
 
-                             <ScrollView style={{ backgroundColor: '#FFF' }}>
+            <ScrollView style={{ backgroundColor: '#FFF' }}>
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
-                
+
 
                     <View style={screenWidth >= 768 ? Styles.HomeContentTablet : Styles.HomeContent}>
                         <View style={{ flexDirection: 'row' }}>
@@ -84,7 +133,7 @@ export default function Home(props) {
             </ScrollView>
 
 
-         
+
 
         );
     }

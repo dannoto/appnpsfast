@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Text, Image, Dimensions } from 'react-native';
-import {  TextInput, Button, IconButton } from 'react-native-paper';
+import { TextInput, Button, IconButton } from 'react-native-paper';
 import Styles from '../../config/Styles';
 import ColorsApp from '../../config/ColorsApp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,8 +44,8 @@ export default function RadioBottom(props) {
     const [question, setQuestion] = useState([]);
 
 
-   
- 
+
+
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
 
@@ -69,130 +69,148 @@ export default function RadioBottom(props) {
     const sendResposta = async () => {
 
 
-            var token = null;
-            var codCliente = null;
-            var codFilial = null;
-            var contato = null;
-            var email = null;
-            var ddd1 = null;
-            var telefone1 = null;
-            var codPontoContato = null;
-            var respostas = [];
+        var token = null;
+        var codCliente = null;
+        var codFilial = null;
+        var contato = null;
+        var email = null;
+        var ddd1 = null;
+        var telefone1 = null;
+        var codPontoContato = null;
+        var respostas = [];
 
-            await AsyncStorage.getItem('auth', (error, result) => {
-                console.log('Pegou auth: '+result)
+        await AsyncStorage.getItem('codFilial', (error, result) => {
+            console.log('Pegou codFilial: ' + result)
 
-                        var data = JSON.parse(result)
+            if (result) {
+                // console.log(result)
+                codFilial = result
 
-                        if (data.token) {
-                            // console.log(result)
-                            token = data.token
+            } else {
+                codFilial = null
+            }
+        }
+        )
 
-                        } else {
-                            token = null
-                        }
+        await AsyncStorage.getItem('auth', (error, result) => {
+            console.log('Pegou auth: ' + result)
+
+            var data = JSON.parse(result)
+
+            if (data.token) {
+                // console.log(result)
+                token = data.token
+
+            } else {
+                token = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('codCliente', (error, result) => {
+            console.log('Pegou codCliente: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codCliente = result
+
+            } else {
+                codCliente = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('dataRespondente', (error, result) => {
+            console.log('Pegou dataRespondente: ' + result)
+
+            if (result) {
+
+                var data = JSON.parse(result)
+                // console.log(result)
+                if (data.nome.length > 0) {
+
+                    contato = data.nome
+                } else {
+                    contato = "Anonimo"
                 }
-            )
+                email = data.email
+                telefone1 = data.telefone
 
-            await AsyncStorage.getItem('codCliente', (error, result) => {
-                console.log('Pegou codCliente: '+result)
+            } else {
+                contato = "Anonimo"
+                email = null
+                telefone1 = null
+            }
+        }
+        )
 
-                        if (result) {
-                            // console.log(result)
-                            codCliente = result
+        await AsyncStorage.getItem('codPontoContato', (error, result) => {
+            console.log('Pegou codPontoContato: ' + result)
 
-                        } else {
-                            codCliente = null
-                        }
-                }
-            )
+            if (result) {
+                // console.log(result)
+                codPontoContato = result
 
-            await AsyncStorage.getItem('dataRespondente', (error, result) => {
-                console.log('Pegou dataRespondente: '+result)
+            } else {
+                codPontoContato = null
+            }
+        })
 
-                        if (result) {
+        await AsyncStorage.getItem('dataAnswer', (error, result) => {
+            console.log('Pegou dataAnswer: ')
+            // console.log(result)
 
-                            var data = JSON.parse(result)
-                            // console.log(result)
-                            contato = data.nome
-                            email = data.email
-                            telefone1 = data.telefone
+            if (result) {
 
-                        } else {
-                            contato = null
-                            email = null
-                            telefone1 = null
-                        }
-                }
-            )
+                var data = JSON.parse(result)
 
-            await AsyncStorage.getItem('codPontoContato', (error, result) => {
-                console.log('Pegou codPontoContato: '+result)
+                console.log(data.answers)
 
-                    if (result) {
-                                // console.log(result)
-                                codPontoContato = result
+                respostas = data.answers
 
-                    } else {
-                                codPontoContato = null
-                    }
+            } else {
+                respostas = []
+            }
+        }
+        )
+
+        var resposta = {
+            "codClienteFastQuest": codCliente,
+            "codFilial": codFilial,
+            "contato": contato,
+            "email": email,
+            "ddd1": ddd1,
+            "telefone1": telefone1,
+            "codPontoContato": codPontoContato,
+            "codStatus": 102,
+            "respostas": respostas
+        }
+
+        console.log(resposta)
+
+
+        if (respostas.length > 0) {
+
+            npsEnviarRespostas(token, respostas).then((response) => {
+
+                console.log("resposta enviada")
+                console.log(response)
+
+            }).catch((error) => {
+
+                console.log("erro ao enviar resposta")
+                console.log(error)
+
             })
 
-            await AsyncStorage.getItem('dataAnswer', (error, result) => {
-                console.log('Pegou dataAnswer: ')
-                // console.log(result)
 
-                        if (result) {
+        } else {
+            console.log("nao tem respostas, ent n enviou")
 
-                          var data = JSON.parse(result)
+        }
 
-                          console.log(data.answers)
-
-                           respostas = data.answers
-
-                        } else {
-                            respostas = []
-                        }
-                }
-            )
-
-          var resposta = {
-                "codClienteFastQuest": codCliente,
-                "codFilial": codFilial,
-                "contato": contato,
-                "email": email,
-                "ddd1": ddd1,
-                "telefone1": telefone1,
-                "codPontoContato": codPontoContato,
-                "codStatus": 102,
-                "respostas": respostas
-            }
-
-            console.log(resposta)
-
-
-            if (respostas.length > 0 ) {
-
-                npsEnviarRespostas(token, respostas).then((response) => {
-                            
-                    console.log("resposta enviada")
-                    console.log(response)
-
-                }).catch((error) => {
-
-                    console.log("erro ao enviar resposta")
-                    console.log(error)
-               
-                })
-
-    
-            } else {
-               console.log("nao tem respostas, ent n enviou")
-    
-            }
-        
-            resetRoute();
-            onChangeScreen('runpesquisa')
+        resetRoute();
+        onChangeScreen('runpesquisa')
 
 
 
@@ -261,7 +279,7 @@ export default function RadioBottom(props) {
                     now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
                     const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
 
-                    
+
                     AsyncStorage.setItem(
                         'expiration',
                         JSON.stringify(expiryTimeInTimestamp)
@@ -336,6 +354,66 @@ export default function RadioBottom(props) {
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
     };
+
+    useEffect(() => {
+
+        const checkAutentication = async () => {
+
+            // console.log('running auth')
+
+            try {
+
+                await AsyncStorage.getItem('auth', (error, result) => {
+
+                    if (result) {
+                        console.log(result);
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+
+                            console.log('sucessfull check autentiocatoin')
+
+
+                        } else {
+                            console.log('no data.token  check autentiocatoin')
+                            onChangeScreen('login')
+
+
+                        }
+
+                    } else {
+
+                        console.log('result false check autentiocatoin')
+                        onChangeScreen('login')
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.log('catch erroe check autentiocatoin')
+                onChangeScreen('login')
+
+            }
+        }
+
+        checkAutentication()
+
+
+
+    }, []);
+
+
+    const replaceDescription = (description) => {
+
+        var new_description = description.replace("<span style=\"font-size: 18px;\">", "")
+        var new_description = description.replace("</span>", "")
+        var new_description = description.replace("<b>", "")
+        var new_description = description.replace("</b>", "")
+
+        return new_description;
+    }
 
 
     const sendNPS = async (codQuestao, resposta) => {
@@ -505,48 +583,48 @@ export default function RadioBottom(props) {
 
 
 
-  
-  if (loading) {
-    return (
-      <Loading />
 
-    );
+    if (loading) {
+        return (
+            <Loading />
 
-
-  } else {
-    return (
+        );
 
 
+    } else {
+        return (
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <Header />
-                <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                    <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{question.descQuestao}</Text>
 
-                    <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
 
-                        {map(question.opcoes, (item, i) => (
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <Header />
+                    <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
-                                <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, Styles.LabelNPS+""+i+""]}>
-                                    <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
-                                </TouchableOpacity>
-                            </View>
+                        <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
 
-                        ))}
+                            {map(question.opcoes, (item, i) => (
 
-                     
+                                < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
+                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, Styles.LabelNPS + "" + i + ""]}>
+                                        <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
+                                    </TouchableOpacity>
+                                </View>
 
+                            ))}
+
+
+
+                        </View>
                     </View>
-                </View>
-                <Footer />
-            </SafeAreaView>
-        </ScrollView >
+                    <Footer />
+                </SafeAreaView>
+            </ScrollView >
 
-    );
-  }
+        );
+    }
 
 }
 
-    
+

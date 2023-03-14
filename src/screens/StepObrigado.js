@@ -53,7 +53,7 @@ export default function StepObrigado(props) {
                 'currentIndex',
                 JSON.stringify(0)
             );
-    
+
             AsyncStorage.removeItem('dataAnswer');
             AsyncStorage.removeItem('dataRespondente');
             // AsyncStorage.removeItem('currentIndex');
@@ -75,81 +75,99 @@ export default function StepObrigado(props) {
             var codPontoContato = null;
             var respostas = [];
 
-            await AsyncStorage.getItem('auth', (error, result) => {
-                console.log('Pegou auth: '+result)
+            await AsyncStorage.getItem('codFilial', (error, result) => {
+                console.log('Pegou codFilial: ' + result)
 
-                        var data = JSON.parse(result)
+                if (result) {
+                    // console.log(result)
+                    codFilial = result
 
-                        if (data.token) {
-                            // console.log(result)
-                            token = data.token
-
-                        } else {
-                            token = null
-                        }
+                } else {
+                    codFilial = null
                 }
+            }
+            )
+
+            await AsyncStorage.getItem('auth', (error, result) => {
+                console.log('Pegou auth: ' + result)
+
+                var data = JSON.parse(result)
+
+                if (data.token) {
+                    // console.log(result)
+                    token = data.token
+
+                } else {
+                    token = null
+                }
+            }
             )
 
             await AsyncStorage.getItem('codCliente', (error, result) => {
-                console.log('Pegou codCliente: '+result)
+                console.log('Pegou codCliente: ' + result)
 
-                        if (result) {
-                            // console.log(result)
-                            codCliente = result
+                if (result) {
+                    // console.log(result)
+                    codCliente = result
 
-                        } else {
-                            codCliente = null
-                        }
+                } else {
+                    codCliente = null
                 }
+            }
             )
 
             await AsyncStorage.getItem('dataRespondente', (error, result) => {
-                console.log('Pegou dataRespondente: '+result)
+                console.log('Pegou dataRespondente: ' + result)
 
-                        if (result) {
+                if (result) {
 
-                            var data = JSON.parse(result)
-                            // console.log(result)
-                            contato = data.nome
-                            email = data.email
-                            telefone1 = data.telefone
+                    var data = JSON.parse(result)
+                    // console.log(result)
+                    if (data.nome.length > 0) {
 
-                        } else {
-                            contato = null
-                            email = null
-                            telefone1 = null
-                        }
+                        contato = data.nome
+                    } else {
+                        contato = "Anonimo"
+                    }
+                    email = data.email
+                    telefone1 = data.telefone
+
+                } else {
+                    contato = "Anonimo"
+                    email = null
+                    telefone1 = null
                 }
+            }
             )
 
             await AsyncStorage.getItem('codPontoContato', (error, result) => {
-                console.log('Pegou codPontoContato: '+result)
+                console.log('Pegou codPontoContato: ' + result)
 
-                    if (result) {
-                                // console.log(result)
-                                codPontoContato = result
+                if (result) {
+                    // console.log(result)
+                    codPontoContato = result
 
-                    } else {
-                                codPontoContato = null
-                    }
+                } else {
+                    codPontoContato = null
+                }
             })
 
             await AsyncStorage.getItem('dataAnswer', (error, result) => {
                 console.log('Pegou dataAnswer: ')
                 // console.log(result)
 
-                        if (result) {
+                if (result) {
 
-                          var data = JSON.parse(result)
+                    var data = JSON.parse(result)
 
-                          console.log(data.answers)
+                    console.log(data.answers)
 
-                           respostas = data.answers
+                    respostas = data.answers
 
-                        } else {
-                            respostas = []
-                        }
+                } else {
+                    respostas = []
                 }
+            }
             )
 
 
@@ -168,10 +186,10 @@ export default function StepObrigado(props) {
             console.log(resposta)
 
 
-            if (respostas.length > 0 ) {
+            if (respostas.length > 0) {
 
                 npsEnviarRespostas(token, respostas).then((response) => {
-                            
+
                     console.log("resposta enviada")
                     console.log(response)
 
@@ -179,15 +197,15 @@ export default function StepObrigado(props) {
 
                     console.log("erro ao enviar resposta")
                     console.log(error)
-               
+
                 })
 
-    
+
             } else {
-               console.log("nao tem respostas, ent n enviou")
-    
+                console.log("nao tem respostas, ent n enviou")
+
             }
-        
+
             resetRoute();
 
 
@@ -210,9 +228,58 @@ export default function StepObrigado(props) {
     };
 
 
+    useEffect(() => {
+
+        const checkAutentication = async () => {
+
+            // console.log('running auth')
+
+            try {
+
+                await AsyncStorage.getItem('auth', (error, result) => {
+
+                    if (result) {
+                        console.log(result);
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+
+                            console.log('sucessfull check autentiocatoin')
+
+
+                        } else {
+                            console.log('no data.token  check autentiocatoin')
+                            onChangeScreen('login')
+
+
+                        }
+
+                    } else {
+
+                        console.log('result false check autentiocatoin')
+                        onChangeScreen('login')
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.log('catch erroe check autentiocatoin')
+                onChangeScreen('login')
+
+            }
+        }
+
+        checkAutentication()
+
+
+
+    }, []);
+
     const sendNPS = async () => {
 
-      
+
 
         onChangeScreen('runpesquisa')
     }
@@ -233,7 +300,7 @@ export default function StepObrigado(props) {
     return (
 
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={{ flex: 1,  backgroundColor: '#FFF' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
 
 
                 <Header />
@@ -241,8 +308,8 @@ export default function StepObrigado(props) {
                 <View style={screenWidth >= 768 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
 
                     <View style={{ flex: 1 }}>
-          
-<IconButton icon="check-decagram" iconColor={"green"} size={ IconSize } style={ screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
+
+                        <IconButton icon="check-decagram" iconColor={"green"} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
                         <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
                         <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>
@@ -251,7 +318,7 @@ export default function StepObrigado(props) {
                         <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
                             <Text style={screenWidth >= 768 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
                         </TouchableOpacity>
-                       
+
 
                     </View>
                 </View>

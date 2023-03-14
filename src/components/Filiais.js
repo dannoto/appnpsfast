@@ -125,7 +125,10 @@ export default function Filiais(props) {
 
     }, []);
 
-    const toPontosContato = async (nomeFilial) => {
+    const toPontosContato = async (codFilial) => {
+
+        // Set Filial
+        AsyncStorage.setItem('codFilial', codFilial)
 
         onChangeScreen('pontoscontato');
 

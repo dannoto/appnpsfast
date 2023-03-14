@@ -62,6 +62,7 @@ export default function DrawerNavigation(props) {
 	const Logout = async () => {
 
 		console.log('logout')
+		AsyncStorage.removeItem('codFilial');
 		AsyncStorage.removeItem('auth');
 
 		 onChangeScreen('login')

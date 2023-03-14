@@ -42,6 +42,54 @@ export default function RunPesquisa(props) {
         navigation.navigate(screen, params);
     };
 
+    useEffect(() => {
+
+        const checkAutentication = async () => {
+
+            // console.log('running auth')
+
+            try {
+
+                await AsyncStorage.getItem('auth', (error, result) => {
+
+                    if (result) {
+                        console.log(result);
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+
+                            console.log('sucessfull check autentiocatoin')
+                           
+
+                        } else {
+                            console.log('no data.token  check autentiocatoin')
+                            onChangeScreen('login')
+
+
+                        }
+
+                    } else {
+
+                        console.log('result false check autentiocatoin')
+                        onChangeScreen('login')
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.log('catch erroe check autentiocatoin')
+                onChangeScreen('login')
+
+            }
+        }
+
+        checkAutentication()
+
+
+
+    }, []);
 
     // Definir route
     const routeQuestion = (currentQuestion, currentType) => {

@@ -39,11 +39,21 @@ export default function CaixaDeTexto(props) {
 
     const navigation = useNavigation();
 
-     // Start Expiration Pack
-     const [countDown, setCountDown] = useState();
+    const replaceDescription = (description) => {
+
+        var new_description = description.replace("<span style=\"font-size: 18px;\">", "")
+        var new_description = description.replace("</span>", "")
+        var new_description = description.replace("<b>", "")
+        var new_description = description.replace("</b>", "")
+
+        return new_description;
+    }
+
+    // Start Expiration Pack
+    const [countDown, setCountDown] = useState();
 
 
-     const resetRoute = () => {
+    const resetRoute = () => {
 
         AsyncStorage.setItem(
             'currentIndex',
@@ -57,218 +67,236 @@ export default function CaixaDeTexto(props) {
         // AsyncStorage.removeItem('codCliente');
         // AsyncStorage.removeItem('dataQuestions');
     }
- 
+
     const sendResposta = async () => {
 
 
-            var token = null;
-            var codCliente = null;
-            var codFilial = null;
-            var contato = null;
-            var email = null;
-            var ddd1 = null;
-            var telefone1 = null;
-            var codPontoContato = null;
-            var respostas = [];
+        var token = null;
+        var codCliente = null;
+        var codFilial = null;
+        var contato = null;
+        var email = null;
+        var ddd1 = null;
+        var telefone1 = null;
+        var codPontoContato = null;
+        var respostas = [];
 
-            await AsyncStorage.getItem('auth', (error, result) => {
-                console.log('Pegou auth: '+result)
+        await AsyncStorage.getItem('codFilial', (error, result) => {
+            console.log('Pegou codFilial: ' + result)
 
-                        var data = JSON.parse(result)
+            if (result) {
+                // console.log(result)
+                codFilial = result
 
-                        if (data.token) {
-                            // console.log(result)
-                            token = data.token
+            } else {
+                codFilial = null
+            }
+        }
+        )
 
-                        } else {
-                            token = null
-                        }
+        await AsyncStorage.getItem('auth', (error, result) => {
+            console.log('Pegou auth: ' + result)
+
+            var data = JSON.parse(result)
+
+            if (data.token) {
+                // console.log(result)
+                token = data.token
+
+            } else {
+                token = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('codCliente', (error, result) => {
+            console.log('Pegou codCliente: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codCliente = result
+
+            } else {
+                codCliente = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('dataRespondente', (error, result) => {
+            console.log('Pegou dataRespondente: ' + result)
+
+            if (result) {
+
+                var data = JSON.parse(result)
+                // console.log(result)
+                if (data.nome.length > 0) {
+
+                    contato = data.nome
+                } else {
+                    contato = "Anonimo"
                 }
-            )
+                email = data.email
+                telefone1 = data.telefone
 
-            await AsyncStorage.getItem('codCliente', (error, result) => {
-                console.log('Pegou codCliente: '+result)
+            } else {
+                contato = "Anonimo"
+                email = null
+                telefone1 = null
+            }
+        }
+        )
 
-                        if (result) {
-                            // console.log(result)
-                            codCliente = result
+        await AsyncStorage.getItem('codPontoContato', (error, result) => {
+            console.log('Pegou codPontoContato: ' + result)
 
-                        } else {
-                            codCliente = null
-                        }
-                }
-            )
+            if (result) {
+                // console.log(result)
+                codPontoContato = result
 
-            await AsyncStorage.getItem('dataRespondente', (error, result) => {
-                console.log('Pegou dataRespondente: '+result)
+            } else {
+                codPontoContato = null
+            }
+        })
 
-                        if (result) {
+        await AsyncStorage.getItem('dataAnswer', (error, result) => {
+            console.log('Pegou dataAnswer: ')
+            // console.log(result)
 
-                            var data = JSON.parse(result)
-                            // console.log(result)
-                            contato = data.nome
-                            email = data.email
-                            telefone1 = data.telefone
+            if (result) {
 
-                        } else {
-                            contato = null
-                            email = null
-                            telefone1 = null
-                        }
-                }
-            )
+                var data = JSON.parse(result)
 
-            await AsyncStorage.getItem('codPontoContato', (error, result) => {
-                console.log('Pegou codPontoContato: '+result)
+                console.log(data.answers)
 
-                    if (result) {
-                                // console.log(result)
-                                codPontoContato = result
+                respostas = data.answers
 
-                    } else {
-                                codPontoContato = null
-                    }
+            } else {
+                respostas = []
+            }
+        }
+        )
+
+        var resposta = {
+            "codClienteFastQuest": codCliente,
+            "codFilial": codFilial,
+            "contato": contato,
+            "email": email,
+            "ddd1": ddd1,
+            "telefone1": telefone1,
+            "codPontoContato": codPontoContato,
+            "codStatus": 102,
+            "respostas": respostas
+        }
+
+        console.log(resposta)
+
+
+        if (respostas.length > 0) {
+
+            npsEnviarRespostas(token, respostas).then((response) => {
+
+                console.log("resposta enviada")
+                console.log(response)
+
+            }).catch((error) => {
+
+                console.log("erro ao enviar resposta")
+                console.log(error)
+
             })
 
-            await AsyncStorage.getItem('dataAnswer', (error, result) => {
-                console.log('Pegou dataAnswer: ')
-                // console.log(result)
 
-                        if (result) {
+        } else {
+            console.log("nao tem respostas, ent n enviou")
 
-                          var data = JSON.parse(result)
+        }
 
-                          console.log(data.answers)
-
-                           respostas = data.answers
-
-                        } else {
-                            respostas = []
-                        }
-                }
-            )
-
-          var resposta = {
-                "codClienteFastQuest": codCliente,
-                "codFilial": codFilial,
-                "contato": contato,
-                "email": email,
-                "ddd1": ddd1,
-                "telefone1": telefone1,
-                "codPontoContato": codPontoContato,
-                "codStatus": 102,
-                "respostas": respostas
-            }
-
-            console.log(resposta)
-
-
-            if (respostas.length > 0 ) {
-
-                npsEnviarRespostas(token, respostas).then((response) => {
-                            
-                    console.log("resposta enviada")
-                    console.log(response)
-
-                }).catch((error) => {
-
-                    console.log("erro ao enviar resposta")
-                    console.log(error)
-               
-                })
-
-    
-            } else {
-               console.log("nao tem respostas, ent n enviou")
-    
-            }
-        
-            resetRoute();
-            onChangeScreen('runpesquisa')
+        resetRoute();
+        onChangeScreen('runpesquisa')
 
 
 
     }
 
- 
-     useEffect(() => {
-         const interval = setInterval(() => {
- 
- 
-             var savedData = "";
-             var current = "";
- 
- 
-             AsyncStorage.getItem('expiration', (error, result) => {
- 
-                 if (result) {
-                     // console.log(result);
-                     savedData = result
- 
-                 } else {
-                     // savedData = "99"
-                 }
- 
-             });
- 
-             AsyncStorage.getItem('currentIndex', (error, result) => {
- 
-                 if (result) {
-                     // console.log(result);
-                     current = result
- 
-                 } else {
-                     // savedData = "99"
-                 }
- 
-             });
- 
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+
+
+            var savedData = "";
+            var current = "";
+
+
+            AsyncStorage.getItem('expiration', (error, result) => {
+
+                if (result) {
+                    // console.log(result);
+                    savedData = result
+
+                } else {
+                    // savedData = "99"
+                }
+
+            });
+
+            AsyncStorage.getItem('currentIndex', (error, result) => {
+
+                if (result) {
+                    // console.log(result);
+                    current = result
+
+                } else {
+                    // savedData = "99"
+                }
+
+            });
+
             //  console.log(savedData)
- 
-             const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
- 
-             if (currentTimestamp >= savedData) {
-                 console.log('   expirouuuuuu')
- 
-                 if (current != 0) {
-                     sendResposta()
-                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
- 
-                     const now = new Date();
-                     now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                     const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
- 
- 
-                     AsyncStorage.setItem(
-                         'expiration',
-                         JSON.stringify(expiryTimeInTimestamp)
-                     );
-                 } else {
-                     console.log('current é 0, nao precisa resetar')
-                     console.log('renovando counter')
- 
-                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
- 
-                     const now = new Date();
-                     now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                     const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
- 
-                     
-                     AsyncStorage.setItem(
-                         'expiration',
-                         JSON.stringify(expiryTimeInTimestamp)
-                     );
-                 }
-             } else {
+
+            const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
+
+            if (currentTimestamp >= savedData) {
+                console.log('   expirouuuuuu')
+
+                if (current != 0) {
+                    sendResposta()
+                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                    AsyncStorage.setItem(
+                        'expiration',
+                        JSON.stringify(expiryTimeInTimestamp)
+                    );
+                } else {
+                    console.log('current é 0, nao precisa resetar')
+                    console.log('renovando counter')
+
+                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                    AsyncStorage.setItem(
+                        'expiration',
+                        JSON.stringify(expiryTimeInTimestamp)
+                    );
+                }
+            } else {
                 //  console.log(' nao  expirouuuuuu')
-             }
- 
-         }, 10000);
- 
-         return () => clearInterval(interval);
-     }, [countDown]);
- 
-     //  End Expiration Pack
+            }
+
+        }, 10000);
+
+        return () => clearInterval(interval);
+    }, [countDown]);
+
+    //  End Expiration Pack
 
     useEffect(() => {
 
@@ -318,6 +346,56 @@ export default function CaixaDeTexto(props) {
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
     };
+
+    useEffect(() => {
+
+        const checkAutentication = async () => {
+
+            // console.log('running auth')
+
+            try {
+
+                await AsyncStorage.getItem('auth', (error, result) => {
+
+                    if (result) {
+                        console.log(result);
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+
+                            console.log('sucessfull check autentiocatoin')
+
+
+                        } else {
+                            console.log('no data.token  check autentiocatoin')
+                            onChangeScreen('login')
+
+
+                        }
+
+                    } else {
+
+                        console.log('result false check autentiocatoin')
+                        onChangeScreen('login')
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.log('catch erroe check autentiocatoin')
+                onChangeScreen('login')
+
+            }
+        }
+
+        checkAutentication()
+
+
+
+    }, []);
+
 
     const sendNPS = async (codQuestao, resposta) => {
 
@@ -492,7 +570,7 @@ export default function CaixaDeTexto(props) {
 
                     {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
 
-                    <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{question.descQuestao}</Text>
+                    <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
                     <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
 

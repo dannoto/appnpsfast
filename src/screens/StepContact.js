@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity,TextInput ,Image, Dimensions } from 'react-native';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, TextInput, Image, Dimensions } from 'react-native';
 import { Text, Button, IconButton } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
@@ -28,11 +28,11 @@ export default function StepContact(props) {
     const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState(80);
 
-     // Start Expiration Pack
-     const [countDown, setCountDown] = useState();
+    // Start Expiration Pack
+    const [countDown, setCountDown] = useState();
 
 
-     const resetRoute = () => {
+    const resetRoute = () => {
 
         AsyncStorage.setItem(
             'currentIndex',
@@ -46,186 +46,230 @@ export default function StepContact(props) {
         // AsyncStorage.removeItem('codCliente');
         // AsyncStorage.removeItem('dataQuestions');
     }
-     const sendResposta = async () => {
- 
- 
-         var codCliente = null;
-         var codFilial = null;
-         var contato = null;
-         var email = null;
-         var ddd1 = null;
-         var telefone1 = null;
-         var codPontoContato = null;
-         var respostas = [];
- 
-         await AsyncStorage.getItem('codCliente', (error, result) => {
-             console.log('Pegou codCliente: ' + result)
- 
-             if (result) {
-                 // console.log(result)
-                 codCliente = result
- 
-             } else {
-                 codCliente = null
-             }
-         }
-         )
- 
-         await AsyncStorage.getItem('dataRespondente', (error, result) => {
-             console.log('Pegou dataRespondente: ' + result)
- 
-             if (result) {
- 
-                 var data = JSON.parse(result)
-                 // console.log(result)
-                 contato = data.nome
-                 email = data.email
-                 telefone1 = data.telefone
- 
-             } else {
-                 contato = null
-                 email = null
-                 telefone1 = null
-             }
-         }
-         )
- 
-         await AsyncStorage.getItem('codPontoContato', (error, result) => {
-             console.log('Pegou codPontoContato: ' + result)
- 
-             if (result) {
-                 // console.log(result)
-                 codPontoContato = result
- 
-             } else {
-                 codPontoContato = null
-             }
-         }
-         )
- 
-         await AsyncStorage.getItem('dataAnswer', (error, result) => {
-             console.log('Pegou dataAnswer: ')
-             // console.log(result)
- 
-             if (result) {
- 
-                 var data = JSON.parse(result)
- 
-                 console.log(data.answers)
- 
-                 respostas = data.answers
- 
-             } else {
-                 respostas = []
-             }
-         }
-         )
- 
- 
- 
- 
- 
-         var resposta = {
-             "codClienteFastQuest": codCliente,
-             "codFilial": codFilial,
-             "contato": contato,
-             "email": email,
-             "ddd1": ddd1,
-             "telefone1": telefone1,
-             "codPontoContato": codPontoContato,
-             "codStatus": 102,
-             "respostas": respostas
-         }
- 
-         console.log(resposta)
 
 
-         if (respostas.length > 0 ) {
- 
-             console.log("resposta enviada")
-         } else {
+    const sendResposta = async () => {
+
+        var token = null;
+        var codCliente = null;
+        var codFilial = null;
+        var contato = null;
+        var email = null;
+        var ddd1 = null;
+        var telefone1 = null;
+        var codPontoContato = null;
+        var respostas = [];
+
+        await AsyncStorage.getItem('codFilial', (error, result) => {
+            console.log('Pegou codFilial: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codFilial = result
+
+            } else {
+                codFilial = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('auth', (error, result) => {
+            console.log('Pegou auth: ' + result)
+
+            var data = JSON.parse(result)
+
+            if (data.token) {
+                // console.log(result)
+                token = data.token
+
+            } else {
+                token = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('codCliente', (error, result) => {
+            console.log('Pegou codCliente: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codCliente = result
+
+            } else {
+                codCliente = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('dataRespondente', (error, result) => {
+            console.log('Pegou dataRespondente: ' + result)
+
+            if (result) {
+
+                var data = JSON.parse(result)
+                // console.log(result)
+                if (data.nome.length > 0) {
+
+                    contato = data.nome
+                } else {
+                    contato = "Anonimo"
+                }
+                email = data.email
+                telefone1 = data.telefone
+
+            } else {
+                contato = "Anonimo"
+                email = null
+                telefone1 = null
+            }
+        }
+        )
+
+        await AsyncStorage.getItem('codPontoContato', (error, result) => {
+            console.log('Pegou codPontoContato: ' + result)
+
+            if (result) {
+                // console.log(result)
+                codPontoContato = result
+
+            } else {
+                codPontoContato = null
+            }
+        })
+
+        await AsyncStorage.getItem('dataAnswer', (error, result) => {
+            console.log('Pegou dataAnswer: ')
+            // console.log(result)
+
+            if (result) {
+
+                var data = JSON.parse(result)
+
+                console.log(data.answers)
+
+                respostas = data.answers
+
+            } else {
+                respostas = []
+            }
+        }
+        )
+
+
+        var resposta = {
+            "codClienteFastQuest": codCliente,
+            "codFilial": codFilial,
+            "contato": contato,
+            "email": email,
+            "ddd1": ddd1,
+            "telefone1": telefone1,
+            "codPontoContato": codPontoContato,
+            "codStatus": 102,
+            "respostas": respostas
+        }
+
+        console.log(resposta)
+
+
+        if (respostas.length > 0) {
+
+            npsEnviarRespostas(token, respostas).then((response) => {
+
+                console.log("resposta enviada")
+                console.log(response)
+
+            }).catch((error) => {
+
+                console.log("erro ao enviar resposta")
+                console.log(error)
+
+            })
+
+
+        } else {
             console.log("nao tem respostas, ent n enviou")
- 
-         }
- 
- 
- 
- 
-         resetRoute();
-         onChangeScreen('runpesquisa')
- 
- 
- 
-     }
- 
- 
-     useEffect(() => {
-         const interval = setInterval(() => {
- 
- 
-             var savedData = "";
- 
- 
-             AsyncStorage.getItem('expiration', (error, result) => {
- 
-                 if (result) {
-                     // console.log(result);
-                     savedData = result
-                     //   var data = JSON.parse(result)
- 
-                     //   if (data.expiration) {
- 
-                     //    savedData = data.expiration
- 
-                     //   } else {
- 
-                     //     // savedData = "00"
- 
-                     //   }
- 
-                 } else {
-                     // savedData = "99"
-                 }
- 
-             });
- 
-             console.log(savedData)
- 
-             // if (savedData !== null) {
-             //     // check if we got a valid data before calling JSON.parse
-             //     savedData = JSON.parse(savedData);
-             //     console.log(savedData)
-             // } else {
-             //     console.log('savedData é null')
-             // }
- 
-             const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
- 
-             if (currentTimestamp >= savedData) {
-                 console.log('   expirouuuuuu')
- 
-                 sendResposta()
-                 const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
- 
-                 const now = new Date();
-                 now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                 const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
- 
- 
-                 AsyncStorage.setItem(
-                     'expiration',
-                     JSON.stringify(expiryTimeInTimestamp)
-                 );
-             } else {
-                 console.log(' nao  expirouuuuuu')
-             }
- 
-         }, 10000);
- 
-         return () => clearInterval(interval);
-     }, [countDown]);
- 
-     //  End Expiration Pack
+
+        }
+
+        resetRoute();
+        onChangeScreen('runpesquisa')
+
+
+
+    }
+
+
+
+
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+
+
+            var savedData = "";
+
+
+            AsyncStorage.getItem('expiration', (error, result) => {
+
+                if (result) {
+                    // console.log(result);
+                    savedData = result
+                    //   var data = JSON.parse(result)
+
+                    //   if (data.expiration) {
+
+                    //    savedData = data.expiration
+
+                    //   } else {
+
+                    //     // savedData = "00"
+
+                    //   }
+
+                } else {
+                    // savedData = "99"
+                }
+
+            });
+
+            console.log(savedData)
+
+            // if (savedData !== null) {
+            //     // check if we got a valid data before calling JSON.parse
+            //     savedData = JSON.parse(savedData);
+            //     console.log(savedData)
+            // } else {
+            //     console.log('savedData é null')
+            // }
+
+            const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
+
+            if (currentTimestamp >= savedData) {
+                console.log('   expirouuuuuu')
+
+                sendResposta()
+                const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                const now = new Date();
+                now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                AsyncStorage.setItem(
+                    'expiration',
+                    JSON.stringify(expiryTimeInTimestamp)
+                );
+            } else {
+                console.log(' nao  expirouuuuuu')
+            }
+
+        }, 10000);
+
+        return () => clearInterval(interval);
+    }, [countDown]);
+
+    //  End Expiration Pack
 
     useEffect(() => {
 
@@ -267,13 +311,61 @@ export default function StepContact(props) {
         navigation.navigate(screen);
     };
 
+    useEffect(() => {
+
+        const checkAutentication = async () => {
+
+            // console.log('running auth')
+
+            try {
+
+                await AsyncStorage.getItem('auth', (error, result) => {
+
+                    if (result) {
+                        console.log(result);
+
+                        var data = JSON.parse(result)
+
+                        if (data.token) {
+
+                            console.log('sucessfull check autentiocatoin')
+
+
+                        } else {
+                            console.log('no data.token  check autentiocatoin')
+                            onChangeScreen('login')
+
+
+                        }
+
+                    } else {
+
+                        console.log('result false check autentiocatoin')
+                        onChangeScreen('login')
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.log('catch erroe check autentiocatoin')
+                onChangeScreen('login')
+
+            }
+        }
+
+        checkAutentication()
+
+
+
+    }, []);
 
     const sendNPS = async () => {
 
 
         AsyncStorage.setItem(
             'dataRespondente',
-            JSON.stringify({nome:nome, email:email, telefone:telefone})
+            JSON.stringify({ nome: nome, email: email, telefone: telefone })
         );
 
 
@@ -290,7 +382,7 @@ export default function StepContact(props) {
     return (
 
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            
+
             <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF' }}>
                 <Header />
                 <View style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
@@ -304,8 +396,8 @@ export default function StepContact(props) {
                     <TextInput
                         multiline={false}
                         numberOfLines={1}
-                        value = {nome}
-                        onChangeText = {  text => setNome(text)}
+                        value={nome}
+                        onChangeText={text => setNome(text)}
                         style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
                     />
 
@@ -313,8 +405,8 @@ export default function StepContact(props) {
                     <TextInput
                         multiline={false}
                         numberOfLines={1}
-                        value = {email}
-                        onChangeText = { text => setEmail(text) }
+                        value={email}
+                        onChangeText={text => setEmail(text)}
                         style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
                     />
 
@@ -322,13 +414,13 @@ export default function StepContact(props) {
                     <TextInput
                         multiline={false}
                         numberOfLines={1}
-                        value = {telefone}
-                        onChangeText = { text => setTelefone(text) }
+                        value={telefone}
+                        onChangeText={text => setTelefone(text)}
                         keyboardType="numeric"
                         style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
                     />
 
-                    <Text style={{marginBottom:20}}></Text>
+                    <Text style={{ marginBottom: 20 }}></Text>
 
                     <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
                         {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
@@ -338,7 +430,7 @@ export default function StepContact(props) {
                     </TouchableOpacity>
 
 
-                    <TouchableOpacity  onPress={() => { sendNPS() }} >
+                    <TouchableOpacity onPress={() => { sendNPS() }} >
 
                         <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >RETORNAR PARA A TELA PRINCIPAL</Text>
 
