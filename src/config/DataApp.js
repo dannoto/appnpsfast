@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native-web';
+import { Alert } from 'react-native';
 
 
 export async function npsLogin(email, password) {

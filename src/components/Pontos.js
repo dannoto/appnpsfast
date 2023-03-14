@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, ImageBackground, Text, Dimensions } from 'react-native';
+import { ScrollView, View, ImageBackground, Text, Dimensions, TouchableOpacity } from 'react-native';
 import Styles from '../config/Styles';
 
 import { IconButton, Button } from "react-native-paper";
@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import InnerLoading from './InnerLoading';
 import Empty from './Empty';
 
-import { TouchableOpacity } from 'react-native-web';
+// import { TouchableOpacity } from 'react-native-web';
 import ColorsApp from '../config/ColorsApp';
 import { npsJornadas, npsPontosContato, npsQuestoes } from '../config/DataApp';
 import { map } from 'lodash';
@@ -62,7 +62,7 @@ export default function Pontos(props) {
                                         // Salvalndo codCliente
                                         AsyncStorage.setItem(
                                             'codCliente',
-                                            resp.codCliente
+                                            ""+resp.codCliente+""
                                         );
 
 
@@ -312,7 +312,7 @@ export default function Pontos(props) {
                             <View key={i} style={screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox}>
                                 <TouchableOpacity onPress={() => StartPesquisa(item.codPontoContato)}>
                                     <IconButton icon="crosshairs-gps" iconColor={ColorsApp.SECONDARY} size={IconSize} style={Styles.FiliaisBoxIcon} />
-                                    <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >{item.descPontoContato} - {item.codPontoContato}</Text>
+                                    <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >{item.descPontoContato} </Text>
                                 </TouchableOpacity>
                             </View>
 

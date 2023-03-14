@@ -27,7 +27,6 @@ import StepObrigado from '../screens/StepObrigado';
 
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import { CheckBox } from 'react-native-web';
 
 const RootStack = createStackNavigator();
 
@@ -65,7 +64,7 @@ export default function DrawerNavigation(props) {
 		console.log('logout')
 		AsyncStorage.removeItem('auth');
 
-		//  onChangeScreen('login')
+		 onChangeScreen('login')
 	}
 
 	const ButtonLogout = () => {
@@ -83,7 +82,7 @@ export default function DrawerNavigation(props) {
 		},
 		presentation: 'modal',
 		headerTitleStyle: {
-			fontWeight: 600,
+			
 			fontSize: 18,
 		},
 		headerTintColor: "black",
@@ -98,12 +97,11 @@ export default function DrawerNavigation(props) {
 
 		<RootStack.Navigator screenOptions={(route) => { return navigatorOptions }}>
 
-
-
-			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: false, Style: {headerBackground:'#FFFF'}, headerLeft: ()=> ButtonLogout(), }} />
-            <RootStack.Screen name="pontoscontato" component={PontosContato} options={{ title: null, headerLeft: () => buttonBack() }}  />
-            <RootStack.Screen name="runpesquisa" component={RunPesquisa} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-
+      <RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />
+			<RootStack.Screen name="recuperacao" component={Recuperacao} options={{ title: null, headerLeft: () => buttonBack() }} />
+			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: false, Style: {headerBackground:'#FFFF'}, headerLeft: ()=> ButtonLogout() }} />
+      <RootStack.Screen name="pontoscontato" component={PontosContato} options={{ title: null, headerLeft: () => buttonBack() }}  />
+      <RootStack.Screen name="runpesquisa" component={RunPesquisa} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 			
 			<RootStack.Screen name="radiobottom" component={RadioBottom} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
 			<RootStack.Screen name="caixadetexto" component={CaixaDeTexto} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />

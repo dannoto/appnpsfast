@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity,TextInput ,Image, Dimensions } from 'react-native-web';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity,TextInput ,Image, Dimensions } from 'react-native';
 import { Text, Button, IconButton } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
@@ -9,7 +9,6 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// import { TextInputMask } from 'react-native-text-input-mask';
 
 export default function StepContact(props) {
 
@@ -295,7 +294,7 @@ export default function StepContact(props) {
                 <View style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                    <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text style={{ fontWeight: 600 }}> Muito Obrigado por deixar sua opinião.</Text> </Text>
+                    <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
                     <Text style={screenWidth >= 768 ? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
 
 

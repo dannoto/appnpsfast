@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Text, TextInput, Button, IconButton } from 'react-native-paper';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions, Text, TextInput, Button } from 'react-native';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-// import { ScrollView } from 'react-native-web';
 
 import { npsEnviarRespostas } from '../config/DataApp';
-// import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
 import { useIsFocused } from "@react-navigation/native";
 
 
@@ -208,7 +205,7 @@ export default function StepObrigado(props) {
     return (
 
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF' }}>
+            <SafeAreaView style={{ flex: 1,  backgroundColor: '#FFF' }}>
 
 
                 <Header />
@@ -218,15 +215,14 @@ export default function StepObrigado(props) {
                     <View style={{ flex: 1 }}>
 
 
-                        <IconButton icon="check-decagram" iconColor={"green"} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
-
                         <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
                         <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>
 
 
-                        <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: '5%' }}>
+                        <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
                             <Text style={screenWidth >= 768 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
                         </TouchableOpacity>
+                       
 
                     </View>
                 </View>

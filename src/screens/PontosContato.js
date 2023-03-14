@@ -61,17 +61,18 @@ export default function PontosContato(props) {
             <ScrollView style={{ backgroundColor: '#FFF' }}>
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
 
+
                     <View style={screenWidth >= 768 ? Styles.HomeContentTablet : Styles.HomeContent}>
                         {/* <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'left' }}>
-                                <Text style={screenWidth >= 768 ? Styles.HomeTitleTablet : Styles.HomeTitle}>olá <Text style={{ color: ColorsApp.PRIMARY, fontWeight: 500 }}>Bem-vindo</Text>,</Text>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+                                <Text style={screenWidth >= 768 ? Styles.HomeTitleTablet : Styles.HomeTitle}>olá <Text style={{ color: ColorsApp.PRIMARY }}>Bem-vindo</Text>,</Text>
 
                             </View>
                             <View style={{ flex: 1 }}>
                                 <Image source={require('./../../assets/logo.png')} resizeMode={'contain'} style={Styles.AuthLogo} />
                             </View>
                         </View> */}
-                        <View style={{ marginBottom: 50, marginTop: 50 }}>
+                        <View style={{ marginBottom: 50, marginTop: 20 }}>
                             <View>
                                 <Text style={screenWidth >= 768 ? Styles.HomeSubtitleTablet : Styles.HomeSubtitle}>PONTOS DE CONTATO</Text>
                             </View>

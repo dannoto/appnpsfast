@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, Dimensions, Image } from 'react-native';
-import { Alert } from 'react-native-web';
+import React, { useState , useEffect} from 'react';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Dimensions, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
 import { npsLogin } from '../config/DataApp'
+import Loading from '../components/AppLoading';
 
 
 export default function Login(props) {
@@ -22,23 +22,80 @@ export default function Login(props) {
         props.navigation.navigate(screen);
     };
 
+     useEffect(() => {
+
+    const getItemFromStorage = async () => {
+
+      // console.log('running auth')
+
+      try {
+
+        await AsyncStorage.getItem('auth', (error, result) => {
+
+          if (result) {
+            console.log(result);
+
+            var data = JSON.parse(result)
+
+            if (data.token) {
+
+              console.log('logado app.js')
+              // console.log(data.token)
+              
+              onChangeScreen('home')
+
+            } else {
+              console.log('nao logado')
+              setLoading(true)
+              // return false;
+
+
+            }
+
+          } else {
+
+            // return false;
+                          setLoading(true)
+
+                   console.log('false 1')
+          }
+
+        });
+
+      } catch (error) {
+
+        // return false;
+                      setLoading(true)
+
+          console.log('false 2')
+
+      }
+    }
+
+    getItemFromStorage()
+
+
+
+  }, []);
+
+
     const Authenticando = async () => {
 
         if (email.length < 3) {
 
             console.log('Preencha o login corretamente.')
-            // Alert.alert('Opss', 'Preencha o email corretamente.', [
+            Alert.alert('Opss', 'Preencha o email corretamente.', [
 
-            //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-            // ]);
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
 
         } else if (password.length < 3) {
 
             console.log('Preencha a senha corretamente.')
-            // Alert.alert('Opss', 'Preencha a senha corretamente.', [
+            Alert.alert('Opss', 'Preencha a senha corretamente.', [
 
-            //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-            // ]);
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
 
         } else {
 
@@ -59,31 +116,40 @@ export default function Login(props) {
                             JSON.stringify(response)
                         );
 
-                        // onChangeScreen('home')
+                        onChangeScreen('home')
 
 
 
                     } else {
                         console.log('Suas credenciais estão incorretas.')
-                        // Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
+                        Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
 
-                        //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-                        // ]);
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ]);
                     }
 
                 } catch (error) {
 
                     console.log('Catch erro.')
-                    // Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
+                    Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
 
-                    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-                    // ]);
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ]);
                 }
 
 
             }).catch((error) =>
 
-                console.log("Erro na requisição. Contate o suporte.")
+            {
+
+                                console.log("Erro na requisição. Contate o suporte.")
+
+                Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
+
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ]);
+            }
+
             )
         }
 
@@ -93,6 +159,23 @@ export default function Login(props) {
 
 
     }
+
+
+if (!loading) {
+
+
+    return (
+      <Loading />
+
+    );
+
+}
+
+
+
+if (loading) {
+
+
 
     return (
         <ScrollView style={{ backgroundColor: '#FFF' }}>
@@ -123,4 +206,7 @@ export default function Login(props) {
 
 
     );
+}
+
+
 }

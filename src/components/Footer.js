@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, ImageBackground, Text, Dimensions, Image } from 'react-native';
+import { ScrollView, View, ImageBackground, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
 import Styles from '../config/Styles';
 // import {map} from 'lodash';
 import Loading from './InnerLoading';
@@ -12,7 +12,6 @@ import { IconButton, Button } from "react-native-paper";
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import InnerLoading from './InnerLoading';
-import { TouchableOpacity } from 'react-native-web';
 import ColorsApp from '../config/ColorsApp';
 // import LevelRate from './LevelRate';
 export default function Filiais(props) {
@@ -67,14 +66,12 @@ export default function Filiais(props) {
             <View style={{  }}>
                 <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 5, paddingTop:15,paddingLeft:10, paddingRight:10, paddingBottom:10, flexDirection: 'row', justifyContent:'space-between',  }}>
                    
-                        {/* <View style={{width:'50%', flexDirection:'row' , justifyContent:'flex-start'}}> */}
                         <TouchableOpacity onPress={() => { toFiliais()}}>
                             <Image resizeMode={"contain"}  source={require('./../../assets/logo.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
                         </TouchableOpacity>
-                        {/* </View> */}
-                        {/* <View style={{width:'50%', alignItems:'flex-end'}}> */}
+                      
                             <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
-                        {/* </View> */}
+                        
                   
 
                 </View>

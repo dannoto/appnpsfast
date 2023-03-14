@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, ImageBackground, Text, Dimensions, Image } from 'react-native';
+import { ScrollView, View, ImageBackground, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
 import Styles from '../config/Styles';
 // import {map} from 'lodash';
 import Loading from './InnerLoading';
@@ -12,7 +12,6 @@ import { IconButton, Button } from "react-native-paper";
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import InnerLoading from './InnerLoading';
-import { TouchableOpacity } from 'react-native-web';
 import ColorsApp from '../config/ColorsApp';
 // import LevelRate from './LevelRate';
 export default function Header(props) {
@@ -58,7 +57,7 @@ export default function Header(props) {
     if (isLoaded) {
         return (
 
-            <View style={{ }}>
+            <View >
                 <View style={{ width:'80%' , margin:'auto', borderBottomColor: 'gray', borderBottomWidth: 1 }}>
                     <View style={{  flexDirection: 'row', justifyContent: 'center', marginTop:10, marginBottom: 10 }}>
                             <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={ screenWidth >= 768 ? Styles.ImageHeaderTablet : Styles.ImageHeader} ></Image>

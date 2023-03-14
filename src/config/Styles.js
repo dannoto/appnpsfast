@@ -66,11 +66,11 @@ export default StyleSheet.create({
         marginHorizontal: 20
     },
 
-    HomeSubtitleTablet: { fontSize: 30, fontWeight: 500 },
-    HomeSubtitle:{ fontSize: 18, fontWeight: 500 },
+    HomeSubtitleTablet: { fontSize: 30, fontWeight: 'bold' },
+    HomeSubtitle:{ fontSize: 18, fontWeight: 'bold' },
 
-    HomeTitleTablet: { textTransform: 'uppercase', fontSize: 30, fontWeight: 500 },
-    HomeTitle:{ textTransform: 'uppercase', fontSize: 18, fontWeight: 500 },
+    HomeTitleTablet: { textTransform: 'uppercase', fontSize: 30, fontWeight: 'bold' },
+    HomeTitle:{ textTransform: 'uppercase', fontSize: 18, fontWeight: 'bold' },
 
 
 
@@ -116,14 +116,14 @@ export default StyleSheet.create({
 
     AuthButtonLabel: {
         letterSpacing: 0,
-        fontWeight: 600,
+        fontWeight: 'bold',
 
     },
 
 
     TabletAuthButtonLabel: {
         letterSpacing: 0,
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: 25
     },
 
@@ -210,7 +210,7 @@ export default StyleSheet.create({
 
     DrawerTitleMenu: {
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: 'bold',
     },
 
     DrawerIconMenu: {
@@ -240,7 +240,7 @@ export default StyleSheet.create({
     },
 
     DrawerTitleHeader: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: 20,
         marginBottom: 8
     },
@@ -268,7 +268,7 @@ export default StyleSheet.create({
 
     headingTitle: {
         fontSize: 18,
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     headingSubTitle: {
@@ -285,7 +285,7 @@ export default StyleSheet.create({
 
     headingButtonText: {
         fontSize: 12,
-        fontWeight: 600,
+        fontWeight: 'bold',
         textTransform: 'uppercase'
     },
 
@@ -345,7 +345,7 @@ export default StyleSheet.create({
     },
 
     ButtonLabelProfile: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: 16,
     },
 
@@ -367,7 +367,7 @@ export default StyleSheet.create({
     TextProfile: {
         fontSize: 18,
         marginRight: 4,
-        fontWeight: 600,
+        fontWeight: 'bold',
         marginBottom: 5
     },
 
@@ -420,12 +420,12 @@ export default StyleSheet.create({
 
     card1_title: {
         color: "#fff",
-        fontWeight: 600,
+        fontWeight: 'bold',
     },
 
     card1_subtitle: {
         color: PrimaryColor,
-        fontWeight: 600,
+        fontWeight: 'bold',
     },
 
     card1_viewicon: {
@@ -439,7 +439,7 @@ export default StyleSheet.create({
 
     card1_icon: {
         color: PrimaryColor,
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     card2_view: {
@@ -463,7 +463,7 @@ export default StyleSheet.create({
     card3_title: {
         color: '#FFF',
         fontSize: 15,
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     card3_subtitle: {
@@ -476,7 +476,7 @@ export default StyleSheet.create({
     card3_category: {
         marginBottom: 6,
         color: PrimaryColor,
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: 16,
     },
 
@@ -529,7 +529,7 @@ export default StyleSheet.create({
     card4_title: {
         color: '#FFF',
         fontSize: 15,
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     card4_viewicon: {
@@ -564,7 +564,7 @@ export default StyleSheet.create({
     card5_title: {
         color: '#FFF',
         fontSize: 15,
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     card5_border: {
@@ -619,7 +619,7 @@ export default StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 10,
         color: '#fff',
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     itemListView: {
@@ -657,7 +657,7 @@ export default StyleSheet.create({
     title_categories: {
         color: '#FFF',
         fontSize: 14,
-        fontWeight: 600
+        fontWeight: 'bold'
     },
 
     title_categories_background: {
@@ -811,11 +811,11 @@ export default StyleSheet.create({
     ExerciseTitle: {
         fontSize: 18,
         alignSelf: 'center',
-        fontWeight: 600,
+        fontWeight: 'bold',
     },
 
     ExerciseSubTitle: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: PrimaryColor
     },
 
@@ -828,7 +828,7 @@ export default StyleSheet.create({
 
     ExerciseColTitle: {
         fontSize: 18,
-        fontWeight: 600,
+        fontWeight: 'bold',
         marginBottom: 5
     },
 
@@ -846,7 +846,7 @@ export default StyleSheet.create({
     },
 
     ExerciseAccordionTitle: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         fontSize: 16
     },
 
@@ -873,7 +873,7 @@ export default StyleSheet.create({
     },
 
     HeaderTitle: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: '#fff',
         fontSize: 16,
         marginBottom: 8,
@@ -881,7 +881,7 @@ export default StyleSheet.create({
     },
 
     HeaderSubTitle: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: PrimaryColor,
         fontSize: 16
     },
@@ -901,13 +901,13 @@ export default StyleSheet.create({
     },
 
     Header2Category: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: PrimaryColor,
         fontSize: 16,
     },
 
     Header2Title: {
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: '#fff',
         fontSize: 20,
         marginVertical: 8,
@@ -930,7 +930,7 @@ export default StyleSheet.create({
     WorkoutGridTitle: {
         fontSize: 16,
         color: 'rgba(0,0,0,0.7)',
-        fontWeight: 600,
+        fontWeight: 'bold',
     },
 
     WorkoutGridSubTitle: {
@@ -951,7 +951,7 @@ export default StyleSheet.create({
         fontSize: 16,
         marginBottom: 5,
         color: 'rgba(0,0,0,0.7)',
-        fontWeight: 600,
+        fontWeight: 'bold',
     },
 
     DietGridSubTitle: {
@@ -1017,25 +1017,21 @@ export default StyleSheet.create({
         fontSize: 50,
         color: '#f5a31f',
         // backgroundColor: '#f5a31f',
-        margin: 'auto',
+        
         marginTop: 25,
         marginBottom: 15
     },
 
      IconObrigado: {
-        // backgroundColor: 'green',
-        // color: '#FFF',
-        margin:'auto',
+        
         marginTop:30,
-        marginBottom: 15,
+        marginBottom: 15
     },
 
 
     IconObrigadoTablet: {
 
-        // backgroundColor: '#FFFFFF',
-        // color: '#FFFFFF',
-        margin:'auto',
+        
         marginTop:30,
         marginBottom: 30
 
@@ -1043,38 +1039,43 @@ export default StyleSheet.create({
 
     TitleObrigadoTablet: {
 
-        fontSize: 27, fontWeight: 500, marginTop: 20, textTransform: 'uppercase', textAlign: 'center'
+        fontSize: 27, fontWeight: 'bold', marginTop: 20, textTransform: 'uppercase', textAlign: 'center'
     },
 
     SubtitleObrigadoTablet: {
-        fontSize: 25, fontWeight: 400, marginTop: 5, textTransform: 'uppercase', textAlign: 'center'
+        fontSize: 25, fontWeight: 'normal', marginTop: 5, textTransform: 'uppercase', textAlign: 'center'
     },
 
     ReturnTextObrigadoTablet: {
-        fontSize: 27, fontWeight: 600, textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
+        fontSize: 27, fontWeight: 'bold', textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
     },
 
     ContainerObrigadoTablet: {
-        flex: 1, marginHorizontal: 50, marginTop: 20
+        flex: 1, 
+        marginHorizontal: 50,
+         marginTop: 20
+    },
+
+ ContainerObrigado: {
+        flex: 1, 
+        marginHorizontal: 25, 
+        marginTop: 20
     },
 
    
     TitleObrigado: {
-        fontSize: 12, fontWeight: 500, marginTop: 10, textTransform: 'uppercase', textAlign: 'center'
+        fontSize: 12, fontWeight: 'bold', marginTop: 10, textTransform: 'uppercase', textAlign: 'center'
     },
 
     SubtitleObrigado: {
-        fontSize: 12, fontWeight: 400, marginTop: 5, textTransform: 'uppercase', textAlign: 'center'
+        fontSize: 12, fontWeight: 'normal', marginTop: 5, textTransform: 'uppercase', textAlign: 'center'
     },
 
     ReturnTextObrigado: {
-        fontSize: 12, fontWeight: 600, textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
+        fontSize: 12, fontWeight: 'bold', textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
     },
 
-    ContainerObrigado: {
-        flex: 1, marginHorizontal: 25, marginTop: 20
-    },
-
+   
     ImageHeaderTablet: {
         width: '50%',
         height: 120,
@@ -1102,14 +1103,14 @@ export default StyleSheet.create({
     TitleSugestionTablet: {
         textAlign: 'center',
         fontSize: 27,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 30
     },
 
     TitleSugestion: {
         textAlign: 'center',
         fontSize: 17,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 30
     },
 
@@ -1117,7 +1118,7 @@ export default StyleSheet.create({
         textAlign: 'left',
         marginTop: 30,
         fontSize: 22,
-        fontWeight: 600,
+        fontWeight: 'bold',
         textTransform: 'uppercase'
     },
 
@@ -1125,7 +1126,7 @@ export default StyleSheet.create({
         textAlign: 'left',
         marginTop: 30,
         fontSize: 12,
-        fontWeight: 600,
+        fontWeight: 'bold',
         textTransform: 'uppercase'
     },
 
@@ -1170,13 +1171,13 @@ export default StyleSheet.create({
     ButtonTextSugestionTablet: {
         textAlign: 'center',
         fontSize: 26,
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: ColorsApp.PRIMARY
     },
     ButtonTextSugestion: {
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: 'bold',
         color: ColorsApp.PRIMARY
     },
 
@@ -1188,7 +1189,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: 25,
         marginTop: 20,
-        fontWeight: 600,
+        fontWeight: 'bold',
         marginBottom:20,
         color: ColorsApp.PRIMARY
     },
@@ -1196,7 +1197,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
         marginTop: 10,
-        fontWeight: 600,
+        fontWeight: 'bold',
         marginBottom:20,
         color: ColorsApp.PRIMARY
     },
@@ -1226,7 +1227,7 @@ export default StyleSheet.create({
 
     // StepNPS
     
-    TitleNPS: { fontSize: 17, marginTop: 15, marginBottom: 15, fontWeight: 400, textAlign: 'center' },
+    TitleNPS: { fontSize: 17, marginTop: 15, marginBottom: 15, fontWeight: 'normal', textAlign: 'center' },
     
     DivNPS: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
     
@@ -1238,7 +1239,7 @@ export default StyleSheet.create({
     
     ItemTouchNPS: { height: 40, flex: 1, justifyContent: 'center', margin: 1 },
 
-    ItemTextNPS: { textAlign: 'center', fontWeight: 600, color: '#FFF' },
+    ItemTextNPS: { textAlign: 'center', fontWeight: 'bold', color: '#FFF' },
 
     
     
@@ -1250,7 +1251,7 @@ export default StyleSheet.create({
     ContainerNPSTablet: {flex:1,height:'100%', paddingTop: 30, marginHorizontal: 30 },
 
 
-    TitleNPSTablet: { fontSize: 27, marginTop: 30, marginBottom: 30, fontWeight: 400, textAlign: 'center' },
+    TitleNPSTablet: { fontSize: 27, marginTop: 30, marginBottom: 30, fontWeight: 'normal', textAlign: 'center' },
 
     DivNPSTablet: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
 
@@ -1258,7 +1259,7 @@ export default StyleSheet.create({
 
     ItemTouchNPSTablet: { height: 80, flex: 1, justifyContent: 'center', margin: 2 },
 
-    ItemTextNPSTablet: { textAlign: 'center', fontSize: 30, fontWeight: 600, color: '#FFF' },
+    ItemTextNPSTablet: { textAlign: 'center', fontSize: 30, fontWeight: 'bold', color: '#FFF' },
 
     LabelNPS0: {
         backgroundColor: '#ff0000'
@@ -1302,7 +1303,7 @@ export default StyleSheet.create({
     TitleContactTablet: {
         textAlign: 'center',
         fontSize: 27,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 20,
         
     },
@@ -1310,7 +1311,7 @@ export default StyleSheet.create({
     TitleContact: {
         textAlign: 'center',
         fontSize: 17,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 20,
         
     },
@@ -1320,7 +1321,7 @@ export default StyleSheet.create({
     SubTitleFullNpsTablet: {
         textAlign: 'center',
         fontSize: 25,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 5,
        
     },
@@ -1328,14 +1329,14 @@ export default StyleSheet.create({
    SubTitleFullNps: {
         textAlign: 'center',
         fontSize: 15,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 5,
        
     },
    SubTitleContactTablet: {
         textAlign: 'center',
         fontSize: 25,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 5,
         marginBottom:10
     },
@@ -1343,7 +1344,7 @@ export default StyleSheet.create({
    SubTitleContact: {
         textAlign: 'center',
         fontSize: 15,
-        fontWeight: 400,
+        fontWeight: 'normal',
         marginTop: 5,
         marginBottom:10
     },
@@ -1438,8 +1439,8 @@ export default StyleSheet.create({
 
 
     // 
-    TextFull: { fontSize: 15, fontWeight: 400 },
-    TextFullTablet:{ fontSize: 25, fontWeight: 400 },
+    TextFull: { fontSize: 15, fontWeight: 'normal' },
+    TextFullTablet:{ fontSize: 25, fontWeight: 'normal' },
 
     DivFull: { marginTop: 10, marginBottom: 15 },
     DivFullTablet: { marginTop: 10, marginBottom: 15, marginHorizontal:50 },

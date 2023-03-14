@@ -14,11 +14,13 @@ import ColorsApp from './src/config/ColorsApp';
 
 export default function App() {
 
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   // const isFocused = useIsFocused();
+
+
 
 
   useEffect(() => {
@@ -32,28 +34,32 @@ export default function App() {
         await AsyncStorage.getItem('auth', (error, result) => {
 
           if (result) {
-            // console.log(result);
+            console.log(result);
 
             var data = JSON.parse(result)
 
             if (data.token) {
 
-              // console.log('logado app.js')
+              console.log('logado app.js')
               // console.log(data.token)
-              setIsLogged(true)
+              
+              setLoaded(true)
 
             } else {
-              // console.log('nao logado')
-              setIsLogged(false)
-              return false;
+              console.log('nao logado app.js')
+            
+              setLoaded(true)
+              // return false;
 
 
             }
 
           } else {
 
-            return false;
-            setIsLogged(false)
+            // return false;
+              setLoaded(true)
+            console.log('false 1 app.js')
+            // setLoaded(true)
 
           }
 
@@ -61,8 +67,11 @@ export default function App() {
 
       } catch (error) {
 
-        return false;
-        setIsLogged(false)
+        // return false;
+         console.log('false 2 app.js')
+                          setLoaded(true)
+
+        // setLoaded(true)
 
 
       }
@@ -79,18 +88,22 @@ export default function App() {
 
 
 
-  if (loaded) {
+  if (!loaded) {
+
+
     return (
       <Loading />
 
     );
 
+}
 
-  } else {
+ 
+  if (loaded) {
     return (
 
       <NavigationContainer >
-        {isLogged ? <DrawerNavigation /> : <GuestNavigation />}
+        {isLogged ? <DrawerNavigation /> : <DrawerNavigation /> }
       </NavigationContainer>
 
     );

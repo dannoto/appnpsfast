@@ -93,7 +93,7 @@ export default function Label(props) {
                 <ScrollView style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                    {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text style={{ fontWeight: 600 }}>sugestão</Text> ou <Text style={{ fontWeight: 600 }}>comentário</Text>?</Text> */}
+                    {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text >sugestão</Text> ou <Text >comentário</Text>?</Text> */}
 
                     <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{question.descQuestao}</Text>
 

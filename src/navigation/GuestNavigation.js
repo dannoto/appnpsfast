@@ -4,15 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { IconButton } from 'react-native-paper';
 
 import Login from '../screens/Login';
-import Home from '../screens/Home';
 import Recuperacao from '../screens/Recuperacao';
 
-
-import StepNps from '../screens/StepNps';
-import StepFullNps from '../screens/StepFullNps';
-import StepSugestion from '../screens/StepSugestion';
-import StepContact from '../screens/StepContact';
-import StepObrigado from '../screens/StepObrigado';
 
 
 
@@ -57,7 +50,7 @@ export default function GuestNavigation(props) {
 		},
 		presentation: 'modal',
 		headerTitleStyle: {
-			fontWeight: 600,
+			
 			fontSize: 18,
 		},
 		headerTintColor: "black",
@@ -71,16 +64,10 @@ export default function GuestNavigation(props) {
 	return (
 
 		<RootStack.Navigator screenOptions={(route) => { return navigatorOptions }}>
+					<RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />
 
-			<RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />
 			<RootStack.Screen name="recuperacao" component={Recuperacao} options={{ title: null, headerLeft: () => buttonBack() }} />
-{/* 
-			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: false, Style: {headerBackground:'#FFFF'}, headerLeft: ()=> ButtonLogout(), }} />
-			<RootStack.Screen name="stepnps" component={StepNps} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepfullnps" component={StepFullNps} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepsugestion" component={StepSugestion} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepcontact" component={StepContact} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepobrigado" component={StepObrigado} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  /> */}
+
 
 
 		</RootStack.Navigator>

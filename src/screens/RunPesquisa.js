@@ -4,7 +4,7 @@ import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
 
-import AppLoading from '../components/AppLoading';
+import InnerLoading from '../components/InnerLoading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Pontos from '../components/Pontos';
 
@@ -19,13 +19,16 @@ import CheckBox from './Questoes/CheckBox';
 import Label from './Questoes/Label';
 import Emoji from './Questoes/Emoji';
 
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+
 
 export default function RunPesquisa(props) {
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const isFocused = useIsFocused();
 
@@ -157,7 +160,7 @@ export default function RunPesquisa(props) {
       
 
         getIndex()
-        setLoading(true)
+       
 
         // Call only when screen open or when back on screen 
         // if(isFocused){ 
@@ -167,12 +170,15 @@ export default function RunPesquisa(props) {
     }, [isFocused]);
 
 
-    if (!loading) {
+    if (loading) {
 
         return (
 
-            <AppLoading />
-
+ <View>
+  <Header />
+            <InnerLoading />
+            <Footer/>
+</View>
         );
 
     } else {

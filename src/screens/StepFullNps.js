@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions } from 'react-native-web';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Text, TextInput, Button, IconButton } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
@@ -61,7 +61,7 @@ export default function StepFullNps(props) {
                 <Header />
                 <View style={screenWidth >= 768 ? Styles.ContainerNPSFullTablet : Styles.ContainerNPSFull}>
 
-                    <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text style={{ fontWeight: 600 }}> Queremos melhorar sua experiência em nossas lojas.</Text> </Text>
+                    <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text > Queremos melhorar sua experiência em nossas lojas.</Text> </Text>
                     <Text style={screenWidth >= 768 ? Styles.SubTitleFullNpsTablet : Styles.SubTitleFullNps} >Você pode nos ajudar deixando sua opinião.</Text>
 
 

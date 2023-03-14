@@ -24,7 +24,10 @@ export default function Recuperacao(props) {
         if (email.length < 3) {
 
             console.log('Preencha o email corretamente.')
+                        Alert.alert('Opss', 'Preencha o email corretamente.', [
 
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ]);
         } else {
 
             npsRecuperacao(email).then((response) => {
@@ -38,28 +41,28 @@ export default function Recuperacao(props) {
                     if (response == "Sucesso") {
 
                         console.log("Email enviado com sucesso.")
-                        // Alert.alert('Opss', 'Email enviado com sucesso.', [
+                        Alert.alert('', 'Email enviado com sucesso.', [
 
-                        //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-                        // ]);
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ]);
 
                     } else if (response == "E-mail inexistente!") {
 
                         console.log("Nenhuma conta com este e-mail.")
-                        // Alert.alert('Opss', 'Nenhuma conta com este e-mail.', [
+                        Alert.alert('Opss', 'Nenhuma conta com este e-mail.', [
 
-                        //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-                        // ]);
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ]);
                     }
 
 
                 } catch (error) {
 
                     console.log('Erro na requisição. Tente novamente.')
-                    // Alert.alert('Opss', 'Erro na requisição. Tente novamente.', [
+                    Alert.alert('Opss', 'Erro na requisição. Tente novamente.', [
 
-                    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-                    // ]);
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ]);
 
 
                 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, ImageBackground, Text, Dimensions } from 'react-native';
+import { ScrollView, View, ImageBackground, Text, Dimensions,TouchableOpacity } from 'react-native';
 import Styles from '../config/Styles';
 
 import { IconButton, Button } from "react-native-paper";
@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import InnerLoading from './InnerLoading';
 import Empty from './Empty';
 
-import { TouchableOpacity } from 'react-native-web';
+
 import ColorsApp from '../config/ColorsApp';
 import { npsFiliais } from '../config/DataApp';
 import { map } from 'lodash';
@@ -48,6 +48,8 @@ export default function Filiais(props) {
 
                         npsFiliais(data.token).then((response) => {
 
+                            console.log(response)
+
                             try {
 
                                 if (response.results.length > 0) {
@@ -56,7 +58,7 @@ export default function Filiais(props) {
                                     setFiliais(response.results)
 
                                 } else {
-                                    // console.log("vazio")
+                                    console.log("vazio")
                                 }
 
                                 setIsLoaded(true)
@@ -64,31 +66,31 @@ export default function Filiais(props) {
                             } catch (error) {
 
                                 // console.log(error)
-                                // console.log('Suas filiais estão incorretas.')
+                                console.log('Suas filiais estão incorretas.')
 
-                                setIsLoaded(true)
+                                // setIsLoaded(true)
                 
                             }
 
                         }).catch((error) =>
 
-                            // console.log("npsFiliais(data.token).then((response) => {")
-                            setIsLoaded(true)
+                            console.log("npsFiliais(data.token).then((response) => {")
+                            // setIsLoaded(true)
                            
                         )
 
 
 
                     } else {
-                        // console.log('if (data.token) {')
-                        setIsLoaded(true)
+                        console.log('if (data.token) {')
+                        // setIsLoaded(true)
 
                     }
 
                 } else {
 
-                    // console.log('if (result) {')
-                    setIsLoaded(true)
+                    console.log('if (result) {')
+                    // setIsLoaded(true)
 
                 }
 
@@ -96,8 +98,8 @@ export default function Filiais(props) {
             });
 
         } catch (error) {
-            // console.log('1 CACH ERROR')
-            setIsLoaded(true)
+            console.log('1 CACH ERROR')
+            // setIsLoaded(true)
         }
     }
 
@@ -145,7 +147,6 @@ export default function Filiais(props) {
 
                         {map(filiais, (item, i) => (
 
-                            // filiais.length > 0 ?
 
 
                             <View key={i} style={screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox}>
@@ -159,7 +160,7 @@ export default function Filiais(props) {
                         ))}
 
                         {
-                            filiais.length == 0 ?
+                            !filiais ?
 
                                 <Empty />
 
