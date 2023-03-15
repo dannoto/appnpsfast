@@ -1,3 +1,6 @@
+import { enableScreens } from 'react-native-screens';
+enableScreens();
+
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useMemo } from 'react';
@@ -12,7 +15,12 @@ import Loading from './src/components/AppLoading';
 import ColorsApp from './src/config/ColorsApp';
 // import { useIsFocused } from "@react-navigation/native";
 
+
+
+
 export default function App() {
+
+
 
   const [isLogged, setIsLogged] = useState(true);
   const [isReady, setIsReady] = useState(false);
@@ -42,12 +50,12 @@ export default function App() {
 
               console.log('logado app.js')
               // console.log(data.token)
-              
+
               setLoaded(true)
 
             } else {
               console.log('nao logado app.js')
-            
+
               setLoaded(true)
               // return false;
 
@@ -57,7 +65,7 @@ export default function App() {
           } else {
 
             // return false;
-              setLoaded(true)
+            setLoaded(true)
             console.log('false 1 app.js')
             // setLoaded(true)
 
@@ -68,8 +76,8 @@ export default function App() {
       } catch (error) {
 
         // return false;
-         console.log('false 2 app.js')
-                          setLoaded(true)
+        console.log('false 2 app.js')
+        setLoaded(true)
 
         // setLoaded(true)
 
@@ -96,14 +104,14 @@ export default function App() {
 
     );
 
-}
+  }
 
- 
+
   if (loaded) {
     return (
 
       <NavigationContainer >
-        {isLogged ? <DrawerNavigation /> : <DrawerNavigation /> }
+        {isLogged ? <DrawerNavigation /> : <DrawerNavigation />}
       </NavigationContainer>
 
     );

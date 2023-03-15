@@ -92,7 +92,9 @@ export default StyleSheet.create({
         marginTop: 15,
         borderRadius: 0,
         elevation: 0,
-        paddingTop: 10,
+        paddingTop: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: ColorsApp.PRIMARY,
         height: 80
     },
@@ -102,8 +104,11 @@ export default StyleSheet.create({
         marginTop: 15,
         borderRadius: 0,
         elevation: 0,
+        paddingTop: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: ColorsApp.PRIMARY,
-        height: 50
+        height: 55
     },
 
     AuthButtonContent: {
@@ -1182,6 +1187,19 @@ export default StyleSheet.create({
         color: ColorsApp.PRIMARY
     },
 
+    ButtonTextAuthTablet: {
+        textAlign: 'center',
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: '#FFF'
+    },
+    ButtonTextAuth: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#FFF'
+    },
+
 
 
 
@@ -1392,7 +1410,7 @@ export default StyleSheet.create({
 
     ButtonNpsFullTablet: {
         marginTop: 2,
-        padding: 15,
+        padding: 10,
         marginBottom: 10,
         height: 70,
         // flex:1,
@@ -1406,7 +1424,7 @@ export default StyleSheet.create({
     },
     ButtonNpsFull: {
         marginTop: 2,
-        padding: 15,
+        padding: 10,
         marginBottom: 10,
         height: 50,
         flexDirection: 'row',

@@ -18,12 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#f7f7f8"
-      },
-      "package": "com.danotto.npsfast"
+      "supportsTablet": true
+     
     },
     "android": {
       "adaptiveIcon": {

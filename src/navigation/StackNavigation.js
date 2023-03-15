@@ -16,17 +16,17 @@ const Stack = createStackNavigator();
 export default function StackNavigation(props){
 
 
-	const {navigation} = props;
+	// const {navigation} = props;
 	
-	const navigatorOptions = {
-		headerStyle: {
-			shadowColor: 'transparent',
-			elevation: 0,
-			shadowOpacity: 0,
-			backgroundColor: theme === "light" ? '#fff' : '#000'
-		},
-		headerTitleAlign: 'center'
-	}
+	// const navigatorOptions = {
+	// 	headerStyle: {
+	// 		shadowColor: 'transparent',
+	// 		elevation: 0,
+	// 		shadowOpacity: 0,
+	// 		backgroundColor: theme === "light" ? '#fff' : '#000'
+	// 	},
+	// 	headerTitleAlign: 'center'
+	// }
 
 // ******************************** Buttons
 
@@ -50,9 +50,6 @@ const buttonMenu = () => {
 
 return (
 	<Stack.Navigator screenOptions={navigatorOptions}>
-	<Stack.Screen name="home" component={Home} options={{title: "Home", headerLeft: () => buttonMenu()}} />
-	{/* <Stack.Screen name="stepobrigado" component={StepObrigado} options={{title: "Obrigado", headerLeft: () => buttonMenu()}} /> */}
-
 
 	</Stack.Navigator>
 	)

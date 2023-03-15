@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Dimensions, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,61 +28,61 @@ export default function Login(props) {
         props.navigation.navigate(screen);
     };
 
-     useEffect(() => {
+    useEffect(() => {
 
-    const getItemFromStorage = async () => {
+        const getItemFromStorage = async () => {
 
-      // console.log('running auth')
+            // console.log('running auth')
 
-      try {
+            try {
 
-        await AsyncStorage.getItem('auth', (error, result) => {
+                await AsyncStorage.getItem('auth', (error, result) => {
 
-          if (result) {
-            console.log(result);
+                    if (result) {
+                        console.log(result);
 
-            var data = JSON.parse(result)
+                        var data = JSON.parse(result)
 
-            if (data.token) {
+                        if (data.token) {
 
-              console.log('logado app.js')
-              // console.log(data.token)
-              
-              onChangeScreen('home')
+                            console.log('logado app.js')
+                            // console.log(data.token)
 
-            } else {
-              console.log('nao logado')
-              setLoading(true)
-              // return false;
+                            onChangeScreen('home')
 
+                        } else {
+                            console.log('nao logado')
+                            setLoading(true)
+                            // return false;
+
+
+                        }
+
+                    } else {
+
+                        // return false;
+                        setLoading(true)
+
+                        console.log('false 1')
+                    }
+
+                });
+
+            } catch (error) {
+
+                // return false;
+                setLoading(true)
+
+                console.log('false 2')
 
             }
+        }
 
-          } else {
-
-            // return false;
-                          setLoading(true)
-
-                   console.log('false 1')
-          }
-
-        });
-
-      } catch (error) {
-
-        // return false;
-                      setLoading(true)
-
-          console.log('false 2')
-
-      }
-    }
-
-    getItemFromStorage()
+        getItemFromStorage()
 
 
 
-  }, []);
+    }, []);
 
 
     const Authenticando = async () => {
@@ -144,16 +144,14 @@ export default function Login(props) {
                 }
 
 
-            }).catch((error) =>
+            }).catch((error) => {
 
-            {
-
-                                console.log("Erro na requisição. Contate o suporte.")
+                console.log("Erro na requisição. Contate o suporte.")
 
                 Alert.alert('Opss', 'Suas credenciais estão incorretas.', [
 
-                        { text: 'OK', onPress: () => console.log('OK Pressed') },
-                    ]);
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ]);
             }
 
             )
@@ -167,52 +165,53 @@ export default function Login(props) {
     }
 
 
-if (!loading) {
+    if (!loading) {
 
 
-    return (
-      <Loading />
+        return (
+            <Loading />
 
-    );
+        );
 
-}
-
-
-
-if (loading) {
+    }
 
 
 
-    return (
-        <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+    if (loading) {
 
 
-            <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30 }}>
-                <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
 
-                <View style={screenWidth >= 768 ? Styles.AuthContentTablet : Styles.AuthContent}>
-
-                    <Text style={screenWidth >= 768 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
-                    <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
-
-                    <Text style={screenWidth >= 768 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
-                    <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
-                    <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
-                        <Text style={screenWidth >= 768 ? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
-                    </TouchableOpacity>
-                    <Button mode="contained" onPress={() => Authenticando()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={screenWidth >= 768 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
-                        FAZER LOGIN
-                    </Button>
-
-                </View>
-
-            </SafeAreaView>
-
-        </ScrollView>
+        return (
+            <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
 
 
-    );
-}
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30 }}>
+                    <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
+
+                    <View style={screenWidth >= 768 ? Styles.AuthContentTablet : Styles.AuthContent}>
+
+                        <Text style={screenWidth >= 768 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
+                        <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
+
+                        <Text style={screenWidth >= 768 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
+                        <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
+                        <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
+                            <Text style={screenWidth >= 768 ? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
+                        </TouchableOpacity>
+                        <Button mode="contained" onPress={() => Authenticando()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={screenWidth >= 768 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
+                            <Text style={screenWidth >= 768 ? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
+
+                        </Button>
+
+                    </View>
+
+                </SafeAreaView>
+
+            </ScrollView>
+
+
+        );
+    }
 
 
 }
