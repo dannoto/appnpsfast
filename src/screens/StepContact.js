@@ -7,14 +7,21 @@ import { useNavigation } from '@react-navigation/native';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { npsEnviarRespostas } from '../config/DataApp';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useKeepAwake } from 'expo-keep-awake';
+
+import { MaskedTextInput } from "react-native-mask-text";
+
+import AppLoading from '../components/AppLoading';
 
 
 export default function StepContact(props) {
 
     useKeepAwake();
 
+    console.log('======== PAGINA - STEP CONTACT =============')
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -93,7 +100,7 @@ export default function StepContact(props) {
 
             if (result) {
                 // console.log(result)
-                codCliente = result
+                codCliente = parseInt(result)
 
             } else {
                 codCliente = null
@@ -130,7 +137,7 @@ export default function StepContact(props) {
 
             if (result) {
                 // console.log(result)
-                codPontoContato = result
+                codPontoContato = parseInt(result)
 
             } else {
                 codPontoContato = null
@@ -156,7 +163,7 @@ export default function StepContact(props) {
         )
 
 
-        var resposta = {
+        var dataResposta = {
             "codClienteFastQuest": codCliente,
             "codFilial": codFilial,
             "contato": contato,
@@ -168,26 +175,26 @@ export default function StepContact(props) {
             "respostas": respostas
         }
 
-        console.log(resposta)
+        // console.log(resposta)
 
 
         if (respostas.length > 0) {
 
-            npsEnviarRespostas(token, respostas).then((response) => {
+            npsEnviarRespostas(token, dataResposta).then((response) => {
 
-                console.log("resposta enviada")
+                console.log("[*] RESPOSTA ENVIADA : ")
                 console.log(response)
 
             }).catch((error) => {
 
-                console.log("erro ao enviar resposta")
+                console.log("[??] ERRO AO ENVIAR RESPOSTA : ")
                 console.log(error)
 
             })
 
 
         } else {
-            console.log("nao tem respostas, ent n enviou")
+            console.log("[*] NÃO EXISTE RESPOSTA PARA ENVIAR : ")
 
         }
 
@@ -199,70 +206,62 @@ export default function StepContact(props) {
     }
 
 
-
-
-
-
     useEffect(() => {
         const interval = setInterval(() => {
 
 
-            var savedData = "";
+     
+            AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
 
 
-            AsyncStorage.getItem('expiration', (error, result) => {
+                if (Xexpiracao) {
 
-                if (result) {
-                    // console.log(result);
-                    savedData = result
-                    //   var data = JSON.parse(result)
+                    AsyncStorage.getItem('currentIndex', (error, Xindex) => {
 
-                    //   if (data.expiration) {
+                        if (Xindex) {
 
-                    //    savedData = data.expiration
+                            const currentTimestamp = Math.floor(Date.now() / 1000);
+                            console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
 
-                    //   } else {
+                            if (currentTimestamp >= Xexpiracao) {
 
-                    //     // savedData = "00"
+                                sendResposta()
+                                const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
 
-                    //   }
+                                const now = new Date();
+                                now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                AsyncStorage.setItem(
+                                    'expiration',
+                                    JSON.stringify(expiryTimeInTimestamp)
+                                );
+
+                                console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
+
+
+                            } else {
+                                console.log('.')
+                            }
+
+
+
+
+                        } else {
+                            console.log('[????] ERROR GET CURRENT INDEX');
+                        }
+
+                    });
 
                 } else {
-                    // savedData = "99"
+                    console.log('[????] ERROR GET CURRENT EXPIRATION');
                 }
 
             });
 
-            console.log(savedData)
-
-            // if (savedData !== null) {
-            //     // check if we got a valid data before calling JSON.parse
-            //     savedData = JSON.parse(savedData);
-            //     console.log(savedData)
-            // } else {
-            //     console.log('savedData é null')
-            // }
-
-            const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
-
-            if (currentTimestamp >= savedData) {
-                console.log('   expirouuuuuu')
-
-                sendResposta()
-                const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                const now = new Date();
-                now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
 
 
-                AsyncStorage.setItem(
-                    'expiration',
-                    JSON.stringify(expiryTimeInTimestamp)
-                );
-            } else {
-                console.log(' nao  expirouuuuuu')
-            }
 
         }, 10000);
 
@@ -329,6 +328,7 @@ export default function StepContact(props) {
                         if (data.token) {
 
                             console.log('sucessfull check autentiocatoin')
+                            setLoading(true)
 
 
                         } else {
@@ -360,89 +360,175 @@ export default function StepContact(props) {
 
     }, []);
 
+
+    const sendNPSSkip = () => {
+        
+        onChangeScreen('stepobrigado')
+
+    }
+
     const sendNPS = async () => {
 
+        const isValidEmail = (input) => {
+            var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-        AsyncStorage.setItem(
-            'dataRespondente',
-            JSON.stringify({ nome: nome, email: email, telefone: telefone })
-        );
+            if (input.match(validRegex)) {
+
+                //   alert("Valid email address!");
+
+                //   document.form1.text1.focus();
+
+                return true;
+
+            } else {
+
+                //   alert("Invalid email address!");
+
+                // document.form1.text1.focus();
+
+                return false;
+
+            }
+        }
+
+        const isValidTelefone = (val) => {
+
+            if (telefone.length == 10 || telefone.length == 11) {
+
+                return true;
+
+            } else {
+                return false;
+            }
+
+        }
 
 
 
+        if (nome.length < 2) {
+
+            console.log('nome invalido')
+             Alert.alert('Opss', 'Insira um nome válido.', [
+               
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+
+        } else if (!isValidEmail(email)) {
+            console.log('email invalido')
+
+            Alert.alert('Opss', 'Insira um e-mail válido.', [
+             
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
 
 
-        onChangeScreen('stepobrigado')
+        } else if (!isValidTelefone(telefone)) {
+            console.log('telefone invalido')
+
+            Alert.alert('Opss', 'Insira um telefone válido.', [
+               
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+
+
+        } else {
+
+            AsyncStorage.setItem(
+                'dataRespondente',
+                JSON.stringify({ nome: nome, email: email, telefone: telefone })
+            );
+
+            onChangeScreen('stepobrigado')
+
+        }
+
     }
 
 
     console.log(orientation)
 
+    if (!loading) {
 
-    return (
+        return (
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <AppLoading />
 
-            <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF' }}>
-                <Header />
-                <View style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+        );
 
+    } else {
 
-                    <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
-                    <Text style={screenWidth >= 768 ? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
+        return (
 
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
-                    <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Nome</Text>
-                    <TextInput
-                        multiline={false}
-                        numberOfLines={1}
-                        value={nome}
-                        onChangeText={text => setNome(text)}
-                        style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
-                    />
-
-                    <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu E-mail</Text>
-                    <TextInput
-                        multiline={false}
-                        numberOfLines={1}
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                        style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
-                    />
-
-                    <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Telefone</Text>
-                    <TextInput
-                        multiline={false}
-                        numberOfLines={1}
-                        value={telefone}
-                        onChangeText={text => setTelefone(text)}
-                        keyboardType="numeric"
-                        style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
-                    />
-
-                    <Text style={{ marginBottom: 20 }}></Text>
-
-                    <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
-                        {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
-                        <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
-                        <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
-                        {/* </View> */}
-                    </TouchableOpacity>
+                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                    <Header />
+                    <View style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                    <TouchableOpacity onPress={() => { sendNPS() }} >
+                        <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
+                        <Text style={screenWidth >= 768 ? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
 
-                        <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >RETORNAR PARA A TELA PRINCIPAL</Text>
 
-                    </TouchableOpacity>
+                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Nome</Text>
+                        <TextInput
+                            multiline={false}
+                            numberOfLines={1}
+                            value={nome}
+                            onChangeText={text => setNome(text)}
+                            style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
+                        />
 
-                </View>
-                <Footer />
-            </SafeAreaView>
-        </ScrollView>
+                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu E-mail</Text>
+                        <TextInput
+                            multiline={false}
+                            numberOfLines={1}
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                            style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
+                        />
 
-    );
+                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Telefone</Text>
+                        <MaskedTextInput
+                            // multiline={false}
+                            // numberOfLines={1}
+                            mask="99 9 9999-9999"
+                            value={telefone}
+                            placeholder={"(00) 0 0000-0000"}
+                            // onChangeText={text => setTelefone(text)}
+                            onChangeText={(text, rawText) => {
+                                console.log(text);
+                                console.log(rawText);
+                                setTelefone(rawText)
+                            }}
+                            // keyboardType="numeric"
+                            style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
+                        />
 
+                        <Text style={{ marginBottom: 20 }}></Text>
+
+                        <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
+                            {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                            <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                            <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                            {/* </View> */}
+                        </TouchableOpacity>
+
+
+                        <TouchableOpacity onPress={() => { sendNPSSkip() }} >
+
+                            <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+
+                        </TouchableOpacity>
+
+                    </View>
+                    <Footer />
+                </SafeAreaView>
+            </ScrollView>
+
+        );
+
+    }
 
 
 }

@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions } from 'react-native';
-import { Text, TextInput, Button, IconButton } from 'react-native-paper';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
+import { Text, Button, IconButton } from 'react-native-paper';
 import Styles from '../../config/Styles';
 import ColorsApp from '../../config/ColorsApp';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useNavigation } from '@react-navigation/native';
+import { npsEnviarRespostas } from '../../config/DataApp';
 
 
 import { map } from 'lodash';
 import Empty from '../../components/Empty';
+import AppLoading from '../../components/AppLoading';
 
 
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 import { useKeepAwake } from 'expo-keep-awake';
+// import { MaskedTextInput } from "react-native-mask-text";
 
 
 export default function CaixaDeTexto(props) {
 
     useKeepAwake();
+
+    console.log('======== PAGINA - CAIXA DE TEXTO =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -41,13 +46,15 @@ export default function CaixaDeTexto(props) {
 
     const replaceDescription = (description) => {
 
-        var new_description = description.replace("<span style=\"font-size: 18px;\">", "")
-        var new_description = description.replace("</span>", "")
-        var new_description = description.replace("<b>", "")
-        var new_description = description.replace("</b>", "")
+        var new_description = description.replace('<span style="font-size: 18px;">', "")
+        var new_description = new_description.replace("</span>", "")
+        var new_description = new_description.replace("<b>", "")
+        var new_description = new_description.replace("</b>", "")
 
         return new_description;
     }
+
+
 
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
@@ -86,7 +93,7 @@ export default function CaixaDeTexto(props) {
 
             if (result) {
                 // console.log(result)
-                codFilial = result
+                codFilial = parseInt(result)
 
             } else {
                 codFilial = null
@@ -114,7 +121,7 @@ export default function CaixaDeTexto(props) {
 
             if (result) {
                 // console.log(result)
-                codCliente = result
+                codCliente = parseInt(result)
 
             } else {
                 codCliente = null
@@ -151,7 +158,7 @@ export default function CaixaDeTexto(props) {
 
             if (result) {
                 // console.log(result)
-                codPontoContato = result
+                codPontoContato = parseInt(result)
 
             } else {
                 codPontoContato = null
@@ -176,7 +183,7 @@ export default function CaixaDeTexto(props) {
         }
         )
 
-        var resposta = {
+        var dataResposta = {
             "codClienteFastQuest": codCliente,
             "codFilial": codFilial,
             "contato": contato,
@@ -188,26 +195,26 @@ export default function CaixaDeTexto(props) {
             "respostas": respostas
         }
 
-        console.log(resposta)
+        // console.log(resposta)
 
 
         if (respostas.length > 0) {
 
-            npsEnviarRespostas(token, respostas).then((response) => {
+            npsEnviarRespostas(token, dataResposta).then((response) => {
 
-                console.log("resposta enviada")
+                console.log("[*] RESPOSTA ENVIADA : ")
                 console.log(response)
 
             }).catch((error) => {
 
-                console.log("erro ao enviar resposta")
+                console.log("[??] ERRO AO ENVIAR RESPOSTA : ")
                 console.log(error)
 
             })
 
 
         } else {
-            console.log("nao tem respostas, ent n enviou")
+            console.log("[*] NÃO EXISTE RESPOSTA PARA ENVIAR : ")
 
         }
 
@@ -223,73 +230,78 @@ export default function CaixaDeTexto(props) {
         const interval = setInterval(() => {
 
 
-            var savedData = "";
-            var current = "";
+            AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
 
 
-            AsyncStorage.getItem('expiration', (error, result) => {
+                if (Xexpiracao) {
+                
+                    AsyncStorage.getItem('currentIndex', (error, Xindex) => {
 
-                if (result) {
-                    // console.log(result);
-                    savedData = result
+                        if (Xindex) {
+
+                            const currentTimestamp = Math.floor(Date.now() / 1000); 
+                            console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
+
+                            if (currentTimestamp >= Xexpiracao) {
+
+
+                                if (Xindex != 0) {
+                                    sendResposta()
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp)
+                                    );
+
+                                    console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
+
+                                } else {
+                                    
+                                    console.log('[*] EXPIROU O TEMPO, MAS ESTÁ NA 1 PERGUNTA... ' + Xexpiracao)
+
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp)
+                                    );
+
+
+                                    console.log('[*] CRIANDO UMA NOVA EXPIRAÇÃO... ' + expiryTimeInTimestamp)
+                                }
+                            } else {
+                                console.log('.')
+                            }
+
+
+
+
+                        } else {
+                            console.log('[????] ERROR GET CURRENT INDEX');
+                        }
+
+                    });
 
                 } else {
-                    // savedData = "99"
+                    console.log('[????] ERROR GET CURRENT EXPIRATION');
                 }
 
             });
 
-            AsyncStorage.getItem('currentIndex', (error, result) => {
-
-                if (result) {
-                    // console.log(result);
-                    current = result
-
-                } else {
-                    // savedData = "99"
-                }
-
-            });
-
-            //  console.log(savedData)
-
-            const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
-
-            if (currentTimestamp >= savedData) {
-                console.log('   expirouuuuuu')
-
-                if (current != 0) {
-                    sendResposta()
-                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                    const now = new Date();
-                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
 
 
-                    AsyncStorage.setItem(
-                        'expiration',
-                        JSON.stringify(expiryTimeInTimestamp)
-                    );
-                } else {
-                    console.log('current é 0, nao precisa resetar')
-                    console.log('renovando counter')
 
-                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                    const now = new Date();
-                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
-
-
-                    AsyncStorage.setItem(
-                        'expiration',
-                        JSON.stringify(expiryTimeInTimestamp)
-                    );
-                }
-            } else {
-                //  console.log(' nao  expirouuuuuu')
-            }
 
         }, 10000);
 
@@ -297,6 +309,8 @@ export default function CaixaDeTexto(props) {
     }, [countDown]);
 
     //  End Expiration Pack
+
+
 
     useEffect(() => {
 
@@ -334,14 +348,13 @@ export default function CaixaDeTexto(props) {
         function getQuestion() {
             setQuestion([]);
             setQuestion(props.route.params);
+            setLoading(true)
         }
 
         getQuestion()
 
 
     }, []);
-
-
 
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
@@ -559,51 +572,64 @@ export default function CaixaDeTexto(props) {
     }
     // console.log(orientation)
 
+    if (!loading) {
 
-    return (
+        return (
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF' }}>
-                <Header />
-                <ScrollView style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+            <AppLoading />
 
+        );
 
-                    {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
+    } else {
 
-                    <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
+        return (
 
-                    <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
-
-                    <TextInput
-                        multiline={true}
-                        numberOfLines={30}
-                        textAlignVertical={"top"}
-                        value={resposta}
-                        onChangeText={text => setResposta(text)}
-                        style={screenWidth >= 768 ? Styles.InputSugestionTablet : Styles.InputSugestion}
-                    />
-
-                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
-                        {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
-                        <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
-                        <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
-                        {/* </View> */}
-                    </TouchableOpacity>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                    <Header />
+                    <ScrollView style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }}  >
+                        {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
 
-                        <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+                        <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
-                    </TouchableOpacity>
+                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
 
-                </ScrollView>
-                <Footer />
-            </SafeAreaView>
-        </ScrollView>
+                        <TextInput
+                            multiline={true}
+                            // numberOfLines={4}
+                            textAlignVertical="top"
+                            value={resposta}
+                            onChangeText={(text) => {
+                                console.log(text);
+                                setResposta(text)
+                            }}
+                            style={screenWidth >= 768 ? Styles.InputSugestionTablet : Styles.InputSugestion}
+                        />
 
-    );
+                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
+                            {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                            <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                            <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                            {/* </View> */}
+                        </TouchableOpacity>
 
+
+                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }}  >
+
+                            <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+
+                        </TouchableOpacity>
+
+                    </ScrollView>
+                    <Footer />
+                </SafeAreaView>
+            </ScrollView>
+
+        );
+
+    }
 
 
 }

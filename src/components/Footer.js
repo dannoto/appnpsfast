@@ -64,7 +64,7 @@ export default function Filiais(props) {
         return (
 
             <View style={{  }}>
-                <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 5, paddingTop:15,paddingLeft:10, paddingRight:10, paddingBottom:10, flexDirection: 'row', justifyContent:'space-between',  }}>
+                <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 5, paddingTop:15,paddingLeft:10, paddingRight:10, paddingBottom:10, flexDirection: 'row', justifyContent:'space-between', backgroundColor: ColorsApp.BACK  }}>
                    
                         <TouchableOpacity onPress={() => { toFiliais()}}>
                             <Image resizeMode={"contain"}  source={require('./../../assets/logo.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>

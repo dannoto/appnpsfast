@@ -213,6 +213,8 @@ export default function Pontos(props) {
                                         JSON.stringify(expiryTimeInTimestamp )
                                     );
 
+                                    console.log('[*] SETANDO EXPIRATION INICAL: ' + expiryTimeInTimestamp)
+
                                     AsyncStorage.setItem(
                                         'dataQuestions',
                                         JSON.stringify(
@@ -305,10 +307,9 @@ export default function Pontos(props) {
 
                     <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
 
-
                         {map(pontosdeContato, (item, i) => (
 
-                            <View key={i} style={screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox}>
+                            <View key={i} style={[screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox, { alignItems: 'center', justifyContent: 'center' }]}>
                                 <TouchableOpacity onPress={() => StartPesquisa(item.codPontoContato)}>
                                     <IconButton icon="crosshairs-gps" iconColor={ColorsApp.SECONDARY} size={IconSize} style={Styles.FiliaisBoxIcon} />
                                     <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >{item.descPontoContato} </Text>

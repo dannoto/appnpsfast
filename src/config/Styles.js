@@ -28,7 +28,7 @@ export default StyleSheet.create({
         height: screenHeight / 5,
         maxHeight: '100%',
         marginBottom: 50,
-        marginTop:50
+        marginTop: 50
     },
 
     RecuperacaoLogo: {
@@ -36,7 +36,7 @@ export default StyleSheet.create({
         height: screenHeight / 5,
         maxHeight: '100%',
         marginBottom: 20,
-        marginTop:10
+        marginTop: 10
     },
 
 
@@ -49,7 +49,7 @@ export default StyleSheet.create({
     },
 
 
-    
+
     RecuperacaoContentTablet: {
         marginHorizontal: 50
     },
@@ -67,10 +67,10 @@ export default StyleSheet.create({
     },
 
     HomeSubtitleTablet: { fontSize: 30, fontWeight: 'bold' },
-    HomeSubtitle:{ fontSize: 18, fontWeight: 'bold' },
+    HomeSubtitle: { fontSize: 18, fontWeight: 'bold' },
 
     HomeTitleTablet: { textTransform: 'uppercase', fontSize: 30, fontWeight: 'bold' },
-    HomeTitle:{ textTransform: 'uppercase', fontSize: 18, fontWeight: 'bold' },
+    HomeTitle: { textTransform: 'uppercase', fontSize: 18, fontWeight: 'bold' },
 
 
 
@@ -78,7 +78,7 @@ export default StyleSheet.create({
         marginBottom: 20,
         backgroundColor: "transparent",
         height: 56,
-        fontSize:16
+        fontSize: 16
     },
 
     TabletAuthInput: {
@@ -986,14 +986,14 @@ export default StyleSheet.create({
         width: '46%',
         margin: '2%',
         backgroundColor: ColorsApp.PRIMARY,
-        padding:5
+        padding: 5
     },
 
     FiliaisBoxTablet: {
         width: '46%',
         margin: '2%',
         backgroundColor: ColorsApp.PRIMARY,
-        padding:5
+        padding: 5
     },
 
     FiliaisTextBox: {
@@ -1017,22 +1017,22 @@ export default StyleSheet.create({
         fontSize: 50,
         color: '#f5a31f',
         // backgroundColor: '#f5a31f',
-        
+
         marginTop: 25,
         marginBottom: 15
     },
 
-     IconObrigado: {
-        
-        marginTop:30,
+    IconObrigado: {
+
+        marginTop: 30,
         marginBottom: 15
     },
 
 
     IconObrigadoTablet: {
 
-        
-        marginTop:30,
+
+        marginTop: 30,
         marginBottom: 30
 
     },
@@ -1051,18 +1051,18 @@ export default StyleSheet.create({
     },
 
     ContainerObrigadoTablet: {
-        flex: 1, 
+        flex: 1,
         marginHorizontal: 50,
-         marginTop: 20
-    },
-
- ContainerObrigado: {
-        flex: 1, 
-        marginHorizontal: 25, 
         marginTop: 20
     },
 
-   
+    ContainerObrigado: {
+        flex: 1,
+        marginHorizontal: 25,
+        marginTop: 20
+    },
+
+
     TitleObrigado: {
         fontSize: 12, fontWeight: 'bold', marginTop: 10, textTransform: 'uppercase', textAlign: 'center'
     },
@@ -1075,16 +1075,16 @@ export default StyleSheet.create({
         fontSize: 12, fontWeight: 'bold', textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
     },
 
-   
+
     ImageHeaderTablet: {
         width: '50%',
         height: 120,
-        marginBottom:10
+        marginBottom: 10
     },
     ImageHeader: {
         width: '50%',
         height: 60,
-        marginBottom:5
+        marginBottom: 5
     },
 
 
@@ -1138,33 +1138,34 @@ export default StyleSheet.create({
     },
 
     InputSugestionTablet: {
+        marginTop: 20,
+        marginBottom: 30,
+
         height: 200,
         width: '100%',
         borderColor: ColorsApp.PRIMARY,
-        borderWidth: 2,
-        marginTop: 20,
-        marginBottom:30,
-        flex:1,
-        paddingTop: 0, paddingBottom:0,
-        padding:0,
+        borderWidth: 1,
+  
         backgroundColor: 'transparent',
-        textAlignVertical: 'top',
-        fontSize: 22
+        fontSize: 22,
+        padding:10
+
     },
 
     InputSugestion: {
+     
+        marginTop: 20,
+        marginBottom: 30,
+
         height: 200,
         width: '100%',
         borderColor: ColorsApp.PRIMARY,
-        borderWidth: 2,
-        marginTop: 20,
-        marginBottom:30,
-        flex:1,
-        paddingTop: 0, paddingBottom:0,
-        padding:0,
-        fontSize: 15,
+        borderWidth: 1,
+  
         backgroundColor: 'transparent',
-        textAlignVertical: 'top'
+        fontSize: 15,
+        padding:10
+
 
     },
 
@@ -1190,7 +1191,7 @@ export default StyleSheet.create({
         fontSize: 25,
         marginTop: 20,
         fontWeight: 'bold',
-        marginBottom:20,
+        marginBottom: 20,
         color: ColorsApp.PRIMARY
     },
     NextSugestion: {
@@ -1198,11 +1199,11 @@ export default StyleSheet.create({
         fontSize: 15,
         marginTop: 10,
         fontWeight: 'bold',
-        marginBottom:20,
+        marginBottom: 20,
         color: ColorsApp.PRIMARY
     },
 
-   
+
     ButtonSugestionTablet: {
         marginTop: 30,
         padding: 15,
@@ -1226,29 +1227,29 @@ export default StyleSheet.create({
 
 
     // StepNPS
-    
+
     TitleNPS: { fontSize: 17, marginTop: 15, marginBottom: 15, fontWeight: 'normal', textAlign: 'center' },
-    
+
     DivNPS: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
-    
+
     ItemNPS: { height: 40, width: '9%' },
-    
+
     ItemNPSPortraitUp: { height: 40, width: '15%' },
     ItemNPSPortraitDown: { height: 40, width: '15%' },
-    
-    
+
+
     ItemTouchNPS: { height: 40, flex: 1, justifyContent: 'center', margin: 1 },
 
     ItemTextNPS: { textAlign: 'center', fontWeight: 'bold', color: '#FFF' },
 
-    
-    
+
+
     // ContainerNPSTablet: {flex:1,height:'100%', paddingTop: 30, marginHorizontal: 20 },
-    ContainerNPSFullTablet: {flex:1,height:'100%', paddingTop: 20, marginHorizontal: 50 },
-    ContainerNPSFull: {flex:1,height:'100%', paddingTop: 20, marginHorizontal: 20 },
-    
+    ContainerNPSFullTablet: { flex: 1, height: '100%', paddingTop: 20, marginHorizontal: 50 },
+    ContainerNPSFull: { flex: 1, height: '100%', paddingTop: 20, marginHorizontal: 20 },
+
     ContainerNPS: { paddingTop: 30, marginHorizontal: 15 },
-    ContainerNPSTablet: {flex:1,height:'100%', paddingTop: 30, marginHorizontal: 30 },
+    ContainerNPSTablet: { flex: 1, height: '100%', paddingTop: 30, marginHorizontal: 30 },
 
 
     TitleNPSTablet: { fontSize: 27, marginTop: 30, marginBottom: 30, fontWeight: 'normal', textAlign: 'center' },
@@ -1305,7 +1306,7 @@ export default StyleSheet.create({
         fontSize: 27,
         fontWeight: 'normal',
         marginTop: 20,
-        
+
     },
 
     TitleContact: {
@@ -1313,40 +1314,40 @@ export default StyleSheet.create({
         fontSize: 17,
         fontWeight: 'normal',
         marginTop: 20,
-        
+
     },
 
 
-    
+
     SubTitleFullNpsTablet: {
         textAlign: 'center',
         fontSize: 25,
         fontWeight: 'normal',
         marginTop: 5,
-       
+
     },
 
-   SubTitleFullNps: {
+    SubTitleFullNps: {
         textAlign: 'center',
         fontSize: 15,
         fontWeight: 'normal',
         marginTop: 5,
-       
+
     },
-   SubTitleContactTablet: {
+    SubTitleContactTablet: {
         textAlign: 'center',
         fontSize: 25,
         fontWeight: 'normal',
         marginTop: 5,
-        marginBottom:10
+        marginBottom: 10
     },
 
-   SubTitleContact: {
+    SubTitleContact: {
         textAlign: 'center',
         fontSize: 15,
         fontWeight: 'normal',
         marginTop: 5,
-        marginBottom:10
+        marginBottom: 10
     },
 
     // Contact
@@ -1359,12 +1360,12 @@ export default StyleSheet.create({
         borderColor: ColorsApp.PRIMARY,
         borderWidth: 2,
         marginTop: 10,
-        borderWidth:2,
+        borderWidth: 2,
         borderColor: ColorsApp.PRIMARY,
         backgroundColor: 'transparent',
         // textAlignVertical: 'top',
         fontSize: 22,
-        padding:12
+        padding: 12
     },
 
     InputDefault: {
@@ -1373,16 +1374,16 @@ export default StyleSheet.create({
         borderColor: ColorsApp.PRIMARY,
         borderWidth: 2,
         marginTop: 10,
-        borderWidth:2,
+        borderWidth: 2,
         borderColor: ColorsApp.PRIMARY,
         fontSize: 15,
         backgroundColor: 'transparent',
         // textAlignVertical: 'top',
-        padding:12
+        padding: 12
 
     },
 
-     ButtonIconSugestionTablet: {
+    ButtonIconSugestionTablet: {
         color: ColorsApp.PRIMARY
     },
     ButtonIconSugestion: {
@@ -1395,9 +1396,9 @@ export default StyleSheet.create({
         marginBottom: 10,
         height: 70,
         // flex:1,
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         // justifyContent:'space-between',
         borderWidth: 2,
         borderColor: ColorsApp.PRIMARY,
@@ -1408,9 +1409,9 @@ export default StyleSheet.create({
         padding: 15,
         marginBottom: 10,
         height: 50,
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         borderWidth: 2,
         borderColor: ColorsApp.PRIMARY,
     },
@@ -1440,26 +1441,26 @@ export default StyleSheet.create({
 
     // 
     TextFull: { fontSize: 15, fontWeight: 'normal' },
-    TextFullTablet:{ fontSize: 25, fontWeight: 'normal' },
+    TextFullTablet: { fontSize: 25, fontWeight: 'normal' },
 
     DivFull: { marginTop: 10, marginBottom: 15 },
-    DivFullTablet: { marginTop: 10, marginBottom: 15, marginHorizontal:50 },
+    DivFullTablet: { marginTop: 10, marginBottom: 15, marginHorizontal: 50 },
 
     ItemFull: { flex: 1, height: 20, width: '100%', flexDirection: 'row' },
     ItemFullTablet: { flex: 1, height: 20, width: '100%', flexDirection: 'row' },
 
-    ItemLabel: { flex: 50, justifyContent: 'center', width:'70%'},
-    ItemLabelTablet: { flex: 70, justifyContent: 'center', width:'70%'},
+    ItemLabel: { flex: 50, justifyContent: 'center', width: '70%' },
+    ItemLabelTablet: { flex: 70, justifyContent: 'center', width: '70%' },
 
-    ItemFace: { flex: 50, flexDirection: 'row', justifyContent:'flex-center', width:'30%' },
-    ItemFaceTablet: { flex: 30, flexDirection: 'row', justifyContent:'flex-center', width:'30%' },
+    ItemFace: { flex: 50, flexDirection: 'row', justifyContent: 'flex-center', width: '30%' },
+    ItemFaceTablet: { flex: 30, flexDirection: 'row', justifyContent: 'flex-center', width: '30%' },
 
     emptyTitleTablet: {
-        fontSize:27
+        fontSize: 27
     },
 
     emptyTitle: {
-        fontSize:17,
+        fontSize: 17,
     },
 
 

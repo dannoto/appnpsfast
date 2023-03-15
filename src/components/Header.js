@@ -58,7 +58,7 @@ export default function Header(props) {
         return (
 
             <View >
-                <View style={{ width:'100%' , margin:'auto', marginTop:20, borderBottomColor: '#d1d1d1', borderBottomWidth: 1 }}>
+                <View style={{ width:'100%' , backgroundColor: ColorsApp.BACK, margin:'auto', marginTop:20, borderBottomColor: '#d1d1d1', borderBottomWidth: 1 }}>
                     <View style={{  flexDirection: 'row', justifyContent: 'center', marginTop:10, marginBottom: 10 }}>
                             <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={ screenWidth >= 768 ? Styles.ImageHeaderTablet : Styles.ImageHeader} ></Image>
                     </View>

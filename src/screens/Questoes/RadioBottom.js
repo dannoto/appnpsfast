@@ -6,6 +6,7 @@ import ColorsApp from '../../config/ColorsApp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useNavigation } from '@react-navigation/native';
+import { npsEnviarRespostas } from '../../config/DataApp';
 
 
 import { map } from 'lodash';
@@ -18,6 +19,9 @@ import Header from '../../components/Header';
 import Loading from '../../components/AppLoading';
 
 import { useKeepAwake } from 'expo-keep-awake';
+import AppLoading from '../../components/AppLoading';
+
+
 
 export default function RadioBottom(props) {
 
@@ -29,11 +33,12 @@ export default function RadioBottom(props) {
     // console.log('FIM QUESTAO')
 
     useKeepAwake();
+    console.log('======== PAGINA - RADIO BOTTOM =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -42,6 +47,10 @@ export default function RadioBottom(props) {
     const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
+
+
+    const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
+
 
 
 
@@ -84,7 +93,7 @@ export default function RadioBottom(props) {
 
             if (result) {
                 // console.log(result)
-                codFilial = result
+                codFilial = parseInt(result)
 
             } else {
                 codFilial = null
@@ -112,7 +121,7 @@ export default function RadioBottom(props) {
 
             if (result) {
                 // console.log(result)
-                codCliente = result
+                codCliente = parseInt(result)
 
             } else {
                 codCliente = null
@@ -149,7 +158,7 @@ export default function RadioBottom(props) {
 
             if (result) {
                 // console.log(result)
-                codPontoContato = result
+                codPontoContato = parseInt(result)
 
             } else {
                 codPontoContato = null
@@ -174,7 +183,7 @@ export default function RadioBottom(props) {
         }
         )
 
-        var resposta = {
+        var dataResposta = {
             "codClienteFastQuest": codCliente,
             "codFilial": codFilial,
             "contato": contato,
@@ -186,26 +195,23 @@ export default function RadioBottom(props) {
             "respostas": respostas
         }
 
-        console.log(resposta)
-
-
         if (respostas.length > 0) {
 
-            npsEnviarRespostas(token, respostas).then((response) => {
+            npsEnviarRespostas(token, dataResposta).then((response) => {
 
-                console.log("resposta enviada")
+                console.log("[*] RESPOSTA ENVIADA : ")
                 console.log(response)
 
             }).catch((error) => {
 
-                console.log("erro ao enviar resposta")
+                console.log("[??] ERRO AO ENVIAR RESPOSTA : ")
                 console.log(error)
 
             })
 
 
         } else {
-            console.log("nao tem respostas, ent n enviou")
+            console.log("[*] NÃO EXISTE RESPOSTA PARA ENVIAR : ")
 
         }
 
@@ -218,76 +224,84 @@ export default function RadioBottom(props) {
 
 
     useEffect(() => {
+
         const interval = setInterval(() => {
 
 
-            var savedData = "";
-            var current = "";
 
 
-            AsyncStorage.getItem('expiration', (error, result) => {
 
-                if (result) {
-                    // console.log(result);
-                    savedData = result
+            AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
+
+
+                if (Xexpiracao) {
+                
+                    AsyncStorage.getItem('currentIndex', (error, Xindex) => {
+
+                        if (Xindex) {
+
+                            const currentTimestamp = Math.floor(Date.now() / 1000); 
+                            console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
+
+                            if (currentTimestamp >= Xexpiracao) {
+
+
+                                if (Xindex != 0) {
+                                    sendResposta()
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp)
+                                    );
+
+                                    console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
+
+                                } else {
+                                    
+                                    console.log('[*] EXPIROU O TEMPO, MAS ESTÁ NA 1 PERGUNTA... ' + Xexpiracao)
+
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp)
+                                    );
+
+
+                                    console.log('[*] CRIANDO UMA NOVA EXPIRAÇÃO... ' + expiryTimeInTimestamp)
+                                }
+                            } else {
+                                console.log('.')
+                            }
+
+
+
+
+                        } else {
+                            console.log('[????] ERROR GET CURRENT INDEX');
+                        }
+
+                    });
 
                 } else {
-                    // savedData = "99"
+                    console.log('[????] ERROR GET CURRENT EXPIRATION');
                 }
 
             });
 
-            AsyncStorage.getItem('currentIndex', (error, result) => {
-
-                if (result) {
-                    // console.log(result);
-                    current = result
-
-                } else {
-                    // savedData = "99"
-                }
-
-            });
-
-            // console.log(savedData)
-
-            const currentTimestamp = Math.floor(Date.now() / 1000); // get current UNIX timestamp. Divide by 1000 to get seconds and round it down
-
-            if (currentTimestamp >= savedData) {
-                console.log('   expirouuuuuu')
-
-                if (current != 0) {
-                    sendResposta()
-                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                    const now = new Date();
-                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
 
 
-                    AsyncStorage.setItem(
-                        'expiration',
-                        JSON.stringify(expiryTimeInTimestamp)
-                    );
-                } else {
-                    console.log('current é 0, nao precisa resetar')
-                    console.log('renovando counter')
-
-                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                    const now = new Date();
-                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
-
-
-                    AsyncStorage.setItem(
-                        'expiration',
-                        JSON.stringify(expiryTimeInTimestamp)
-                    );
-                }
-            } else {
-                // console.log(' nao  expirouuuuuu')
-            }
 
         }, 10000);
 
@@ -295,6 +309,10 @@ export default function RadioBottom(props) {
     }, [countDown]);
 
     //  End Expiration Pack
+
+
+
+
 
     useEffect(() => {
 
@@ -332,21 +350,16 @@ export default function RadioBottom(props) {
         function getQuestion() {
             setQuestion([]);
             setQuestion(props.route.params);
-            console.log('paraaaaaaaaaaamsssssssssss')
-            console.log(props.route.params)
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
         }
 
         getQuestion()
-        setLoading(false)
+
 
 
     }, []);
-
-
-    // useEffect(() => {
-
-    //   }, []);
-
 
 
     const navigation = useNavigation();
@@ -407,10 +420,10 @@ export default function RadioBottom(props) {
 
     const replaceDescription = (description) => {
 
-        var new_description = description.replace("<span style=\"font-size: 18px;\">", "")
-        var new_description = description.replace("</span>", "")
-        var new_description = description.replace("<b>", "")
-        var new_description = description.replace("</b>", "")
+        var new_description = description.replace('<span style="font-size: 18px;">', "")
+        var new_description = new_description.replace("</span>", "")
+        var new_description = new_description.replace("<b>", "")
+        var new_description = new_description.replace("</b>", "")
 
         return new_description;
     }
@@ -584,7 +597,7 @@ export default function RadioBottom(props) {
 
 
 
-    if (loading) {
+    if (!loading) {
         return (
             <Loading />
 
@@ -597,7 +610,7 @@ export default function RadioBottom(props) {
 
 
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: '#FFF', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Header />
                     <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                         <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
@@ -607,7 +620,10 @@ export default function RadioBottom(props) {
                             {map(question.opcoes, (item, i) => (
 
                                 < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
-                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, Styles.LabelNPS + "" + i + ""]}>
+
+
+                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
+
                                         <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
                                     </TouchableOpacity>
                                 </View>

@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
+import ColorsApp from '../config/ColorsApp';
+
 import { npsLogin } from '../config/DataApp'
 import Loading from '../components/AppLoading';
 import { useKeepAwake } from 'expo-keep-awake';
@@ -12,6 +14,8 @@ import { useKeepAwake } from 'expo-keep-awake';
 
 export default function Login(props) {
     useKeepAwake();
+
+    console.log('======== PAGINA - LOGIN =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -180,7 +184,7 @@ if (loading) {
 
 
     return (
-        <ScrollView style={{ backgroundColor: '#FFF' }}>
+        <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
 
 
             <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30 }}>

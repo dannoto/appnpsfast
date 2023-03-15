@@ -8,6 +8,7 @@ import Recuperacao from '../screens/Recuperacao';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import ColorsApp from '../config/ColorsApp';
 
 import Home from '../screens/Home';
 import PontosContato from '../screens/PontosContato';
@@ -65,7 +66,7 @@ export default function DrawerNavigation(props) {
 		AsyncStorage.removeItem('codFilial');
 		AsyncStorage.removeItem('auth');
 
-		 onChangeScreen('login')
+		onChangeScreen('login')
 	}
 
 	const ButtonLogout = () => {
@@ -98,21 +99,22 @@ export default function DrawerNavigation(props) {
 
 		<RootStack.Navigator screenOptions={(route) => { return navigatorOptions }}>
 
+ 
       <RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />
-			<RootStack.Screen name="recuperacao" component={Recuperacao} options={{ title: null, headerLeft: () => buttonBack() }} />
-			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: false, Style: {headerBackground:'#FFFF'}, headerLeft: ()=> ButtonLogout() }} />
-      <RootStack.Screen name="pontoscontato" component={PontosContato} options={{ title: null, headerLeft: () => buttonBack() }}  />
-      <RootStack.Screen name="runpesquisa" component={RunPesquisa} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="recuperacao" component={Recuperacao} options={{ title: null, headerTransparent: true,   headerLeft: () => buttonBack() }} />
+			<RootStack.Screen name="home" component={Home} options={{ title: null,  headerTransparent: true,  headerLeft: ()=> ButtonLogout() }} />
+      <RootStack.Screen name="pontoscontato" component={PontosContato} options={{ title: null, headerTransparent: true,  headerLeft: () => buttonBack() }}  />
+      <RootStack.Screen name="runpesquisa" component={RunPesquisa} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
 			
-			<RootStack.Screen name="radiobottom" component={RadioBottom} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="caixadetexto" component={CaixaDeTexto} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="check" component={CheckBox} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="label" component={Label} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="emoji" component={Emoji} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="radiobottom" component={RadioBottom} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="caixadetexto" component={CaixaDeTexto} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="check" component={CheckBox} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="label" component={Label} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="emoji" component={Emoji} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
 
 
-			<RootStack.Screen name="stepcontact" component={StepContact} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
-			<RootStack.Screen name="stepobrigado" component={StepObrigado} options={{ title: null, headerTransparent: true, headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="stepcontact" component={StepContact} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
+			<RootStack.Screen name="stepobrigado" component={StepObrigado} options={{ title: null, headerTransparent: true,  headerLeft: ()=> null, }}  />
 
 
 

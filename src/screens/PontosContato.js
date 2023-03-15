@@ -14,8 +14,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useKeepAwake } from 'expo-keep-awake';
 
 export default function PontosContato(props) {
-    useKeepAwake();
 
+
+    useKeepAwake();
+    
+    console.log('======== PAGINA -PONTOS DE CONTATO =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -26,7 +29,7 @@ export default function PontosContato(props) {
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
     };
-    // const isFocused = useIsFocused();
+
 
     useEffect(() => {
 
@@ -108,21 +111,13 @@ export default function PontosContato(props) {
         return (
 
 
-            <ScrollView style={{ backgroundColor: '#FFF' }}>
-                <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
+            <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
 
 
                     <View style={screenWidth >= 768 ? Styles.HomeContentTablet : Styles.HomeContent}>
-                        {/* <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
-                                <Text style={screenWidth >= 768 ? Styles.HomeTitleTablet : Styles.HomeTitle}>olá <Text style={{ color: ColorsApp.PRIMARY }}>Bem-vindo</Text>,</Text>
-
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <Image source={require('./../../assets/logo.png')} resizeMode={'contain'} style={Styles.AuthLogo} />
-                            </View>
-                        </View> */}
-                        <View style={{ marginBottom: 50, marginTop: 20 }}>
+                       
+                        <View style={{ marginBottom: 50, marginTop: 80 }}>
                             <View>
                                 <Text style={screenWidth >= 768 ? Styles.HomeSubtitleTablet : Styles.HomeSubtitle}>PONTOS DE CONTATO</Text>
                             </View>

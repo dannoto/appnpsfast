@@ -27,6 +27,7 @@ import { useKeepAwake } from 'expo-keep-awake';
 export default function RunPesquisa(props) {
         useKeepAwake();
 
+    console.log('======== PAGINA - RUN PESQUISA =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -236,7 +237,7 @@ export default function RunPesquisa(props) {
 
         return (
             <View>
-                <Text>Estou em run pesquisa</Text>
+                <Text>.</Text>
             </View>
         )
     };

@@ -306,7 +306,9 @@ export async function npsRespostas(token, codCliente) {
 
 export async function npsEnviarRespostas(token, resposta) {
 
-  console.log('call nps enviar resposta')
+  console.log('========== CORPO DA RESPOSTA ENVIADA ==============')
+
+  console.log(resposta)
 
 
   try {
@@ -322,15 +324,22 @@ export async function npsEnviarRespostas(token, resposta) {
         body: JSON.stringify(resposta)
       }
     );
+
+
     let responseJson = await response.json();
 
+    // let responseJson = await response.json();
+    console.log('========== RETURN DA RESPOTA ==============')
+
     console.log(responseJson)
-    // return responseJson;
+    return true;
+
   } catch (error) {
 
     // return error;
-    console.lolg('erro')
+    console.log('========== RETURN COM ERRO DA RESPOTA ==============')
     console.log(error)
+    return  false;
 
   }
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Alert, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
+import ColorsApp from '../config/ColorsApp';
 
 import { npsRecuperacao } from '../config/DataApp'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -10,6 +11,8 @@ import { useKeepAwake } from 'expo-keep-awake';
 export default function Recuperacao(props) {
 
     useKeepAwake();
+
+    console.log('======== PAGINA - RECUPERACAO =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -81,7 +84,7 @@ export default function Recuperacao(props) {
     return (
 
 
-        <ScrollView style={{ backgroundColor: '#FFF' }}>
+        <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
             <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30 }}>
                 <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.RecuperacaoLogo} />
 

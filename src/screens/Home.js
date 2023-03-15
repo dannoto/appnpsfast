@@ -18,6 +18,8 @@ export default function Home(props) {
 
     useKeepAwake();
 
+    console.log('======== PAGINA - HOME =============')
+
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -107,8 +109,8 @@ export default function Home(props) {
 
         return (
 
-            <ScrollView style={{ backgroundColor: '#FFF' }}>
-                <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
+            <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
 
 
                     <View style={screenWidth >= 768 ? Styles.HomeContentTablet : Styles.HomeContent}>

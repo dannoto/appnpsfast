@@ -128,7 +128,7 @@ export default function Filiais(props) {
     const toPontosContato = async (codFilial) => {
 
         // Set Filial
-        AsyncStorage.setItem('codFilial', codFilial)
+        AsyncStorage.setItem('codFilial', JSON.stringify(codFilial))
 
         onChangeScreen('pontoscontato');
 
@@ -154,7 +154,7 @@ export default function Filiais(props) {
 
 
 
-                            <View key={i} style={screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox}>
+                            <View key={i} style={[screenWidth >= 768 ? Styles.FiliaisBoxTablet : Styles.FiliaisBox, { alignItems: 'center', justifyContent: 'center' }]}>
                                 <TouchableOpacity onPress={() => toPontosContato(item.codFilial)}>
                                     <IconButton icon="crosshairs-gps" iconColor={ColorsApp.SECONDARY} size={IconSize} style={Styles.FiliaisBoxIcon} />
                                     <Text style={screenWidth >= 768 ? Styles.FiliaisTextBoxTablet : Styles.FiliaisTextBox} numberOfLines={1} >{item.nomeFilial}</Text>

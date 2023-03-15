@@ -12,10 +12,13 @@ import { npsEnviarRespostas } from '../config/DataApp';
 import { useIsFocused } from "@react-navigation/native";
 import { useKeepAwake } from 'expo-keep-awake';
 
+import AppLoading from '../components/AppLoading';
 
 export default function StepObrigado(props) {
 
     useKeepAwake();
+
+    console.log('======== PAGINA - STEP OBRIGADO =============')
 
     const isFocused = useIsFocused();
 
@@ -28,9 +31,76 @@ export default function StepObrigado(props) {
 
     const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState("");
+    const [countDown, setCountDown] = useState();
+
+
+    useEffect(() => {
+
+        const interval = setInterval(() => {
 
 
 
+
+
+            AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
+
+
+                if (Xexpiracao) {
+
+                    AsyncStorage.getItem('currentIndex', (error, Xindex) => {
+
+                        if (Xindex) {
+
+                            const currentTimestamp = Math.floor(Date.now() / 1000);
+                            console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
+
+                            if (currentTimestamp >= Xexpiracao) {
+
+
+                              
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp)
+                                    );
+
+                                    console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
+
+                                    onChangeScreen('runpesquisa')
+
+                              
+                            } else {
+                                console.log('.')
+                            }
+
+
+
+
+                        } else {
+                            console.log('[????] ERROR GET CURRENT INDEX');
+                        }
+
+                    });
+
+                } else {
+                    console.log('[????] ERROR GET CURRENT EXPIRATION');
+                }
+
+            });
+
+
+
+
+        }, 10000);
+
+        return () => clearInterval(interval);
+    }, [countDown]);
 
 
 
@@ -80,7 +150,7 @@ export default function StepObrigado(props) {
 
                 if (result) {
                     // console.log(result)
-                    codFilial = result
+                    codFilial = parseInt(result)
 
                 } else {
                     codFilial = null
@@ -108,7 +178,7 @@ export default function StepObrigado(props) {
 
                 if (result) {
                     // console.log(result)
-                    codCliente = result
+                    codCliente = parseInt(result)
 
                 } else {
                     codCliente = null
@@ -145,7 +215,7 @@ export default function StepObrigado(props) {
 
                 if (result) {
                     // console.log(result)
-                    codPontoContato = result
+                    codPontoContato = parseInt(result)
 
                 } else {
                     codPontoContato = null
@@ -171,7 +241,7 @@ export default function StepObrigado(props) {
             )
 
 
-            var resposta = {
+            var dataResposta = {
                 "codClienteFastQuest": codCliente,
                 "codFilial": codFilial,
                 "contato": contato,
@@ -183,30 +253,28 @@ export default function StepObrigado(props) {
                 "respostas": respostas
             }
 
-            console.log(resposta)
-
 
             if (respostas.length > 0) {
 
-                npsEnviarRespostas(token, respostas).then((response) => {
+                npsEnviarRespostas(token, dataResposta).then((response) => {
 
-                    console.log("resposta enviada")
+                    console.log("[*] RESPOSTA ENVIADA : ")
                     console.log(response)
 
                 }).catch((error) => {
 
-                    console.log("erro ao enviar resposta")
+                    console.log("[??] ERRO AO ENVIAR RESPOSTA : ")
                     console.log(error)
 
                 })
 
 
             } else {
-                console.log("nao tem respostas, ent n enviou")
+                console.log("[*] NÃO EXISTE RESPOSTA PARA ENVIAR : ")
 
             }
-
             resetRoute();
+            setLoading(true)
 
 
 
@@ -295,41 +363,51 @@ export default function StepObrigado(props) {
 
 
     // }
+    if (!loading) {
+
+        return (
+
+            <AppLoading />
+
+        );
+
+    } else {
+
+        return (
+
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
 
 
-    return (
+                    <Header />
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
+                    <View style={screenWidth >= 768 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
 
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-                <Header />
+                            <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
-                <View style={screenWidth >= 768 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
-
-                    <View style={{ flex: 1 }}>
-
-                        <IconButton icon="check-decagram" iconColor={"green"} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
-
-                        <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
-                        <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>
+                            <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
+                            <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>
 
 
-                        <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
-                            <Text style={screenWidth >= 768 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
+                                <Text style={screenWidth >= 768 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
+                            </TouchableOpacity>
 
 
+                        </View>
                     </View>
-                </View>
 
-                <Footer />
-
+                    <Footer />
 
 
-            </SafeAreaView>
-        </ScrollView>
+
+                </SafeAreaView>
+            </ScrollView>
 
 
-    );
+        );
+
+    }
 }
