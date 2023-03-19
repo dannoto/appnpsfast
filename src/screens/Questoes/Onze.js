@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { npsEnviarRespostas } from '../../config/DataApp';
 
+import {replaceDescription} from '../../config/Replace';
+
 
 import { map } from 'lodash';
 import Empty from '../../components/Empty';
@@ -21,7 +23,6 @@ import Loading from '../../components/AppLoading';
 import { useKeepAwake } from 'expo-keep-awake';
 import AppLoading from '../../components/AppLoading';
 
-import {replaceDescription} from '../../config/Replace';
 
 
 export default function RadioBottom(props) {
@@ -29,12 +30,12 @@ export default function RadioBottom(props) {
     // const { id, nome } = route.params;
 
 
-    // console.log('INICIO QUESTAO')
-    // console.log(props.route.params)
-    // console.log('FIM QUESTAO')
+    console.log('INICIO QUESTAO')
+    console.log(props.route.params)
+    console.log('FIM QUESTAO')
 
     useKeepAwake();
-    console.log('======== PAGINA - RADIO BOTTOM =============')
+    console.log('======== PAGINA - ONZE =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -48,10 +49,6 @@ export default function RadioBottom(props) {
     const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
-
-
-    const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
-
 
 
 
@@ -426,70 +423,9 @@ export default function RadioBottom(props) {
 
 
 
-    const sendNPS = async (codQuestao, resposta) => {
+    const sendNPS = async () => {
 
 
-        // Envia a resposta
-
-        const checkResposta = async (codQuestao, resposta) => {
-
-            try {
-
-                // Pegando Index
-                await AsyncStorage.getItem('dataAnswer', (error, result) => {
-
-
-
-
-
-                    if (result) {
-
-                        console.log('JA TEM RESPOSTA, INSERINDO MAIS')
-
-                        var oldAnswer = JSON.parse(result)
-
-                        oldAnswer.answers.push({
-                            "codQuestao": codQuestao,
-                            "resposta": "" + resposta + ""
-                        });
-
-                        const newDataAnswer = oldAnswer
-
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(newDataAnswer)
-                        );
-
-
-
-                    } else {
-
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(
-                                {
-                                    answers: [
-                                        {
-                                            "codQuestao": codQuestao,
-                                            "resposta": "" + resposta + ""
-                                        }]
-                                }
-
-                            )
-                        );
-
-                    }
-
-                })
-
-            } catch (error) {
-
-                console.log('NAO TEM RESPOSTA, INSERINDO A PRIMEIRA')
-
-            }
-
-
-        }
 
 
         // Gerencia o route
@@ -579,7 +515,6 @@ export default function RadioBottom(props) {
         }
 
 
-        checkResposta(codQuestao, resposta)
         manageRoute()
 
 
@@ -614,19 +549,9 @@ export default function RadioBottom(props) {
 
                         <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
 
-                            {map(question.opcoes, (item, i) => (
-
-                                < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
-
-
-                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
-
-                                        <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                            ))}
-
+                            <TouchableOpacity onPress={() => sendNPS() } style={screenWidth >= 768 ? Styles.OnzeTabletButton : Styles.OnzeButton}>
+                                <Text style={screenWidth >= 768 ? Styles.OnzeTabletButtonText : Styles.OnzeButtonText}>COMEÇAR</Text>
+                            </TouchableOpacity>
 
 
                         </View>

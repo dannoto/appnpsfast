@@ -94,10 +94,10 @@ export default function Recuperacao(props) {
                     <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
 
 
-                    <Button mode="contained" onPress={() => Recuperacao()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
+                    <TouchableOpacity mode="contained" onPress={() => Recuperacao()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
                         <Text style={screenWidth >= 768 ? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >RECUPERAR</Text>
 
-                    </Button>
+                    </TouchableOpacity>
 
                 </View>
 

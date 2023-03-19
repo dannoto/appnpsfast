@@ -122,7 +122,7 @@ export default function Login(props) {
                             JSON.stringify(response)
                         );
 
-                        onChangeScreen('home')
+                        // onChangeScreen('home')
 
 
 
@@ -185,7 +185,7 @@ export default function Login(props) {
             <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
 
 
-                <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30 }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30,paddingVertical:60 }}>
                     <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
 
                     <View style={screenWidth >= 768 ? Styles.AuthContentTablet : Styles.AuthContent}>
@@ -198,10 +198,10 @@ export default function Login(props) {
                         <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
                             <Text style={screenWidth >= 768 ? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
                         </TouchableOpacity>
-                        <Button mode="contained" onPress={() => Authenticando()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={screenWidth >= 768 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
+                        <TouchableOpacity mode="contained" onPress={() => Authenticando()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={screenWidth >= 768 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
                             <Text style={screenWidth >= 768 ? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
 
-                        </Button>
+                        </TouchableOpacity>
 
                     </View>
 

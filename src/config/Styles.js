@@ -11,6 +11,24 @@ const PrimaryColor = ColorsApp.PRIMARY;
 
 export default StyleSheet.create({
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    OnzeTabletButton: { width: '80%', marginLeft: '10%', backgroundColor: ColorsApp.PRIMARY, height: 50, padding: 10 },
+    OnzeButton: { width: '80%', marginLeft: '10%', backgroundColor: ColorsApp.PRIMARY, height: 50, padding: 10 },
+
+    OnzeTabletButtonText: { color: '#FFF', textAlign: 'center', verticalAlign: 'middle', fontSize: 23 },
+    OnzeButtonText: { color: '#FFF', textAlign: 'center', verticalAlign: 'middle', fontSize: 16 },
     //////////////////////// LOGIN/SIGNUP
 
     AuthTitle: {
@@ -25,7 +43,7 @@ export default StyleSheet.create({
 
     AuthLogo: {
         width: '100%',
-        height: screenHeight / 5,
+        height: screenHeight / 7,
         maxHeight: '100%',
         marginBottom: 50,
         marginTop: 50
@@ -33,10 +51,11 @@ export default StyleSheet.create({
 
     RecuperacaoLogo: {
         width: '100%',
-        height: screenHeight / 5,
+        height: screenHeight / 7,
+
         maxHeight: '100%',
         marginBottom: 20,
-        marginTop: 10
+        marginTop: 120
     },
 
 
@@ -1150,15 +1169,15 @@ export default StyleSheet.create({
         width: '100%',
         borderColor: ColorsApp.PRIMARY,
         borderWidth: 1,
-  
+
         backgroundColor: 'transparent',
         fontSize: 22,
-        padding:10
+        padding: 10
 
     },
 
     InputSugestion: {
-     
+
         marginTop: 20,
         marginBottom: 30,
 
@@ -1166,10 +1185,10 @@ export default StyleSheet.create({
         width: '100%',
         borderColor: ColorsApp.PRIMARY,
         borderWidth: 1,
-  
+
         backgroundColor: 'transparent',
         fontSize: 15,
-        padding:10
+        padding: 10
 
 
     },
@@ -1254,6 +1273,52 @@ export default StyleSheet.create({
 
     ItemNPSPortraitUp: { height: 40, width: '15%' },
     ItemNPSPortraitDown: { height: 40, width: '15%' },
+
+
+
+    HorizontalDezesseisDivNPS: {
+        flex: 1, width: '100%', flexDirection: 'row', margin: 'auto', marginTop: 20
+    },
+    HorizontalDezesseisDivNPSTablet: {
+        flex: 1, width: '100%', flexDirection: 'row', margin: 'auto', marginTop: 20 
+    },
+
+    VerticalDezesseisDivNPS: {
+        flex: 1, width: '100%', flexDirection: 'column', margin: 'auto', marginTop: 20
+    },
+    VerticalDezesseisDivNPSTablet: {
+        flex: 1, width: '100%', flexDirection: 'column', margin: 'auto', marginTop: 20 
+    },
+
+
+
+    VerticalDezesseisItemNPS: {
+       height:100, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
+    },
+    VerticalDezesseisItemNPSTablet: {
+       height:100, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
+    },
+
+    HorizontalDezesseisItemNPS: {
+        height:100, width: '30%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
+     },
+     HorizontalDezesseisItemNPSTablet: {
+        height:100, width: '30%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
+     },
+
+
+    DezesseisItemTouchNPSTablet: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+    DezesseisItemTouchNPS: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+
+    DezesseisItemImagem: {
+        width: '100%',
+        height: '100%',
+        // width:200,
+        // backgroundColor:'orange',
+        // height:200
+        // marginBottom: 20,
+        // marginTop: 120
+    },
 
 
     ItemTouchNPS: { height: 40, flex: 1, justifyContent: 'center', margin: 1 },

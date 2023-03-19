@@ -38,64 +38,41 @@ export default function StepObrigado(props) {
 
         const interval = setInterval(() => {
 
-
-
-
-
-            AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
+            AsyncStorage.getItem('final_expiration', (error, Xexpiracao) => {
 
 
                 if (Xexpiracao) {
 
-                    AsyncStorage.getItem('currentIndex', (error, Xindex) => {
+                    console.log(' TEM FINAL_EXPIRATION');
 
-                        if (Xindex) {
+                    const currentTimestamp = Math.floor(Date.now() / 1000);
+                    console.log('EXPIRAÇÃO FINAL : HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
 
-                            const currentTimestamp = Math.floor(Date.now() / 1000);
-                            console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
+                    if (currentTimestamp >= Xexpiracao) {
 
-                            if (currentTimestamp >= Xexpiracao) {
+                        console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
+                        onChangeScreen('runpesquisa')
 
-
-                              
-                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                                    const now = new Date();
-                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
-
-
-                                    AsyncStorage.setItem(
-                                        'expiration',
-                                        JSON.stringify(expiryTimeInTimestamp)
-                                    );
-
-                                    console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
-
-                                    onChangeScreen('runpesquisa')
-
-                              
-                            } else {
-                                console.log('.')
-                            }
-
-
-
-
-                        } else {
-                            console.log('[????] ERROR GET CURRENT INDEX');
-                        }
-
-                    });
+                    } else {
+                        console.log('.')
+                    }
 
                 } else {
-                    console.log('[????] ERROR GET CURRENT EXPIRATION');
+
+                    console.log('NÃO TEM FINAL_EXPIRATION, CRIANDO');
+
+                    const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+                    AsyncStorage.setItem(
+                        'final_expiration',
+                        JSON.stringify(expiryTimeInTimestamp)
+                    );
                 }
-
             });
-
-
-
 
         }, 10000);
 
@@ -241,7 +218,11 @@ export default function StepObrigado(props) {
             )
 
 
+            const agora = new Date();
+            const dataFormatada = agora.toISOString();
+
             var dataResposta = {
+                // "dataEntrevista": dataFormatada,
                 "codClienteFastQuest": codCliente,
                 "codFilial": codFilial,
                 "contato": contato,
@@ -351,18 +332,9 @@ export default function StepObrigado(props) {
 
         onChangeScreen('runpesquisa')
     }
-    // return orientation;
-
-    // console.log(orientation)
-
-    // if (orientation == "LANDSCAPE") { 
 
 
 
-    // } else {  
-
-
-    // }
     if (!loading) {
 
         return (
@@ -388,7 +360,7 @@ export default function StepObrigado(props) {
                             <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
                             <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
-                            <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre adoramos ter você por aqui.</Text>
+                            <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
 
 
                             <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>

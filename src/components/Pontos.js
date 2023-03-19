@@ -35,6 +35,138 @@ export default function Pontos(props) {
     };
 
 
+    const StartPesquisa = async (codPontoContato) => {
+        // onChangeScreen('stepnps');
+        // console.log(codPontoContato)
+
+        try {
+
+            await AsyncStorage.getItem('auth', (error, result) => {
+
+                if (result) {
+
+                    var data = JSON.parse(result)
+
+                    if (data.token) {
+
+
+                        // Inicio Get Questoes
+                        npsQuestoes(data.token, codPontoContato).then((response) => {
+
+                            try {
+
+                                // console.log(response.results)
+
+
+                                if (response.results.length > 0) {
+
+                                    AsyncStorage.setItem(
+                                        'currentIndex',
+                                        JSON.stringify(0)
+                                    );
+
+                                    AsyncStorage.setItem(
+                                        'codPontoContato',
+                                        JSON.stringify(codPontoContato)
+                                    );
+
+                                    //Definindo expiração
+                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                                    const now = new Date();
+                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                                    AsyncStorage.setItem(
+                                        'expiration',
+                                        JSON.stringify(expiryTimeInTimestamp)
+                                    );
+
+                                    console.log('[*] SETANDO EXPIRATION INICAL: ' + expiryTimeInTimestamp)
+
+                                    AsyncStorage.setItem(
+                                        'dataQuestions',
+                                        JSON.stringify(
+                                            { qtd: response.results.length, questions: response.results }
+
+                                        )
+                                    );
+
+                                    AsyncStorage.setItem(
+                                        'currentType',
+                                        JSON.stringify(response.results[0].codTipoQuestao)
+                                    );
+
+                                    // Salvando dataAnswerInicial
+                                    // AsyncStorage.setItem(
+                                    //     'dataAnswer',
+                                    //     JSON.stringify({"respostas": {} })
+                                    // );
+
+                                    onChangeScreen('runpesquisa')
+
+
+                                } else {
+                                    console.log("nenhuma questao cadastrada.")
+                                    //   Alert.alert('Opss', 'Nenhuma questão cadastrada.', [
+                                    //     {
+                                    //         text: 'Cancel',
+                                    //         onPress: () => console.log('Cancel Pressed'),
+                                    //         style: 'cancel',
+                                    //     },
+                                    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                    // ]);
+                                }
+
+                                // setIsLoaded(true)
+
+                            } catch (error) {
+
+                                console.log(error)
+                                console.log('Seus Pontoa estão incorretas.')
+
+                                // setIsLoaded(true)
+
+                            }
+
+                        }).catch((error) =>
+
+                        {
+
+                        }
+
+                            // console.log("npsFiliais(data.token).then((response) => {")
+                            // setIsLoaded(true)
+
+                        )
+                        //  Fim Get Questoes
+
+
+
+                    } else {
+                        console.log('if (data.token) {')
+                        // setIsLoaded(true)
+
+                    }
+
+                } else {
+
+                    console.log('if (result) {')
+                    // setIsLoaded(true)
+
+                }
+
+
+            });
+
+        } catch (error) {
+            console.log('1 CACH ERROR')
+            // setIsLoaded(true)
+        }
+    }
+
+
     const getJornadas = async () => {
 
         try {
@@ -62,7 +194,7 @@ export default function Pontos(props) {
                                         // Salvalndo codCliente
                                         AsyncStorage.setItem(
                                             'codCliente',
-                                            ""+resp.codCliente+""
+                                            "" + resp.codCliente + ""
                                         );
 
 
@@ -74,11 +206,29 @@ export default function Pontos(props) {
                                         npsPontosContato(data.token, resp.codJornada).then((respPC) => {
 
 
+                                            var count = 0
+                                            var primeiroCodPontoContato = "";
+
                                             respPC.forEach(respPCEach => {
 
-                                                setPontosdeContato(oldArray => [...oldArray, { codPontoContato: respPCEach.codPontoContato, descPontoContato: respPCEach.descPontoContato }]);
+                                                if (respPCEach.codTipoColeta == 5) {
+
+                                                    count++
+
+                                                    if (count == 1) {
+                                                        primeiroCodPontoContato = respPCEach.codPontoContato;
+                                                    }
+
+                                                    setPontosdeContato(oldArray => [...oldArray, { codPontoContato: respPCEach.codPontoContato, descPontoContato: respPCEach.descPontoContato }]);
+                                                }
 
                                             })
+
+                                            console.log('COUNT É IGUAL A '+count+" PONTO DE CONTATO "+primeiroCodPontoContato)
+
+                                            if (count == 1 && primeiroCodPontoContato != "") {
+                                                StartPesquisa(primeiroCodPontoContato)
+                                            }
 
 
                                         }).catch((error) =>
@@ -109,12 +259,10 @@ export default function Pontos(props) {
 
                             }
 
-                        }).catch((error) =>
-
-                            {
-                                console.log("Erro na requisição. Contate o suporte.")
+                        }).catch((error) => {
+                            console.log("Erro na requisição. Contate o suporte.")
                             setIsLoaded(false)
-                            }
+                        }
 
                         )
                         // Fim Pegando jornadas
@@ -165,132 +313,6 @@ export default function Pontos(props) {
 
     }, []);
 
-    const StartPesquisa = async (codPontoContato) => {
-        // onChangeScreen('stepnps');
-        // console.log(codPontoContato)
-
-        try {
-
-            await AsyncStorage.getItem('auth', (error, result) => {
-
-                if (result) {
-
-                    var data = JSON.parse(result)
-
-                    if (data.token) {
-
-
-                        // Inicio Get Questoes
-                        npsQuestoes(data.token, codPontoContato).then((response) => {
-
-                            try {
-
-                                // console.log(response.results.length)
-
-
-                                if (response.results.length > 0) {
-
-                                    AsyncStorage.setItem(
-                                        'currentIndex',
-                                        JSON.stringify(0)
-                                    );
-
-                                    AsyncStorage.setItem(
-                                        'codPontoContato',
-                                        JSON.stringify(codPontoContato)
-                                    );
-
-                                    //Definindo expiração
-                                    const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
-
-                                    const now = new Date();
-                                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
-                                    const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
-
-                                    
-                                    AsyncStorage.setItem(
-                                        'expiration',
-                                        JSON.stringify(expiryTimeInTimestamp )
-                                    );
-
-                                    console.log('[*] SETANDO EXPIRATION INICAL: ' + expiryTimeInTimestamp)
-
-                                    AsyncStorage.setItem(
-                                        'dataQuestions',
-                                        JSON.stringify(
-                                            {qtd: response.results.length, questions: response.results }
-
-                                        )
-                                    );
-
-                                    AsyncStorage.setItem(
-                                        'currentType',
-                                        JSON.stringify(response.results[0].codTipoQuestao)
-                                    );
-
-                                    // Salvando dataAnswerInicial
-                                    // AsyncStorage.setItem(
-                                    //     'dataAnswer',
-                                    //     JSON.stringify({"respostas": {} })
-                                    // );
-
-                                    onChangeScreen('runpesquisa')
-
-
-                                } else {
-                                    console.log("nenhuma questao cadastrada.")
-                                    //   Alert.alert('Opss', 'Nenhuma questão cadastrada.', [
-                                    //     {
-                                    //         text: 'Cancel',
-                                    //         onPress: () => console.log('Cancel Pressed'),
-                                    //         style: 'cancel',
-                                    //     },
-                                    //     { text: 'OK', onPress: () => console.log('OK Pressed') },
-                                    // ]);
-                                }
-
-                                // setIsLoaded(true)
-
-                            } catch (error) {
-
-                                console.log(error)
-                                console.log('Seus Pontoa estão incorretas.')
-
-                                // setIsLoaded(true)
-
-                            }
-
-                        }).catch((error) =>
-
-                            // console.log("npsFiliais(data.token).then((response) => {")
-                            setIsLoaded(true)
-
-                        )
-                        //  Fim Get Questoes
-
-
-
-                    } else {
-                        console.log('if (data.token) {')
-                        // setIsLoaded(true)
-
-                    }
-
-                } else {
-
-                    console.log('if (result) {')
-                    // setIsLoaded(true)
-
-                }
-
-
-            });
-
-        } catch (error) {
-            console.log('1 CACH ERROR')
-            // setIsLoaded(true)
-        }
-    }
 
 
 

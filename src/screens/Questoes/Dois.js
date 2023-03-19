@@ -21,20 +21,13 @@ import Loading from '../../components/AppLoading';
 import { useKeepAwake } from 'expo-keep-awake';
 import AppLoading from '../../components/AppLoading';
 
-import {replaceDescription} from '../../config/Replace';
+import { replaceDescription } from '../../config/Replace';
 
 
-export default function RadioBottom(props) {
-
-    // const { id, nome } = route.params;
-
-
-    // console.log('INICIO QUESTAO')
-    // console.log(props.route.params)
-    // console.log('FIM QUESTAO')
+export default function Dois(props) {
 
     useKeepAwake();
-    console.log('======== PAGINA - RADIO BOTTOM =============')
+    console.log('======== PAGINA - DOIS =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -43,11 +36,13 @@ export default function RadioBottom(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [isActive, setIsActive] = useState(false);
 
     const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
+    const [getRespostas, setRespostas] = useState([])
 
 
     const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
@@ -316,10 +311,6 @@ export default function RadioBottom(props) {
 
     //  End Expiration Pack
 
-
-
-
-
     useEffect(() => {
 
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
@@ -425,13 +416,41 @@ export default function RadioBottom(props) {
 
 
 
+    const updateRespostas = (codQuestao, opcao) => {
+        const respostaIndex = getRespostas.findIndex((item) => item.codQuestao === codQuestao && item.resposta === "" + opcao + "");
+      
+        if (respostaIndex !== -1) {
+          // se a resposta já foi selecionada, remove ela do array
+          setRespostas([...getRespostas.slice(0, respostaIndex), ...getRespostas.slice(respostaIndex + 1)]);
+        } else {
+          // se a resposta ainda não foi selecionada, adiciona ela ao array
+          setRespostas([...getRespostas, { codQuestao, resposta: "" + opcao + "" }]);
+        }
+        console.log(getRespostas)
+      };
 
-    const sendNPS = async (codQuestao, resposta) => {
 
+    // const addResposta = async (codQuestao, opcao) => {
+
+
+    //     // setIsActive(current => !current);
+
+
+    //     setRespostas(getRespostas => [...getRespostas, { "codQuestao": codQuestao, "resposta": "" + opcao + "" }]);
+
+
+
+
+    // }
+
+    const sendNPS = async () => {
+
+
+        // console.log('CODIGO DA QUESTAO: ' + codQuestao + ' RESPOSTA: ' + resposta)
 
         // Envia a resposta
 
-        const checkResposta = async (codQuestao, resposta) => {
+        const checkResposta = async () => {
 
             try {
 
@@ -446,12 +465,20 @@ export default function RadioBottom(props) {
 
                         console.log('JA TEM RESPOSTA, INSERINDO MAIS')
 
+
+                        // var RespY = JSON.parse(getRespostas);
+
                         var oldAnswer = JSON.parse(result)
 
-                        oldAnswer.answers.push({
-                            "codQuestao": codQuestao,
-                            "resposta": "" + resposta + ""
-                        });
+
+                        map(getRespostas, (item, i) => {
+
+                            oldAnswer.answers.push({
+                                "codQuestao": item.codQuestao,
+                                "resposta": "" + item.resposta + ""
+                            });
+                        })
+
 
                         const newDataAnswer = oldAnswer
 
@@ -469,10 +496,8 @@ export default function RadioBottom(props) {
                             JSON.stringify(
                                 {
                                     answers: [
-                                        {
-                                            "codQuestao": codQuestao,
-                                            "resposta": "" + resposta + ""
-                                        }]
+                                        getRespostas
+                                    ]
                                 }
 
                             )
@@ -574,25 +599,32 @@ export default function RadioBottom(props) {
             } catch (error) {
 
                 console.log('1 CACH ERROR  get questions')
+
                 // setIsLoaded(true)
             }
         }
 
 
-        checkResposta(codQuestao, resposta)
+        checkResposta()
         manageRoute()
+
+        // console.log(getRespostas)
+
 
 
 
 
     }
 
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
-    // console.log(orientation)
-
-
-
-
+    const toggleOption = (option) => {
+        if (selectedOptions.includes(option)) {
+            setSelectedOptions(selectedOptions.filter((item) => item !== option));
+        } else {
+            setSelectedOptions([...selectedOptions, option]);
+        }
+    };
 
     if (!loading) {
         return (
@@ -602,40 +634,98 @@ export default function RadioBottom(props) {
 
 
     } else {
-        return (
 
 
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <Header />
-                    <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                        <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+        if (question.nrQuestao == "RESPOSTA_MULTIPLA_VERTICAL") {
 
-                        <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
+            return (
 
-                            {map(question.opcoes, (item, i) => (
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
+                            <View style={screenWidth >= 768 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
 
-
-                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
-
-                                        <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                            ))}
+                                {map(question.opcoes, (item, i) => (
 
 
+                                    < View key={i} style={screenWidth >= 768 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
 
+
+                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}
+                                        >
+
+                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                ))}
+
+
+
+                            </View>
+                            <View>
+                                <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, {marginBottom:30}]} >
+                                    {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                                    <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                                    <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                                    {/* </View> */}
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                    <Footer />
-                </SafeAreaView>
-            </ScrollView >
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
 
-        );
+            );
+
+
+
+        } else if (question.nrQuestao == "RESPOSTA_MULTIPLA_HORIZONTAL") {
+
+            return (
+
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                            <View style={screenWidth >= 768 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+
+                                {map(question.opcoes, (item, i) => (
+
+                                    < View key={i} style={screenWidth >= 768 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ?  ColorsApp.PRIMARY : "#FFF"  }]}
+                                        >
+                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS,  { color: selectedOptions.includes(item.opcao) ? "#FFF" :  ColorsApp.PRIMARY  }]}>{item.descOpcao}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                ))}
+                            </View>
+                            <View>
+                                <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, {marginBottom:30}]} >
+                                    {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                                    <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                                    <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                                    {/* </View> */}
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
+
+            );
+
+
+        }
     }
 
 }

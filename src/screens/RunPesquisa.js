@@ -25,7 +25,7 @@ import { useKeepAwake } from 'expo-keep-awake';
 
 
 export default function RunPesquisa(props) {
-        useKeepAwake();
+    useKeepAwake();
 
     console.log('======== PAGINA - RUN PESQUISA =============')
 
@@ -61,7 +61,7 @@ export default function RunPesquisa(props) {
                         if (data.token) {
 
                             console.log('sucessfull check autentiocatoin')
-                           
+
 
                         } else {
                             console.log('no data.token  check autentiocatoin')
@@ -104,37 +104,60 @@ export default function RunPesquisa(props) {
 
         // console.log('============ fim  questions =================')
 
+        if (currentType == 11) {
 
-        if (currentType == 1 || currentType == 12 || currentType == 13) {
-            //Radio Buttom
-            // var data = {question: currentQuestion}
-            // var data = {question: currentQuestion}
-            onChangeScreen('radiobottom', currentQuestion);
-            // console.log('radio bottom , currentType: '+currentType)
-
-        } else if (currentType == 3 || currentType == 4 || currentType == 14) {
-            // Caixa de texto
-            onChangeScreen('caixadetexto', currentQuestion);
-
-
-        } else if (currentType == 2) {
-
-            // Checkbox
-            onChangeScreen('checkbox', currentQuestion);
-
-
-        } else if (currentType == 11 || currentType == 15) {
-
-            // Label
-            onChangeScreen('label', currentQuestion);
-
+            onChangeScreen('onze', currentQuestion);
 
         } else if (currentType == 16) {
 
-            // Emoji
-            onChangeScreen('emoji', currentQuestion);
+            onChangeScreen('dezesseis', currentQuestion);
+
+        } else if (currentType == 1) {
+
+            onChangeScreen('um', currentQuestion);
+
+        } else if (currentType == 2) {
+
+            onChangeScreen('dois', currentQuestion);
+
+        } else if (currentType == 3) {
+
+            onChangeScreen('tres', currentQuestion);
+
+        } else if (currentType == 4) {
+
+            onChangeScreen('quatro', currentQuestion);
+
+        } else if (currentType == 13) {
+
+            onChangeScreen('treze', currentQuestion);
 
         }
+
+
+        // else if (currentType == 1 || currentType == 12 || currentType == 13) {
+
+        //     onChangeScreen('radiobottom', currentQuestion);
+
+        // } else if (currentType == 3 || currentType == 4 || currentType == 14) {
+        //     onChangeScreen('caixadetexto', currentQuestion);
+
+
+        // } else if (currentType == 2) {
+
+        //     onChangeScreen('checkbox', currentQuestion);
+
+
+        // } else if (currentType == 11 || currentType == 15) {
+
+        //     onChangeScreen('label', currentQuestion);
+
+
+        // } else if (currentType == 16) {
+
+        //     onChangeScreen('emoji', currentQuestion);
+
+        // }
 
     }
 
@@ -209,10 +232,10 @@ export default function RunPesquisa(props) {
 
 
         // console.log('ESTE É O RUN PESQUISA')
-      
+
 
         getIndex()
-       
+
 
         // Call only when screen open or when back on screen 
         // if(isFocused){ 
@@ -227,9 +250,9 @@ export default function RunPesquisa(props) {
         return (
 
 
-  
+
             <AppLoading />
-            
+
 
         );
 

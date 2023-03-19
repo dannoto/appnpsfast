@@ -34,6 +34,8 @@ export default function Filiais(props) {
     };
 
 
+
+
     const getFiliais = async () => {
 
         try {
@@ -105,7 +107,14 @@ export default function Filiais(props) {
         }
     }
 
+  useEffect(() => {
+        const interval = setInterval(() => {
+            getFiliais();
 
+            console.log('checando filiais')
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
 
     useEffect(() => {

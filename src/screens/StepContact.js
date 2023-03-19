@@ -163,7 +163,11 @@ export default function StepContact(props) {
         )
 
 
+        const agora = new Date();
+        const dataFormatada = agora.toISOString();
+
         var dataResposta = {
+            // "dataEntrevista": dataFormatada,
             "codClienteFastQuest": codCliente,
             "codFilial": codFilial,
             "contato": contato,
@@ -210,7 +214,7 @@ export default function StepContact(props) {
         const interval = setInterval(() => {
 
 
-     
+
             AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
 
 
@@ -362,7 +366,7 @@ export default function StepContact(props) {
 
 
     const sendNPSSkip = () => {
-        
+
         onChangeScreen('stepobrigado')
 
     }
@@ -408,8 +412,8 @@ export default function StepContact(props) {
         if (nome.length < 2) {
 
             console.log('nome invalido')
-             Alert.alert('Opss', 'Insira um nome válido.', [
-               
+            Alert.alert('Opss', 'Insira um nome válido.', [
+
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
             ]);
 
@@ -417,7 +421,7 @@ export default function StepContact(props) {
             console.log('email invalido')
 
             Alert.alert('Opss', 'Insira um e-mail válido.', [
-             
+
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
             ]);
 
@@ -426,7 +430,7 @@ export default function StepContact(props) {
             console.log('telefone invalido')
 
             Alert.alert('Opss', 'Insira um telefone válido.', [
-               
+
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
             ]);
 

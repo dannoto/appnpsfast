@@ -13,6 +13,7 @@ import { npsEnviarRespostas } from '../../config/DataApp';
 import { map } from 'lodash';
 import Empty from '../../components/Empty';
 import AppLoading from '../../components/AppLoading';
+import {replaceDescription} from '../../config/Replace';
 
 
 import Footer from '../../components/Footer';
@@ -44,16 +45,7 @@ export default function CaixaDeTexto(props) {
 
     const navigation = useNavigation();
 
-    const replaceDescription = (description) => {
-
-        var new_description = description.replace('<span style="font-size: 18px;">', "")
-        var new_description = new_description.replace("</span>", "")
-        var new_description = new_description.replace("<b>", "")
-        var new_description = new_description.replace("</b>", "")
-
-        return new_description;
-    }
-
+ 
 
 
     // Start Expiration Pack
@@ -183,7 +175,11 @@ export default function CaixaDeTexto(props) {
         }
         )
 
+        const agora = new Date();
+        const dataFormatada = agora.toISOString();
+
         var dataResposta = {
+            // "dataEntrevista": dataFormatada,
             "codClienteFastQuest": codCliente,
             "codFilial": codFilial,
             "contato": contato,

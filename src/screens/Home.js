@@ -65,7 +65,7 @@ export default function Home(props) {
                         if (data.token) {
 
                             console.log('sucessfull check autentiocatoin')
-                           
+
 
                         } else {
                             console.log('no data.token  check autentiocatoin')
@@ -114,14 +114,15 @@ export default function Home(props) {
 
 
                     <View style={screenWidth >= 768 ? Styles.HomeContentTablet : Styles.HomeContent}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <View style={{ flexDirection: 'column' }}>
+                            <View style={{ flex: 1, marginTop:20 }}>
+                                <Image source={require('./../../assets/logo.png')} resizeMode={'contain'} style={Styles.AuthLogo} />
+                            </View>
+                            <View style={{ flex: 1,  justifyContent: 'center', alignItems: 'flex-start' }}>
 
                                 <Text style={screenWidth >= 768 ? Styles.HomeTitleTablet : Styles.HomeTitle}>olá <Text style={{ color: ColorsApp.PRIMARY }}>Bem-vindo</Text>,</Text>
                             </View>
-                            <View style={{ flex: 1 }}>
-                                <Image source={require('./../../assets/logo.png')} resizeMode={'contain'} style={Styles.AuthLogo} />
-                            </View>
+
                         </View>
                         <View style={{ marginBottom: 50 }}>
                             <View>
