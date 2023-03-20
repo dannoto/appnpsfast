@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
-import { Text, Button, IconButton } from 'react-native-paper';
+import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Text, Image, Dimensions } from 'react-native';
+import { TextInput, Button, IconButton } from 'react-native-paper';
 import Styles from '../../config/Styles';
 import ColorsApp from '../../config/ColorsApp';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useNavigation } from '@react-navigation/native';
@@ -12,40 +11,49 @@ import { npsEnviarRespostas } from '../../config/DataApp';
 
 import { map } from 'lodash';
 import Empty from '../../components/Empty';
-import AppLoading from '../../components/AppLoading';
-import {replaceDescription} from '../../config/Replace';
 
 
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
+import Loading from '../../components/AppLoading';
+
 import { useKeepAwake } from 'expo-keep-awake';
-// import { MaskedTextInput } from "react-native-mask-text";
+import AppLoading from '../../components/AppLoading';
+
+import {replaceDescription} from '../../config/Replace';
 
 
-export default function CaixaDeTexto(props) {
+export default function Doze(props) {
+
+    // const { id, nome } = route.params;
+
+
+    // console.log('INICIO QUESTAO')
+    // console.log(props.route.params)
+    // console.log('FIM QUESTAO')
 
     useKeepAwake();
-
-    console.log('======== PAGINA - CAIXA DE TEXTO =============')
+    console.log('======== PAGINA - RADIO BOTTOM =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [IconSize, setIconSize] = useState(80);
 
     const [orientation, setOrientation] = useState("PORTRAIT");
-
+    const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
-    const [resposta, setResposta] = useState("");
 
 
-    const navigation = useNavigation();
+    const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
 
- 
+
+
 
 
     // Start Expiration Pack
@@ -66,6 +74,7 @@ export default function CaixaDeTexto(props) {
         // AsyncStorage.removeItem('codCliente');
         // AsyncStorage.removeItem('dataQuestions');
     }
+
 
     const sendResposta = async () => {
 
@@ -175,8 +184,10 @@ export default function CaixaDeTexto(props) {
         }
         )
 
+
         const agora = new Date();
-        const dataFormatada = agora.toISOString();
+const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
+const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -185,14 +196,12 @@ export default function CaixaDeTexto(props) {
             "contato": contato,
             "email": email,
             "ddd1": ddd1,
+            "dataEntrevista": dataFormatada,
             "telefone1": telefone1,
             "codPontoContato": codPontoContato,
             "codStatus": 102,
             "respostas": respostas
         }
-
-        // console.log(resposta)
-
 
         if (respostas.length > 0) {
 
@@ -223,19 +232,23 @@ export default function CaixaDeTexto(props) {
 
 
     useEffect(() => {
+
         const interval = setInterval(() => {
+
+
+
 
 
             AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
 
 
                 if (Xexpiracao) {
-                
+
                     AsyncStorage.getItem('currentIndex', (error, Xindex) => {
 
                         if (Xindex) {
 
-                            const currentTimestamp = Math.floor(Date.now() / 1000); 
+                            const currentTimestamp = Math.floor(Date.now() / 1000);
                             console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
 
                             if (currentTimestamp >= Xexpiracao) {
@@ -258,7 +271,7 @@ export default function CaixaDeTexto(props) {
                                     console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
 
                                 } else {
-                                    
+
                                     console.log('[*] EXPIROU O TEMPO, MAS ESTÁ NA 1 PERGUNTA... ' + Xexpiracao)
 
                                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
@@ -298,7 +311,6 @@ export default function CaixaDeTexto(props) {
 
 
 
-
         }, 10000);
 
         return () => clearInterval(interval);
@@ -308,9 +320,12 @@ export default function CaixaDeTexto(props) {
 
 
 
+
+
     useEffect(() => {
 
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
             if (width < height) {
 
                 setOrientation("PORTRAIT")
@@ -340,17 +355,22 @@ export default function CaixaDeTexto(props) {
         })
 
 
-
         function getQuestion() {
             setQuestion([]);
             setQuestion(props.route.params);
             setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
         }
 
         getQuestion()
 
 
+
     }, []);
+
+
+    const navigation = useNavigation();
 
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
@@ -367,7 +387,7 @@ export default function CaixaDeTexto(props) {
                 await AsyncStorage.getItem('auth', (error, result) => {
 
                     if (result) {
-                        console.log(result);
+                        // console.log(result);
 
                         var data = JSON.parse(result)
 
@@ -404,6 +424,8 @@ export default function CaixaDeTexto(props) {
 
 
     }, []);
+
+
 
 
     const sendNPS = async (codQuestao, resposta) => {
@@ -471,6 +493,7 @@ export default function CaixaDeTexto(props) {
 
         }
 
+
         // Gerencia o route
         const newIndex = async (qtd, questions) => {
 
@@ -520,7 +543,6 @@ export default function CaixaDeTexto(props) {
 
             } catch (error) {
 
-                console.log(error)
                 console.log('1 CACH ERROR GET INDEX')
                 // setIsLoaded(true)
             }
@@ -566,66 +588,58 @@ export default function CaixaDeTexto(props) {
 
 
     }
+
+
     // console.log(orientation)
 
+
+
+
+
     if (!loading) {
-
         return (
-
-            <AppLoading />
+            <Loading />
 
         );
+
 
     } else {
-
         return (
 
+
+
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Header />
-                    <ScrollView style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+                    <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                        <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
+
+                            {map(question.opcoes, (item, i) => (
+
+                                < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
 
 
-                        {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
+                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
 
-                        <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
+                                        <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
+                                    </TouchableOpacity>
+                                </View>
 
-                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
-
-                        <TextInput
-                            multiline={true}
-                            // numberOfLines={4}
-                            textAlignVertical="top"
-                            value={resposta}
-                            onChangeText={(text) => {
-                                console.log(text);
-                                setResposta(text)
-                            }}
-                            style={screenWidth >= 768 ? Styles.InputSugestionTablet : Styles.InputSugestion}
-                        />
-
-                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
-                            {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
-                            <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
-                            <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
-                            {/* </View> */}
-                        </TouchableOpacity>
+                            ))}
 
 
-                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }}  >
 
-                            <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
-
-                        </TouchableOpacity>
-
-                    </ScrollView>
+                        </View>
+                    </View>
                     <Footer />
                 </SafeAreaView>
-            </ScrollView>
+            </ScrollView >
 
         );
-
     }
 
-
 }
+
+

@@ -13,11 +13,11 @@ import { useIsFocused } from "@react-navigation/native";
 
 
 
-import RadioBottom from './Questoes/RadioBottom';
-import CaixaDeTexto from './Questoes/CaixaDeTexto';
-import CheckBox from './Questoes/CheckBox';
-import Label from './Questoes/Label';
-import Emoji from './Questoes/Emoji';
+// import RadioBottom from './Questoes/Doze';
+// import CaixaDeTexto from './Questoes/Quatorze';
+// import CheckBox from './Questoes/CheckBox';
+// import Label from './Questoes/Label';
+// import Emoji from './Questoes/Emoji';
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -95,14 +95,14 @@ export default function RunPesquisa(props) {
     // Definir route
     const routeQuestion = (currentQuestion, currentType) => {
 
-        // console.log('============ rota questions =================')
+        console.log('============ rota questions =================')
 
-        // console.log('currentType')
+        console.log('currentType')
         // console.log(currentType)
         // console.log('currentQuestion')
         // console.log(currentQuestion)
 
-        // console.log('============ fim  questions =================')
+        console.log('============ fim  questions =================')
 
         if (currentType == 11) {
 
@@ -131,6 +131,14 @@ export default function RunPesquisa(props) {
         } else if (currentType == 13) {
 
             onChangeScreen('treze', currentQuestion);
+
+        } else if (currentType == 12) {
+
+            onChangeScreen('doze', currentQuestion);
+
+        }  else if (currentType == 14) {
+
+            onChangeScreen('quatorze', currentQuestion);
 
         }
 

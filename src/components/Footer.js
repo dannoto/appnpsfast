@@ -25,7 +25,7 @@ export default function Footer(props) {
 
     // ==
     const [modalVisible, setModalVisible] = useState(false);
-    const [inputValue, setInputValue] = useState('159753');
+    const [inputValue, setInputValue] = useState('');
 
     const handleInputChange = (text) => {
         setInputValue(text);

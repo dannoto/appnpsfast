@@ -186,7 +186,8 @@ export default function Dezesseis(props) {
 
 
         const agora = new Date();
-        const dataFormatada = agora.toISOString();
+const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
+const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -195,6 +196,7 @@ export default function Dezesseis(props) {
             "contato": contato,
             "email": email,
             "ddd1": ddd1,
+            "dataEntrevista": dataFormatada,
             "telefone1": telefone1,
             "codPontoContato": codPontoContato,
             "codStatus": 102,
@@ -632,7 +634,6 @@ export default function Dezesseis(props) {
                         <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                             <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            {/* <Image source={{ uri: 'https://app.npsfast.com.br/images/sbw1.png' }} style={{ width: 300, height: 300, borderColor:'orange', backgroundColor:'orange' }} /> */}
 
 
                             <View style={screenWidth >= 768 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>

@@ -32,9 +32,11 @@ export async function npsLogin(email, password) {
 
   } catch (error) {
 
-    return error;
+    console.log(error)
 
-    //   Alert.alert('Opss', 'Erro na api.', [
+    // 
+
+    //   Alert.alert('Opss', error.message, [
     //     {
     //         text: 'Cancel',
     //         onPress: () => console.log('Cancel Pressed'),
@@ -42,6 +44,8 @@ export async function npsLogin(email, password) {
     //     },
     //     { text: 'OK', onPress: () => console.log('OK Pressed') },
     // ]);
+
+    return error;
 
   }
 }
@@ -63,8 +67,10 @@ export async function npsRecuperacao(email) {
         )
       });
     let responseJson = await response.json();
+    console.log(responseJson)
     return responseJson;
   } catch (error) {
+    console.log(error)
 
     return error;
 
@@ -245,18 +251,18 @@ export async function npsPontosContato(token, codJornada) {
         "codTipoColeta": 5
 
       },
-      {
-        "codPontoContato": 2,
-        "descPontoContato": "Teste 3",
-        "codTipoColeta": 5
+        // {
+        //   "codPontoContato": 2,
+        //   "descPontoContato": "Teste 3",
+        //   "codTipoColeta": 5
 
-      },
-      {
-        "codPontoContato": 2,
-        "descPontoContato": "Teste 4",
-        "codTipoColeta": 5
+        // },
+        // {
+        //   "codPontoContato": 2,
+        //   "descPontoContato": "Teste 4",
+        //   "codTipoColeta": 5
 
-      }
+        // }
       ]
 
     // ]
@@ -299,140 +305,140 @@ export async function npsQuestoes(token, codPontoContato) {
     let responseJson =
     {
       "results": [
-        // {
-        //   "visivel": true,
-        //   "opcoes": [],
-        //   "codQuestao": 35,
-        //   "codTipoQuestao": 11,
-        //   "codPaginaQuestao": 3,
-        //   "nrQuestao": "APRESENTACAO",
-        //   "descQuestao": "<p><span style=\"font-size: 18px;\"><b>Obrigado por responder a pesquisa, ela será bem rápida!</b></span><br></p>",
-        //   "textoRodape": null,
-        //   "flagObrigatorio": false,
-        //   "qtdMin": null,
-        //   "qtdMax": null,
-        //   "responseJsonInclusao": "2023-03-15T11:17:00",
-        //   "configuracoes": "{\"QuantidadeOpcoes\":0,\"Emojis\":false,\"RespostaObrigatoria\":false,\"RURM\":{\"RespostasNaVertical\":false},\"Aberta\":{\"MultiplasLinhas\":false}}"
-        // },
-        // {
-        //   "visivel": true,
-        //   "opcoes": [
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 10,
-        //       "opcao": 0,
-        //       "descOpcao": "0",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 20,
-        //       "opcao": 1,
-        //       "descOpcao": "1",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 30,
-        //       "opcao": 2,
-        //       "descOpcao": "2",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 40,
-        //       "opcao": 3,
-        //       "descOpcao": "3",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 50,
-        //       "opcao": 4,
-        //       "descOpcao": "4",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 60,
-        //       "opcao": 5,
-        //       "descOpcao": "5",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 70,
-        //       "opcao": 6,
-        //       "descOpcao": "6",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 80,
-        //       "opcao": 7,
-        //       "descOpcao": "7",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 90,
-        //       "opcao": 8,
-        //       "descOpcao": "8",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 100,
-        //       "opcao": 9,
-        //       "descOpcao": "9",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     },
-        //     {
-        //       "flagMostrar": true,
-        //       "ordem": 110,
-        //       "opcao": 10,
-        //       "descOpcao": "10",
-        //       "codQuestaoOpcaoAcao": null,
-        //       "dataInclusao": "2022-10-25T12:07:00"
-        //     }
-        //   ],
-        //   "codQuestao": 10,
-        //   "codTipoQuestao": 12,
-        //   "codPaginaQuestao": 3,
-        //   "nrQuestao": "NPS",
-        //   "descQuestao": "<span style=\"font-size: 18px;\"><b>Em uma escala de 0 a 10, o quanto você recomendaria?</b></span>",
-        //   "textoRodape": null,
-        //   "flagObrigatorio": false,
-        //   "qtdMin": null,
-        //   "qtdMax": null,
-        //   "dataInclusao": "2022-10-25T12:07:00",
-        //   "configuracoes": "{\"QuantidadeOpcoes\":0,\"Emojis\":false,\"RespostaObrigatoria\":false,\"RURM\":{\"RespostasNaVertical\":false},\"Aberta\":{\"MultiplasLinhas\":false}}"
-        // },
-        // {
-        //   "visivel": true,
-        //   "opcoes": [],
-        //   "codQuestao": 11,
-        //   "codTipoQuestao": 14,
-        //   "codPaginaQuestao": 3,
-        //   "nrQuestao": "NPS_V",
-        //   "descQuestao": "<span style=\"font-size: 18px;\"><b>Por qual motivo você informou a nota acima?</b></span>",
-        //   "textoRodape": null,
-        //   "flagObrigatorio": false,
-        //   "qtdMin": null,
-        //   "qtdMax": null,
-        //   "dataInclusao": "2022-10-25T12:07:00",
-        //   "configuracoes": "{\"QuantidadeOpcoes\":0,\"Emojis\":false,\"RespostaObrigatoria\":false,\"RURM\":{\"RespostasNaVertical\":false},\"Aberta\":{\"MultiplasLinhas\":false}}"
-        // },
+        {
+          "visivel": true,
+          "opcoes": [],
+          "codQuestao": 35,
+          "codTipoQuestao": 11,
+          "codPaginaQuestao": 3,
+          "nrQuestao": "APRESENTACAO",
+          "descQuestao": "<p><span style=\"font-size: 18px;\"><b>Obrigado por responder a pesquisa, ela será bem rápida!</b></span><br></p>",
+          "textoRodape": null,
+          "flagObrigatorio": false,
+          "qtdMin": null,
+          "qtdMax": null,
+          "responseJsonInclusao": "2023-03-15T11:17:00",
+          "configuracoes": "{\"QuantidadeOpcoes\":0,\"Emojis\":false,\"RespostaObrigatoria\":false,\"RURM\":{\"RespostasNaVertical\":false},\"Aberta\":{\"MultiplasLinhas\":false}}"
+        },
+        {
+          "visivel": true,
+          "opcoes": [
+            {
+              "flagMostrar": true,
+              "ordem": 10,
+              "opcao": 0,
+              "descOpcao": "0",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 20,
+              "opcao": 1,
+              "descOpcao": "1",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 30,
+              "opcao": 2,
+              "descOpcao": "2",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 40,
+              "opcao": 3,
+              "descOpcao": "3",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 50,
+              "opcao": 4,
+              "descOpcao": "4",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 60,
+              "opcao": 5,
+              "descOpcao": "5",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 70,
+              "opcao": 6,
+              "descOpcao": "6",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 80,
+              "opcao": 7,
+              "descOpcao": "7",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 90,
+              "opcao": 8,
+              "descOpcao": "8",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 100,
+              "opcao": 9,
+              "descOpcao": "9",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            },
+            {
+              "flagMostrar": true,
+              "ordem": 110,
+              "opcao": 10,
+              "descOpcao": "10",
+              "codQuestaoOpcaoAcao": null,
+              "dataInclusao": "2022-10-25T12:07:00"
+            }
+          ],
+          "codQuestao": 10,
+          "codTipoQuestao": 12,
+          "codPaginaQuestao": 3,
+          "nrQuestao": "NPS",
+          "descQuestao": "<span style=\"font-size: 18px;\"><b>Em uma escala de 0 a 10, o quanto você recomendaria?</b></span>",
+          "textoRodape": null,
+          "flagObrigatorio": false,
+          "qtdMin": null,
+          "qtdMax": null,
+          "dataInclusao": "2022-10-25T12:07:00",
+          "configuracoes": "{\"QuantidadeOpcoes\":0,\"Emojis\":false,\"RespostaObrigatoria\":false,\"RURM\":{\"RespostasNaVertical\":false},\"Aberta\":{\"MultiplasLinhas\":false}}"
+        },
+        {
+          "visivel": true,
+          "opcoes": [],
+          "codQuestao": 11,
+          "codTipoQuestao": 14,
+          "codPaginaQuestao": 3,
+          "nrQuestao": "NPS_V",
+          "descQuestao": "<span style=\"font-size: 18px;\"><b>Por qual motivo você informou a nota acima?</b></span>",
+          "textoRodape": null,
+          "flagObrigatorio": false,
+          "qtdMin": null,
+          "qtdMax": null,
+          "dataInclusao": "2022-10-25T12:07:00",
+          "configuracoes": "{\"QuantidadeOpcoes\":0,\"Emojis\":false,\"RespostaObrigatoria\":false,\"RURM\":{\"RespostasNaVertical\":false},\"Aberta\":{\"MultiplasLinhas\":false}}"
+        },
         {
           "visivel": true,
           "opcoes": [
@@ -930,26 +936,26 @@ export async function npsEnviarRespostas(token, resposta) {
 
 
   try {
-    // const url = 'https://app.npsfast.com.br/api/Respondentes';
-    // let response = await fetch(url,
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'Authorization': 'Bearer ' + token,
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(resposta)
-    //   }
-    // );
+    const url = 'https://app.npsfast.com.br/api/Respondentes';
+    let response = await fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resposta)
+      }
+    );
 
+
+    let responseJson = await response.json();
 
     // let responseJson = await response.json();
+    console.log('========== RETURN DA RESPOTA ==============')
 
-    // // let responseJson = await response.json();
-    // console.log('========== RETURN DA RESPOTA ==============')
-
-    // console.log(responseJson)
+    console.log(responseJson)
     return true;
 
   } catch (error) {
@@ -1001,3 +1007,20 @@ export async function npsClienteLogo(token, codCliente) {
   }
 }
 
+// export async function makeRequest() {
+//   return axios({
+//     method: 'GET',
+//     url: 'https://jsonplaceholder.typicode.com/posts',
+//     // data: data,
+//     headers: {
+//       'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJDb2RDbGllbnQiOiI5NCIsIm5hbWVpZCI6Ijk0IiwidW5pcXVlX25hbWUiOiJ3YWduZXIucGFuc2FuaUBoc3J0ZWNoLmNvbS5iciIsIm5iZiI6MTY3OTMwMTUxNywiZXhwIjoxNjg1MzAxNTE3LCJpYXQiOjE3MTA5MjM5MTcsImlzcyI6Im5wc2Zhc3QiLCJhdWQiOiJodHRwczovL2FwcC5ucHNmYXN0LmNvbS5ici8ifQ.TyP4q998LyZ27-KwWYazcnP9eQaQAnTnvh1ab2Q3ZCJ6wLwntcvIkKE7Dj3FhFK4RWa1gSz8Trkl_L2w9QS4lw'
+//     }
+//   })
+//     .then(response => {
+//       console.log(response.data);
+//       return response.data;
+//     })
+//     .catch(error => {
+//       console.log(error);
+//     });
+// }

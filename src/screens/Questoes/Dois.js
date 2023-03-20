@@ -181,7 +181,8 @@ export default function Dois(props) {
 
 
         const agora = new Date();
-        const dataFormatada = agora.toISOString();
+const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
+const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -190,6 +191,7 @@ export default function Dois(props) {
             "contato": contato,
             "email": email,
             "ddd1": ddd1,
+            "dataEntrevista": dataFormatada,
             "telefone1": telefone1,
             "codPontoContato": codPontoContato,
             "codStatus": 102,
@@ -418,16 +420,16 @@ export default function Dois(props) {
 
     const updateRespostas = (codQuestao, opcao) => {
         const respostaIndex = getRespostas.findIndex((item) => item.codQuestao === codQuestao && item.resposta === "" + opcao + "");
-      
+
         if (respostaIndex !== -1) {
-          // se a resposta já foi selecionada, remove ela do array
-          setRespostas([...getRespostas.slice(0, respostaIndex), ...getRespostas.slice(respostaIndex + 1)]);
+            // se a resposta já foi selecionada, remove ela do array
+            setRespostas([...getRespostas.slice(0, respostaIndex), ...getRespostas.slice(respostaIndex + 1)]);
         } else {
-          // se a resposta ainda não foi selecionada, adiciona ela ao array
-          setRespostas([...getRespostas, { codQuestao, resposta: "" + opcao + "" }]);
+            // se a resposta ainda não foi selecionada, adiciona ela ao array
+            setRespostas([...getRespostas, { codQuestao, resposta: "" + opcao + "" }]);
         }
         console.log(getRespostas)
-      };
+    };
 
 
     // const addResposta = async (codQuestao, opcao) => {
@@ -605,8 +607,20 @@ export default function Dois(props) {
         }
 
 
-        checkResposta()
-        manageRoute()
+
+        if (getRespostas.length > 0) {
+            checkResposta()
+            manageRoute()
+            // console.log(' > 0 ')
+
+        } else {
+            Alert.alert('Opss', 'Selecione ao menos uma resposta.', [
+
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+        }
+
+
 
         // console.log(getRespostas)
 
@@ -670,7 +684,7 @@ export default function Dois(props) {
 
                             </View>
                             <View>
-                                <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, {marginBottom:30}]} >
+                                <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, { marginBottom: 30 }]} >
                                     {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
                                     <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
                                     <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
@@ -701,16 +715,16 @@ export default function Dois(props) {
                                 {map(question.opcoes, (item, i) => (
 
                                     < View key={i} style={screenWidth >= 768 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
-                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ?  ColorsApp.PRIMARY : "#FFF"  }]}
+                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}
                                         >
-                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS,  { color: selectedOptions.includes(item.opcao) ? "#FFF" :  ColorsApp.PRIMARY  }]}>{item.descOpcao}</Text>
+                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
                                         </TouchableOpacity>
                                     </View>
 
                                 ))}
                             </View>
                             <View>
-                                <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, {marginBottom:30}]} >
+                                <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, { marginBottom: 30 }]} >
                                     {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
                                     <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
                                     <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>

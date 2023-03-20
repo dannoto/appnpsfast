@@ -176,7 +176,8 @@ export default function Tres(props) {
         )
 
         const agora = new Date();
-        const dataFormatada = agora.toISOString();
+const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
+const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -185,6 +186,7 @@ export default function Tres(props) {
             "contato": contato,
             "email": email,
             "ddd1": ddd1,
+            "dataEntrevista": dataFormatada,
             "telefone1": telefone1,
             "codPontoContato": codPontoContato,
             "codStatus": 102,

@@ -23,11 +23,11 @@ import { useKeepAwake } from 'expo-keep-awake';
 // import { MaskedTextInput } from "react-native-mask-text";
 
 
-export default function Quatro(props) {
+export default function Doze(props) {
 
     useKeepAwake();
 
-    console.log('======== PAGINA - QUATRO =============')
+    console.log('======== PAGINA - Doze =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -176,7 +176,8 @@ export default function Quatro(props) {
         )
 
         const agora = new Date();
-        const dataFormatada = agora.toISOString();
+const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
+const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -185,6 +186,7 @@ export default function Quatro(props) {
             "contato": contato,
             "email": email,
             "ddd1": ddd1,
+            "dataEntrevista": dataFormatada,
             "telefone1": telefone1,
             "codPontoContato": codPontoContato,
             "codStatus": 102,

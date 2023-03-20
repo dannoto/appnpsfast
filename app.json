@@ -26,7 +26,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#f7f7f8"
       },
-      "package": "com.danotto.npsfast"
+      "package": "com.danotto.npsfast",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_WIFI_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

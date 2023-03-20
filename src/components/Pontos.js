@@ -119,14 +119,12 @@ export default function Pontos(props) {
                                     // ]);
                                 }
 
-                                // setIsLoaded(true)
 
                             } catch (error) {
 
                                 console.log(error)
                                 console.log('Seus Pontoa estão incorretas.')
 
-                                // setIsLoaded(true)
 
                             }
 
@@ -137,7 +135,6 @@ export default function Pontos(props) {
                         }
 
                             // console.log("npsFiliais(data.token).then((response) => {")
-                            // setIsLoaded(true)
 
                         )
                         //  Fim Get Questoes
@@ -146,14 +143,12 @@ export default function Pontos(props) {
 
                     } else {
                         console.log('if (data.token) {')
-                        // setIsLoaded(true)
 
                     }
 
                 } else {
 
                     console.log('if (result) {')
-                    // setIsLoaded(true)
 
                 }
 
@@ -162,7 +157,6 @@ export default function Pontos(props) {
 
         } catch (error) {
             console.log('1 CACH ERROR')
-            // setIsLoaded(true)
         }
     }
 
@@ -230,10 +224,15 @@ export default function Pontos(props) {
                                                 StartPesquisa(primeiroCodPontoContato)
                                             }
 
+                                            setIsLoaded(true)
+
 
                                         }).catch((error) =>
 
+                                           {
                                             console.log(error)
+                                            setIsLoaded(true)
+                                           }
                                         )
                                         // Fim Pontos de Contato
 
@@ -242,7 +241,7 @@ export default function Pontos(props) {
 
                                     });
 
-                                    setIsLoaded(true)
+                                    
 
                                 } else {
                                     console.log("vazio")
@@ -294,7 +293,6 @@ export default function Pontos(props) {
 
     useEffect(() => {
 
-        // setIsLoaded(true)
 
         getJornadas()
 

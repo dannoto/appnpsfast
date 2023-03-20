@@ -9,11 +9,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Pontos from '../components/Pontos';
 
 
-import RadioBottom from '../screens/Questoes/RadioBottom';
-import CaixaDeTexto from '../screens/Questoes/CaixaDeTexto';
-import CheckBox from '../screens/Questoes/CheckBox';
-import Label from '../screens/Questoes/Label';
-import Emoji from '../screens/Questoes/Emoji';
+// import RadioBottom from '../screens/Questoes/RadioBottom';
+// import CaixaDeTexto from '../screens/Questoes/CaixaDeTexto';
+// import CheckBox from '../screens/Questoes/CheckBox';
+// import Label from '../screens/Questoes/Label';
+// import Emoji from '../screens/Questoes/Emoji';
 
 
 export default function Current(props) {

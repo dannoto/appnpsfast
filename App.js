@@ -8,10 +8,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { NavigationContainer } from '@react-navigation/native';
-
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
 import DrawerNavigation from './src/navigation/DrawerNavigation';
 import GuestNavigation from './src/navigation/GuestNavigation';
 
@@ -19,45 +15,14 @@ import Loading from './src/components/AppLoading';
 import ColorsApp from './src/config/ColorsApp';
 // import { useIsFocused } from "@react-navigation/native";
 
-import Login from '../screens/Login';
-import Recuperacao from '../screens/Recuperacao';
-
-import Home from '../screens/Home';
-import PontosContato from '../screens/PontosContato';
-import RunPesquisa from '../screens/RunPesquisa';
 
 
-import RadioBottom from '../screens/Questoes/RadioBottom';
-import CheckBox from '../screens/Questoes/CheckBox';
-import CaixaDeTexto from '../screens/Questoes/CaixaDeTexto';
-import Emoji from '../screens/Questoes/Emoji';
-import Label from '../screens/Questoes/Label';
-
-// Questions
-import Um from '../screens/Questoes/Um';
-import Dois from '../screens/Questoes/Dois';
-import Tres from '../screens/Questoes/Tres';
-import Quatro from '../screens/Questoes/Quatro';
-import Onze from '../screens/Questoes/Onze';
-import Treze from '../screens/Questoes/Treze';
-import Dezesseis from '../screens/Questoes/Dezesseis';
-
-
-// Questions
-
-
-import StepContact from '../screens/StepContact';
-import StepObrigado from '../screens/StepObrigado';
-
-
-const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
 
 export default function App() {
 
 
 
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -68,20 +33,59 @@ export default function App() {
 
   useEffect(() => {
 
-    const checkAuthStatus = async () => {
+    const getItemFromStorage = async () => {
+
+      // console.log('running auth')
+
       try {
-        const authData = await AsyncStorage.getItem('auth');
-        const token = JSON.parse(authData).token;
-        return token ? true : false;
-      } catch (e) {
-        // console.log("catch")
-        // console.log(e);
-        return false;
+
+        await AsyncStorage.getItem('auth', (error, result) => {
+
+          if (result) {
+            console.log(result);
+
+            var data = JSON.parse(result)
+
+            if (data.token) {
+
+              console.log('logado app.js')
+              // console.log(data.token)
+
+              setLoaded(true)
+
+            } else {
+              console.log('nao logado app.js')
+
+              setLoaded(true)
+              // return false;
+
+
+            }
+
+          } else {
+
+            // return false;
+            setLoaded(true)
+            console.log('false 1 app.js')
+            // setLoaded(true)
+
+          }
+
+        });
+
+      } catch (error) {
+
+        // return false;
+        console.log('false 2 app.js')
+        setLoaded(true)
+
+        // setLoaded(true)
+
+
       }
-    };
+    }
 
-    checkAuthStatus().then((status) => { console.log("qual statuso " + status); setIsLogged(status) });
-
+    getItemFromStorage()
 
 
 
@@ -89,44 +93,30 @@ export default function App() {
 
 
 
-  const GuestNavigation = () => {
+
+
+
+  // if (!loaded) {
+
+
+  //   return (
+  //     <Loading />
+
+  //   );
+
+  // }
+
+
+  // if (loaded) {
     return (
-      <Stack.Navigator>
-        <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />
-      </Stack.Navigator>
+
+      <NavigationContainer >
+        {isLogged ? <DrawerNavigation /> : <DrawerNavigation />}
+      </NavigationContainer>
+
     );
   }
-
-  const DrawerNavigation = () => {
-    return (
-      <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-        <Drawer.Screen name="home" component={Home} />
-      </Drawer.Navigator>
-    );
-  }
-
-
-
-
-
-
-  return (
-
-    // <NavigationContainer >
-    //   {isLogged ? <DrawerNavigation /> : <GuestNavigation />}
-    // </NavigationContainer>
-
-    <NavigationContainer>
-      {isLogged ? (
-        <DrawerNavigation />
-      ) : (
-        <GuestNavigation />
-      )}
-    </NavigationContainer>
-
-  );
-}
-
+// }
 
 
 

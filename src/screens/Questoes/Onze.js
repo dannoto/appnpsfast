@@ -25,7 +25,7 @@ import AppLoading from '../../components/AppLoading';
 
 
 
-export default function RadioBottom(props) {
+export default function Onze(props) {
 
     // const { id, nome } = route.params;
 
@@ -183,7 +183,8 @@ export default function RadioBottom(props) {
 
 
         const agora = new Date();
-        const dataFormatada = agora.toISOString();
+const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
+const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,

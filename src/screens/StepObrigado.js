@@ -103,7 +103,7 @@ export default function StepObrigado(props) {
 
             AsyncStorage.removeItem('dataAnswer');
             AsyncStorage.removeItem('dataRespondente');
-            // AsyncStorage.removeItem('currentIndex');
+            AsyncStorage.removeItem('final_expiration');
             // AsyncStorage.removeItem('currentType');
             // AsyncStorage.removeItem('codCliente');
             // AsyncStorage.removeItem('dataQuestions');
@@ -228,6 +228,7 @@ export default function StepObrigado(props) {
                 "contato": contato,
                 "email": email,
                 "ddd1": ddd1,
+                "dataEntrevista": dataFormatada,
                 "telefone1": telefone1,
                 "codPontoContato": codPontoContato,
                 "codStatus": 102,
