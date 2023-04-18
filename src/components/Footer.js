@@ -134,7 +134,7 @@ export default function Footer(props) {
 
 
     const toFiliais = () => {
-        console.log('to filiais')
+        // console.log('to filiais')
         onChangeScreen('home');
     }
 

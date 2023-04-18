@@ -46,8 +46,9 @@ export default function Header(props) {
 
                         try {
 
-                            console.log("NOME DA IMAGEEEEEEEEEEEMMMMMMMMMMM")
+                            console.log("[!] Pegando Imagem do Cliente")
                             console.log(logoFile.nomeImagem)
+
                             if (!logoFile.imagem) {
 
                             

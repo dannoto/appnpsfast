@@ -49,8 +49,8 @@ export default function Filiais(props) {
                     if (data.token) {
 
                         npsFiliais(data.token).then((response) => {
-
-                            console.log(response)
+                            // console.log('======NPS FILIAIS ================')
+                            // console.log(response)
 
                             try {
 
@@ -79,7 +79,7 @@ export default function Filiais(props) {
 
                            {
 
-                             console.log("npsFiliais(data.token).then((response) => {")
+                             console.log(error)
                            setIsLoaded(false)
                            }
                            
@@ -111,7 +111,7 @@ export default function Filiais(props) {
         const interval = setInterval(() => {
             getFiliais();
 
-            console.log('checando filiais')
+            // console.log('checando filiais')
         }, 3000);
         return () => clearInterval(interval);
     }, []);

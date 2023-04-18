@@ -34,7 +34,7 @@ export default function Doze(props) {
     // console.log('FIM QUESTAO')
 
     useKeepAwake();
-    console.log('======== PAGINA - RADIO BOTTOM =============')
+    console.log('======== PAGINA - DOZE =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -144,12 +144,15 @@ export default function Doze(props) {
                     contato = "Anonimo"
                 }
                 email = data.email
-                telefone1 = data.telefone
+                telefone1 = data.telefone.substring(2);
+                ddd1 = data.telefone.substring(0, 2);
+                
 
             } else {
                 contato = "Anonimo"
                 email = null
                 telefone1 = null
+                ddd1 = null
             }
         }
         )
@@ -185,9 +188,9 @@ export default function Doze(props) {
         )
 
 
-        const agora = new Date();
-const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
-const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
+        let data = new Date();
+        let data2 = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
+        var dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -235,10 +238,6 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         const interval = setInterval(() => {
 
-
-
-
-
             AsyncStorage.getItem('expiration', (error, Xexpiracao) => {
 
 
@@ -248,12 +247,37 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
                         if (Xindex) {
 
+
+                            // console.log('current index '+ Xindex)
                             const currentTimestamp = Math.floor(Date.now() / 1000);
                             console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
 
+
+
+                            // if (Xindex == 1) { 
+
+                            //     console.log('[*] TEVE UMA AÇÃO, COMEÇOU A RESPONDER A PESQUISA... ' + Xexpiracao)
+
+                            //     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
+
+                            //     const now = new Date();
+                            //     now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                            //     const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+                            //     AsyncStorage.setItem(
+                            //         'expiration',
+                            //         JSON.stringify(expiryTimeInTimestamp)
+                            //     );
+
+
+                            //     console.log('[*] CRIANDO UMA NOVA EXPIRAÇÃO... ' + expiryTimeInTimestamp)
+                            
+                            // }
+
                             if (currentTimestamp >= Xexpiracao) {
 
-
+                                // console.log('curent index '+Xindex)
                                 if (Xindex != 0) {
                                     sendResposta()
                                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
@@ -270,7 +294,7 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
                                     console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
 
-                                } else {
+                                }  else {
 
                                     console.log('[*] EXPIROU O TEMPO, MAS ESTÁ NA 1 PERGUNTA... ' + Xexpiracao)
 
@@ -292,9 +316,6 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
                             } else {
                                 console.log('.')
                             }
-
-
-
 
                         } else {
                             console.log('[????] ERROR GET CURRENT INDEX');

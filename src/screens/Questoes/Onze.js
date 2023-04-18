@@ -30,9 +30,9 @@ export default function Onze(props) {
     // const { id, nome } = route.params;
 
 
-    console.log('INICIO QUESTAO')
-    console.log(props.route.params)
-    console.log('FIM QUESTAO')
+    // console.log('INICIO QUESTAO')
+    // console.log(props.route.params)
+    // console.log('FIM QUESTAO')
 
     useKeepAwake();
     console.log('======== PAGINA - ONZE =============')
@@ -141,12 +141,15 @@ export default function Onze(props) {
                     contato = "Anonimo"
                 }
                 email = data.email
-                telefone1 = data.telefone
+                telefone1 = data.telefone.substring(2);
+                ddd1 = data.telefone.substring(0, 2);
+                
 
             } else {
                 contato = "Anonimo"
                 email = null
                 telefone1 = null
+                ddd1 = null
             }
         }
         )
@@ -182,9 +185,9 @@ export default function Onze(props) {
         )
 
 
-        const agora = new Date();
-const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
-const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
+        let data = new Date();
+        let data2 = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
+        var dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -193,6 +196,8 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
             "contato": contato,
             "email": email,
             "ddd1": ddd1,
+            "dataEntrevista": dataFormatada,
+
             "telefone1": telefone1,
             "codPontoContato": codPontoContato,
             "codStatus": 102,

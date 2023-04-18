@@ -120,8 +120,11 @@ export default function Login(props) {
             // onChangeScreen('home')
             npsLogin(email, password).then((response) => {
 
-
+                
+                
                 try {
+                    
+                    var response = JSON.parse(response)
 
                     if (response.token.length > 0) {
                         console.log('logado com sucesso')

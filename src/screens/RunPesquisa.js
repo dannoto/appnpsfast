@@ -54,7 +54,7 @@ export default function RunPesquisa(props) {
                 await AsyncStorage.getItem('auth', (error, result) => {
 
                     if (result) {
-                        console.log(result);
+                        // console.log(result);
 
                         var data = JSON.parse(result)
 

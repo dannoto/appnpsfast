@@ -48,9 +48,6 @@ export default function Dois(props) {
     const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
 
 
-
-
-
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
 
@@ -139,12 +136,15 @@ export default function Dois(props) {
                     contato = "Anonimo"
                 }
                 email = data.email
-                telefone1 = data.telefone
+                telefone1 = data.telefone.substring(2);
+                ddd1 = data.telefone.substring(0, 2);
+                
 
             } else {
                 contato = "Anonimo"
                 email = null
                 telefone1 = null
+                ddd1 = null
             }
         }
         )
@@ -180,9 +180,9 @@ export default function Dois(props) {
         )
 
 
-        const agora = new Date();
-const data2 = new Date(agora .valueOf() - agora.getTimezoneOffset() * 60000);
-const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
+        let data = new Date();
+        let data2 = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
+        var dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
@@ -419,6 +419,8 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
 
 
     const updateRespostas = (codQuestao, opcao) => {
+
+
         const respostaIndex = getRespostas.findIndex((item) => item.codQuestao === codQuestao && item.resposta === "" + opcao + "");
 
         if (respostaIndex !== -1) {
@@ -459,10 +461,6 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
                 // Pegando Index
                 await AsyncStorage.getItem('dataAnswer', (error, result) => {
 
-
-
-
-
                     if (result) {
 
                         console.log('JA TEM RESPOSTA, INSERINDO MAIS')
@@ -471,7 +469,6 @@ const dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
                         // var RespY = JSON.parse(getRespostas);
 
                         var oldAnswer = JSON.parse(result)
-
 
                         map(getRespostas, (item, i) => {
 
