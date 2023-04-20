@@ -1,31 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, Alert, TouchableOpacity, Dimensions, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import NetInfo from '@react-native-community/netinfo';
-
 import { Text, TextInput, Button } from 'react-native-paper';
 import Styles from '../config/Styles';
 import ColorsApp from '../config/ColorsApp';
-
 import { npsLogin, makeRequest } from '../config/DataApp'
 import Loading from '../components/AppLoading';
 import { useKeepAwake } from 'expo-keep-awake';
 
+import * as Device from 'expo-device';
 
-export default function Login(props) {
+export default function Home(props) {
+
     useKeepAwake();
 
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+                setOrientation("PORTRAIT")
+            } else {
+                setOrientation("LANDSCAPE")
+            }
+
+            console.log(orientation)
+        })
+
+    }, [orientation]);
+    // Orientation
+
     console.log('======== PAGINA - LOGIN =============')
-
-    NetInfo.fetch().then(state => {
-        console.log('Conexão de internet:', state.isConnected);
-    });
-
-    NetInfo.addEventListener(state => {
-        console.log('Conexão de internet:', state.isConnected);
-    });
-
 
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
@@ -120,10 +136,10 @@ export default function Login(props) {
             // onChangeScreen('home')
             npsLogin(email, password).then((response) => {
 
-                
-                
+
+
                 try {
-                    
+
                     var response = JSON.parse(response)
 
                     if (response.token.length > 0) {
@@ -169,62 +185,54 @@ export default function Login(props) {
 
             )
         }
+    }
 
 
+    if (orientation == "PORTRAIT") {
 
+        return (
+            <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30, paddingVertical: 60 }}>
+                    <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
+                    <View style={deviceType != 1? Styles.AuthContentTablet : Styles.AuthContent}>
+                        <Text style={deviceType != 1? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
+                        <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={deviceType != 1? Styles.TabletAuthInput : Styles.AuthInput} />
+                        <Text style={deviceType != 1? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
+                        <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={deviceType != 1? Styles.TabletAuthInput : Styles.AuthInput} />
+                        <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
+                            <Text style={deviceType != 1? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity mode="contained" onPress={() => Authenticando()} dark={true} style={deviceType != 1? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={deviceType != 1? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={deviceType != 1? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
+                            <Text style={deviceType != 1? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        );
 
+    } else {
 
+        return (
+            <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30, paddingVertical: 60 }}>
+                    <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
+                    <View style={deviceType != 1 ? Styles.AuthContentTablet : Styles.AuthContent}>
+                        <Text style={deviceType != 1 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
+                        <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={deviceType != 1 ? Styles.TabletAuthInput : Styles.AuthInput} />
+                        <Text style={deviceType != 1 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
+                        <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={deviceType != 1 ? Styles.TabletAuthInput : Styles.AuthInput} />
+                        <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
+                            <Text style={deviceType != 1 ? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity mode="contained" onPress={() => Authenticando()} dark={true} style={deviceType != 1 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={deviceType != 1 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={deviceType != 1 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
+                            <Text style={deviceType != 1 ? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        );
 
     }
 
 
-    // if (!loading) {
-
-
-    //     return (
-    //         <Loading />
-
-    //     );
-
-    // }
-
-
-
-    // if (loading) {
-
-
-
-    return (
-        <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
-
-
-            <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30, paddingVertical: 60 }}>
-                <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
-
-                <View style={screenWidth >= 768 ? Styles.AuthContentTablet : Styles.AuthContent}>
-
-                    <Text style={screenWidth >= 768 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
-                    <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
-
-                    <Text style={screenWidth >= 768 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
-                    <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={screenWidth >= 768 ? Styles.TabletAuthInput : Styles.AuthInput} />
-                    <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
-                        <Text style={screenWidth >= 768 ? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity mode="contained" onPress={() => Authenticando()} dark={true} style={screenWidth >= 768 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={screenWidth >= 768 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={screenWidth >= 768 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
-                        <Text style={screenWidth >= 768 ? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
-
-                    </TouchableOpacity>
-
-                </View>
-
-            </SafeAreaView>
-
-        </ScrollView>
-
-
-    );
 }
-
-
-// }

@@ -1102,21 +1102,21 @@ export default StyleSheet.create({
 
     ImageHeaderTablet: {
         width: '50%',
-        height: 120,
+        height: 80,
         marginBottom: 10
     },
     ImageHeader: {
         width: '50%',
-        height: 60,
+        height: 40,
         marginBottom: 5
     },
 
 
     ImageFooterTablet: {
-        width: 250, height: 100,
+        width: 220, height: 80,
     },
     ImageFooter: {
-        width: 140, height: 50,
+        width: 120, height: 40,
     },
 
 
@@ -1236,7 +1236,7 @@ export default StyleSheet.create({
         fontSize: 15,
         marginTop: 10,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 50,
         color: ColorsApp.PRIMARY
     },
 
@@ -1293,14 +1293,14 @@ export default StyleSheet.create({
 
 
     VerticalDezesseisItemNPS: {
-       height:100, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
+       height:65, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
     },
     VerticalDezesseisItemNPSTablet: {
-       height:100, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
+       height:80, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
     },
 
     HorizontalDezesseisItemNPS: {
-        height:100, width: '30%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
+        height:100, width: '20%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
      },
      HorizontalDezesseisItemNPSTablet: {
         height:100, width: '30%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
@@ -1547,6 +1547,113 @@ export default StyleSheet.create({
     },
 
 
+
+
+    // LANDSCAPE
+
+    LANDImageHeaderTablet: {
+        width: '30%',
+        height: 40,
+        marginBottom: 10
+    },
+    LANDImageHeader: {
+        width: '30%',
+        height: 30,
+        marginBottom: 5
+    },
+
+    LANDImageFooterTablet: {
+        width: 150, height: 60,
+    },
+    LANDImageFooter: {
+        width: 70, height: 30,
+    },
+
+    
+
+    LANDContainerSugestionTablet: {
+        marginHorizontal: 250
+    },
+    LANDContainerSugestion: {
+        marginHorizontal: 150
+    },
+
+    LANDContainerObrigadoTablet: {
+        flex: 1,
+        marginHorizontal: 250,
+        marginTop: 0,
+        marginBottom:20
+    },
+
+    LANDContainerObrigado: {
+        flex: 1,
+        marginHorizontal: 150,
+        marginTop: 0,
+        marginBottom:20
+    },
+
+
+    LANDInputSugestionTablet: {
+        marginTop: 20,
+        marginBottom: 15,
+
+        height: 100,
+        width: '100%',
+        borderColor: ColorsApp.PRIMARY,
+        borderWidth: 1,
+
+        backgroundColor: 'transparent',
+        fontSize: 22,
+        padding: 10
+
+    },
+
+    LANDInputSugestion: {
+
+        marginTop: 20,
+        marginBottom: 15,
+
+        height: 100,
+        width: '100%',
+        borderColor: ColorsApp.PRIMARY,
+        borderWidth: 1,
+
+        backgroundColor: 'transparent',
+        fontSize: 15,
+        padding: 10
+
+    },
+
+    LANDTitleSugestionTablet: {
+        textAlign: 'center',
+        fontSize: 27,
+        fontWeight: 'normal',
+        marginTop: 15
+    },
+
+    LANDTitleSugestion: {
+        textAlign: 'center',
+        fontSize: 17,
+        fontWeight: 'normal',
+        marginTop: 15
+    },
+
+
+    LANDLabelSugestionTablet: {
+        textAlign: 'left',
+        marginTop: 15,
+        fontSize: 22,
+        fontWeight: 'bold',
+        textTransform: 'uppercase'
+    },
+
+    LANDLabelSugestion: {
+        textAlign: 'left',
+        marginTop: 15,
+        fontSize: 12,
+        fontWeight: 'bold',
+        textTransform: 'uppercase'
+    },
 
 
 });

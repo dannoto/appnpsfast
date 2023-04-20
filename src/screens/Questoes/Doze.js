@@ -21,19 +21,56 @@ import Loading from '../../components/AppLoading';
 import { useKeepAwake } from 'expo-keep-awake';
 import AppLoading from '../../components/AppLoading';
 
-import {replaceDescription} from '../../config/Replace';
+import { replaceDescription } from '../../config/Replace';
 
+import * as Device from 'expo-device';
 
 export default function Doze(props) {
 
-    // const { id, nome } = route.params;
-
-
-    // console.log('INICIO QUESTAO')
-    // console.log(props.route.params)
-    // console.log('FIM QUESTAO')
-
     useKeepAwake();
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation    
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+            console.log(orientation)
+
+        })
+
+        function getQuestion() {
+            setQuestion([]);
+            setQuestion(props.route.params);
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
+        }
+
+        getQuestion()
+
+    }, [orientation]);
+    // Orientation
+
     console.log('======== PAGINA - DOZE =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -42,10 +79,6 @@ export default function Doze(props) {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-
-    const [orientation, setOrientation] = useState("PORTRAIT");
-    const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
 
@@ -146,7 +179,7 @@ export default function Doze(props) {
                 email = data.email
                 telefone1 = data.telefone.substring(2);
                 ddd1 = data.telefone.substring(0, 2);
-                
+
 
             } else {
                 contato = "Anonimo"
@@ -272,7 +305,7 @@ export default function Doze(props) {
 
 
                             //     console.log('[*] CRIANDO UMA NOVA EXPIRAÇÃO... ' + expiryTimeInTimestamp)
-                            
+
                             // }
 
                             if (currentTimestamp >= Xexpiracao) {
@@ -294,7 +327,7 @@ export default function Doze(props) {
 
                                     console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
 
-                                }  else {
+                                } else {
 
                                     console.log('[*] EXPIROU O TEMPO, MAS ESTÁ NA 1 PERGUNTA... ' + Xexpiracao)
 
@@ -340,62 +373,14 @@ export default function Doze(props) {
     //  End Expiration Pack
 
 
-
-
-
-    useEffect(() => {
-
-        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-
-            if (width < height) {
-
-                setOrientation("PORTRAIT")
-
-                if (screenWidth >= 768) {
-                    setIconSize(150)
-
-                } else {
-
-                    setIconSize(80)
-                }
-
-            } else {
-
-                setOrientation("LANDSCAPE")
-
-                if (screenWidth >= 768) {
-                    setIconSize(80)
-
-                } else {
-
-                    setIconSize(20)
-                }
-
-
-            }
-        })
-
-
-        function getQuestion() {
-            setQuestion([]);
-            setQuestion(props.route.params);
-            setLoading(true)
-            // console.log('paraaaaaaaaaaamsssssssssss')
-            // console.log(props.route.params)
-        }
-
-        getQuestion()
-
-
-
-    }, []);
-
-
     const navigation = useNavigation();
 
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
     };
+
+
+
 
     useEffect(() => {
 
@@ -445,9 +430,6 @@ export default function Doze(props) {
 
 
     }, []);
-
-
-
 
     const sendNPS = async (codQuestao, resposta) => {
 
@@ -602,20 +584,16 @@ export default function Doze(props) {
         }
 
 
+
+
         checkResposta(codQuestao, resposta)
         manageRoute()
 
 
 
 
+
     }
-
-
-    // console.log(orientation)
-
-
-
-
 
     if (!loading) {
         return (
@@ -625,40 +603,81 @@ export default function Doze(props) {
 
 
     } else {
-        return (
+
+
+        if (orientation == "PORTRAIT") {
+
+            return (
 
 
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <Header />
-                    <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                        <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                        <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
+                            <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
 
-                            {map(question.opcoes, (item, i) => (
+                                {map(question.opcoes, (item, i) => (
 
-                                < View key={i} style={screenWidth >= 768 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
-
-
-                                    <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
-
-                                        <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                            ))}
+                                    < View key={i} style={deviceType != 1 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
 
 
+                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
 
+                                            <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                ))}
+
+
+
+                            </View>
                         </View>
-                    </View>
-                    <Footer />
-                </SafeAreaView>
-            </ScrollView >
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
 
-        );
+            );
+
+        } else {
+
+            return (
+
+
+
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                            <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
+
+                                {map(question.opcoes, (item, i) => (
+
+                                    < View key={i} style={deviceType != 1 ? Styles.ItemNPSTablet : Styles.ItemNPS} >
+
+
+                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
+
+                                            <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{orientation}{item.descOpcao}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                ))}
+
+
+                            </View>
+                        </View>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
+
+            );
+        }
     }
 
 }

@@ -22,18 +22,53 @@ import { useKeepAwake } from 'expo-keep-awake';
 import AppLoading from '../../components/AppLoading';
 
 import { replaceDescription } from '../../config/Replace';
+import * as Device from 'expo-device';
 
 
 export default function Treze(props) {
 
-    // const { id, nome } = route.params;
-
-
-    // console.log('INICIO QUESTAO')
-    // console.log(props.route.params)
-    // console.log('FIM QUESTAO')
-
     useKeepAwake();
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation    
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+            }
+
+            console.log(orientation)
+
+        })
+
+        function getQuestion() {
+            setQuestion([]);
+            setQuestion(props.route.params);
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
+        }
+
+        getQuestion()
+
+    }, [orientation]);
+    // Orientation
+
     console.log('======== PAGINA - TREZE =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -44,16 +79,12 @@ export default function Treze(props) {
     const [password, setPassword] = useState('');
 
 
-    const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
 
 
     const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
-
-
-
 
 
     // Start Expiration Pack
@@ -321,58 +352,6 @@ export default function Treze(props) {
 
     //  End Expiration Pack
 
-
-
-
-
-    useEffect(() => {
-
-        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-
-            if (width < height) {
-
-                setOrientation("PORTRAIT")
-
-                if (screenWidth >= 768) {
-                    setIconSize(150)
-
-                } else {
-
-                    setIconSize(80)
-                }
-
-            } else {
-
-                setOrientation("LANDSCAPE")
-
-                if (screenWidth >= 768) {
-                    setIconSize(80)
-
-                } else {
-
-                    setIconSize(20)
-                }
-
-
-            }
-        })
-
-
-        function getQuestion() {
-            setQuestion([]);
-            setQuestion(props.route.params);
-            setLoading(true)
-            // console.log('paraaaaaaaaaaamsssssssssss')
-            // console.log(props.route.params)
-        }
-
-        getQuestion()
-
-
-
-    }, []);
-
-
     const navigation = useNavigation();
 
     const onChangeScreen = (screen) => {
@@ -427,8 +406,6 @@ export default function Treze(props) {
 
 
     }, []);
-
-
 
 
     const sendNPS = async (codQuestao, resposta) => {
@@ -595,10 +572,6 @@ export default function Treze(props) {
 
     }
 
-
-    // console.log(orientation)
-
-
     const [selectedOptions, setSelectedOptions] = useState([]);
 
 
@@ -613,35 +586,33 @@ export default function Treze(props) {
 
 
     if (!loading) {
+
         return (
             <Loading />
-
         );
-
 
     } else {
 
-
-
+        if (orientation == "PORTRAIT") {
 
             return (
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
                         <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={screenWidth >= 768 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                            <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
 
                                 {map(question.opcoes, (item, i) => (
 
-                                    < View key={i} style={screenWidth >= 768 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+                                    < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
 
 
-                                        <TouchableOpacity onPress={() => {  toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+                                        <TouchableOpacity onPress={() => {  toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
 
-                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+                                            <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
 
                                         </TouchableOpacity>
                                     </View>
@@ -657,6 +628,41 @@ export default function Treze(props) {
                 </ScrollView >
 
             );
+
+        } else {
+
+            return (
+
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={deviceType != 1 ?Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ?Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                            <View style={deviceType != 1 ?Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+
+                                {map(question.opcoes, (item, i) => (
+
+                                    < View key={i} style={deviceType != 1 ?Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+
+
+                                        <TouchableOpacity onPress={() => {  toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ?Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+
+                                            <Text style={[deviceType != 1 ?Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+
+                                        </TouchableOpacity>
+                                    </View>
+
+                                ))}
+
+                            </View>
+                        </View>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
+
+            );
+        }
 
         
     }

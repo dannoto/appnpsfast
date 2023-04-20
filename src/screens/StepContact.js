@@ -17,11 +17,47 @@ import { MaskedTextInput } from "react-native-mask-text";
 import AppLoading from '../components/AppLoading';
 
 
+import * as Device from 'expo-device';
+
 export default function StepContact(props) {
 
     useKeepAwake();
 
+    const [deviceType, setDeviceType] = useState("")
+    const [orientation, setOrientation] = useState("PORTRAIT");
+
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+
+    // Orientation   
+
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+            console.log(orientation)
+
+        })
+
+
+    }, [orientation]);
+    // Orientation
+
+
     console.log('======== PAGINA - STEP CONTACT =============')
+
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -30,10 +66,6 @@ export default function StepContact(props) {
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");
-
-
-    const [orientation, setOrientation] = useState("PORTRAIT");
-    const [IconSize, setIconSize] = useState(80);
 
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
@@ -124,7 +156,7 @@ export default function StepContact(props) {
                 email = data.email
                 telefone1 = data.telefone.substring(2);
                 ddd1 = data.telefone.substring(0, 2);
-                
+
 
             } else {
                 contato = "Anonimo"
@@ -169,7 +201,7 @@ export default function StepContact(props) {
         let data = new Date();
         let data2 = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
         var dataFormatada = data2.toISOString().replace(/\.\d{3}Z$/, '');
-        
+
         var dataResposta = {
             // "dataEntrevista": dataFormatada,
             "codClienteFastQuest": codCliente,
@@ -279,38 +311,7 @@ export default function StepContact(props) {
 
     //  End Expiration Pack
 
-    useEffect(() => {
 
-        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-            if (width < height) {
-
-                setOrientation("PORTRAIT")
-
-                if (screenWidth >= 768) {
-                    setIconSize(150)
-
-                } else {
-
-                    setIconSize(80)
-                }
-
-            } else {
-
-                setOrientation("LANDSCAPE")
-
-                if (screenWidth >= 768) {
-                    setIconSize(80)
-
-                } else {
-
-                    setIconSize(20)
-                }
-
-
-            }
-        })
-
-    }, []);
 
 
     const navigation = useNavigation();
@@ -402,7 +403,8 @@ export default function StepContact(props) {
 
         const isValidTelefone = (val) => {
 
-            if (telefone.length == 10 || telefone.length == 11) {
+            console.log(val.length)
+            if (val.length == 11) {
 
                 return true;
 
@@ -442,19 +444,28 @@ export default function StepContact(props) {
 
         } else {
 
+
+            var telefonex = telefone.replace(' ', '')
+            var emailx = email.replace(' ', '')
+
+
+
             AsyncStorage.setItem(
                 'dataRespondente',
-                JSON.stringify({ nome: nome, email: email, telefone: telefone })
+                JSON.stringify({ nome: nome, email: emailx, telefone: telefonex })
             );
 
             onChangeScreen('stepobrigado')
+            // console.log(nome)
+            // console.log(telefonex)
+            // console.log(emailx)
 
         }
 
     }
 
 
-    console.log(orientation)
+    // console.log(orientation)
 
     if (!loading) {
 
@@ -466,76 +477,151 @@ export default function StepContact(props) {
 
     } else {
 
-        return (
+        if (orientation == "PORTRAIT") {
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            return (
 
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
-                    <Header />
-                    <View style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
-
-                        <Text style={screenWidth >= 768 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
-                        <Text style={screenWidth >= 768 ? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                        <Header />
+                        <View style={deviceType != 1? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Nome</Text>
-                        <TextInput
-                            multiline={false}
-                            numberOfLines={1}
-                            value={nome}
-                            onChangeText={text => setNome(text)}
-                            style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
-                        />
-
-                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu E-mail</Text>
-                        <TextInput
-                            multiline={false}
-                            numberOfLines={1}
-                            value={email}
-                            onChangeText={text => setEmail(text)}
-                            style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
-                        />
-
-                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Telefone</Text>
-                        <MaskedTextInput
-                            // multiline={false}
-                            // numberOfLines={1}
-                            mask="99 9 9999-9999"
-                            value={telefone}
-                            placeholder={"(00) 0 0000-0000"}
-                            // onChangeText={text => setTelefone(text)}
-                            onChangeText={(text, rawText) => {
-                                console.log(text);
-                                console.log(rawText);
-                                setTelefone(rawText)
-                            }}
-                            // keyboardType="numeric"
-                            style={screenWidth >= 768 ? Styles.InputDefaultTablet : Styles.InputDefault}
-                        />
-
-                        <Text style={{ marginBottom: 20 }}></Text>
-
-                        <TouchableOpacity onPress={() => { sendNPS() }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
-                            {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
-                            <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
-                            <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
-                            {/* </View> */}
-                        </TouchableOpacity>
+                            <Text style={deviceType != 1? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
+                            <Text style={deviceType != 1? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
 
 
-                        <TouchableOpacity onPress={() => { sendNPSSkip() }} >
+                            <Text style={deviceType != 1? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Nome</Text>
+                            <TextInput
+                                multiline={false}
+                                numberOfLines={1}
+                                value={nome}
+                                onChangeText={text => setNome(text)}
+                                style={deviceType != 1? Styles.InputDefaultTablet : Styles.InputDefault}
+                            />
 
-                            <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+                            <Text style={deviceType != 1? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu E-mail</Text>
+                            <TextInput
+                                multiline={false}
+                                numberOfLines={1}
+                                value={email}
+                                onChangeText={text => setEmail(text)}
+                                style={deviceType != 1? Styles.InputDefaultTablet : Styles.InputDefault}
+                            />
 
-                        </TouchableOpacity>
+                            <Text style={deviceType != 1? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Telefone</Text>
+                            <MaskedTextInput
+                                // multiline={false}
+                                // numberOfLines={1}
+                                mask="99 9 9999-9999"
+                                value={telefone}
+                                placeholder={"(00) 0 0000-0000"}
+                                // onChangeText={text => setTelefone(text)}
+                                onChangeText={(text, rawText) => {
+                                    console.log(text);
+                                    console.log(rawText);
+                                    setTelefone(rawText)
+                                }}
+                                // keyboardType="numeric"
+                                style={deviceType != 1? Styles.InputDefaultTablet : Styles.InputDefault}
+                            />
 
-                    </View>
-                    <Footer />
-                </SafeAreaView>
-            </ScrollView>
+                            <Text style={{ marginBottom: 20 }}></Text>
 
-        );
+                            <TouchableOpacity onPress={() => { sendNPS() }} style={[deviceType != 1? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
+                                <Text style={deviceType != 1? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                                <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={deviceType != 1? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                              
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity onPress={() => { sendNPSSkip() }} >
+
+                                <Text style={deviceType != 1? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+
+                            </TouchableOpacity>
+
+                        </View>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView>
+
+            );
+
+        } else {
+
+            return (
+
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                        <Header />
+                        <View style={deviceType != 1 ? Styles.LANDContainerSugestionTablet : Styles.LANDContainerSugestion}>
+
+
+                            <Text style={deviceType != 1 ? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
+                            <Text style={deviceType != 1 ? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
+
+
+                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Nome</Text>
+                            <TextInput
+                                multiline={false}
+                                numberOfLines={1}
+                                value={nome}
+                                onChangeText={text => setNome(text)}
+                                style={deviceType != 1 ? Styles.InputDefaultTablet : Styles.InputDefault}
+                            />
+
+                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu E-mail</Text>
+                            <TextInput
+                                multiline={false}
+                                numberOfLines={1}
+                                value={email}
+                                onChangeText={text => setEmail(text)}
+                                style={deviceType != 1 ? Styles.InputDefaultTablet : Styles.InputDefault}
+                            />
+
+                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Seu Telefone</Text>
+                            <MaskedTextInput
+                                // multiline={false}
+                                // numberOfLines={1}
+                                mask="99 9 9999-9999"
+                                value={telefone}
+                                placeholder={"(00) 0 0000-0000"}
+                                // onChangeText={text => setTelefone(text)}
+                                onChangeText={(text, rawText) => {
+                                    console.log(text);
+                                    console.log(rawText);
+                                    setTelefone(rawText)
+                                }}
+                                // keyboardType="numeric"
+                                style={deviceType != 1 ? Styles.InputDefaultTablet : Styles.InputDefault}
+                            />
+
+                            <Text style={{ marginBottom: 20 }}></Text>
+
+                            <TouchableOpacity onPress={() => { sendNPS() }} style={[deviceType != 1 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
+                                {/* <View style={deviceType != 1 ?  Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                                <Text style={deviceType != 1 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                                <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={deviceType != 1 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                                {/* </View> */}
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity onPress={() => { sendNPSSkip() }} >
+
+                                <Text style={deviceType != 1 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+
+                            </TouchableOpacity>
+
+                        </View>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView>
+
+            );
+        }
 
     }
 

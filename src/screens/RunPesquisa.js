@@ -92,6 +92,23 @@ export default function RunPesquisa(props) {
 
     }, []);
 
+    useEffect(()=> {
+        
+        const storageExpirationTimeInMinutes = 3;
+
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+        const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+
+        AsyncStorage.setItem(
+            'expiration',
+            JSON.stringify(expiryTimeInTimestamp)
+        );
+
+        console.log('[*] RENOVANDO O CRONOMETRO ' + expiryTimeInTimestamp)
+    })
+
     // Definir route
     const routeQuestion = (currentQuestion, currentType) => {
 

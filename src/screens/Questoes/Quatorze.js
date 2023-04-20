@@ -13,11 +13,14 @@ import { npsEnviarRespostas } from '../../config/DataApp';
 import { map } from 'lodash';
 import Empty from '../../components/Empty';
 import AppLoading from '../../components/AppLoading';
-import {replaceDescription} from '../../config/Replace';
+import { replaceDescription } from '../../config/Replace';
 
 
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
+
+import * as Device from 'expo-device';
+
 
 import { useKeepAwake } from 'expo-keep-awake';
 // import { MaskedTextInput } from "react-native-mask-text";
@@ -26,6 +29,49 @@ import { useKeepAwake } from 'expo-keep-awake';
 export default function Quatorze(props) {
 
     useKeepAwake();
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation    
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+
+            console.log(orientation)
+
+        })
+
+        function getQuestion() {
+            setQuestion([]);
+            setQuestion(props.route.params);
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
+        }
+
+        getQuestion()
+
+    }, [orientation]);
+    // Orientation
 
     console.log('======== PAGINA - QUATORZE =============')
 
@@ -36,17 +82,11 @@ export default function Quatorze(props) {
 
     const [IconSize, setIconSize] = useState(80);
 
-    const [orientation, setOrientation] = useState("PORTRAIT");
-
-
     const [question, setQuestion] = useState([]);
     const [resposta, setResposta] = useState("");
 
 
     const navigation = useNavigation();
-
- 
-
 
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
@@ -137,7 +177,7 @@ export default function Quatorze(props) {
                 email = data.email
                 telefone1 = data.telefone.substring(2);
                 ddd1 = data.telefone.substring(0, 2);
-                
+
 
             } else {
                 contato = "Anonimo"
@@ -235,12 +275,12 @@ export default function Quatorze(props) {
 
 
                 if (Xexpiracao) {
-                
+
                     AsyncStorage.getItem('currentIndex', (error, Xindex) => {
 
                         if (Xindex) {
 
-                            const currentTimestamp = Math.floor(Date.now() / 1000); 
+                            const currentTimestamp = Math.floor(Date.now() / 1000);
                             console.log('HORA AGORA: ' + currentTimestamp + ' timestamp armazenado SALVO  ' + Xexpiracao)
 
                             if (currentTimestamp >= Xexpiracao) {
@@ -263,7 +303,7 @@ export default function Quatorze(props) {
                                     console.log('[*] EXPIROU O TEMPO ' + Xexpiracao)
 
                                 } else {
-                                    
+
                                     console.log('[*] EXPIROU O TEMPO, MAS ESTÁ NA 1 PERGUNTA... ' + Xexpiracao)
 
                                     const storageExpirationTimeInMinutes = 3; // in this case, we only want to keep the data for 30min
@@ -310,52 +350,6 @@ export default function Quatorze(props) {
     }, [countDown]);
 
     //  End Expiration Pack
-
-
-
-    useEffect(() => {
-
-        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-            if (width < height) {
-
-                setOrientation("PORTRAIT")
-
-                if (screenWidth >= 768) {
-                    setIconSize(150)
-
-                } else {
-
-                    setIconSize(80)
-                }
-
-            } else {
-
-                setOrientation("LANDSCAPE")
-
-                if (screenWidth >= 768) {
-                    setIconSize(80)
-
-                } else {
-
-                    setIconSize(20)
-                }
-
-
-            }
-        })
-
-
-
-        function getQuestion() {
-            setQuestion([]);
-            setQuestion(props.route.params);
-            setLoading(true)
-        }
-
-        getQuestion()
-
-
-    }, []);
 
     const onChangeScreen = (screen) => {
         navigation.navigate(screen);
@@ -410,6 +404,97 @@ export default function Quatorze(props) {
 
     }, []);
 
+    const skipNps = () => {
+
+        const newIndex = async (qtd, questions) => {
+
+
+            try {
+
+                // Pegando Index
+                await AsyncStorage.getItem('currentIndex', (error, result) => {
+
+                    if (result) {
+                        // console.log('current index: ' + result)
+
+                        // Pegando 
+                        // getQuestion(result)
+                        if (result == qtd) {
+
+                            console.log('Finalizando ciclo. indo pra contato,  index atual: ' + novaIndex)
+
+                            onChangeScreen('stepcontact')
+
+                        } else {
+
+                            // Icrementeando current index e atualizando
+                            var novaIndex = parseInt(result) + 1
+                            // console.log('incrementando. Nova index: '+novaIndex)
+
+                            AsyncStorage.setItem(
+                                'currentIndex',
+                                JSON.stringify(novaIndex)
+                            );
+
+                            AsyncStorage.setItem(
+                                'currentType',
+                                JSON.stringify(questions[novaIndex].codTipoQuestao)
+                            );
+
+                            onChangeScreen('runpesquisa')
+                        }
+
+
+
+
+                    } else {
+                        console.log('n tem current index')
+                    }
+                })
+
+            } catch (error) {
+
+                console.log(error)
+                console.log('1 CACH ERROR GET INDEX')
+                // setIsLoaded(true)
+            }
+        }
+
+        const manageRoute = async () => {
+
+            try {
+
+                // Pegando Questoes Data
+                await AsyncStorage.getItem('dataQuestions', (error, result) => {
+
+                    var result = JSON.parse(result)
+
+                    if (result.questions.length > 0) {
+
+                        var qtd = (result.questions.length - 1)
+
+                        // console.log('qtd total: '+ qtd)
+
+                        // DEfinindo nova index e novo type
+                        newIndex(qtd, result.questions)
+
+
+                    } else {
+                        console.log('n tem  questions')
+                    }
+                    // console.log(result)
+                })
+
+            } catch (error) {
+
+                console.log('1 CACH ERROR  get questions')
+                // setIsLoaded(true)
+            }
+        }
+
+
+        manageRoute()
+    }
 
     const sendNPS = async (codQuestao, resposta) => {
 
@@ -418,60 +503,71 @@ export default function Quatorze(props) {
 
         const checkResposta = async (codQuestao, resposta) => {
 
-            try {
-
-                // Pegando Index
-                await AsyncStorage.getItem('dataAnswer', (error, result) => {
+            if (resposta.length > 0) {
 
 
+                try {
 
-
-
-                    if (result) {
-
-                        console.log('JA TEM RESPOSTA, INSERINDO MAIS')
-
-                        var oldAnswer = JSON.parse(result)
-
-                        oldAnswer.answers.push({
-                            "codQuestao": codQuestao,
-                            "resposta": "" + resposta + ""
-                        });
-
-                        const newDataAnswer = oldAnswer
-
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(newDataAnswer)
-                        );
+                    // Pegando Index
+                    await AsyncStorage.getItem('dataAnswer', (error, result) => {
 
 
 
-                    } else {
 
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(
-                                {
-                                    answers: [
-                                        {
-                                            "codQuestao": codQuestao,
-                                            "resposta": "" + resposta + ""
-                                        }]
-                                }
 
-                            )
-                        );
+                        if (result) {
 
-                    }
+                            console.log('JA TEM RESPOSTA, INSERINDO MAIS')
 
-                })
+                            var oldAnswer = JSON.parse(result)
 
-            } catch (error) {
+                            oldAnswer.answers.push({
+                                "codQuestao": codQuestao,
+                                "resposta": "" + resposta + ""
+                            });
 
-                console.log('NAO TEM RESPOSTA, INSERINDO A PRIMEIRA')
+                            const newDataAnswer = oldAnswer
 
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(newDataAnswer)
+                            );
+
+
+
+                        } else {
+
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(
+                                    {
+                                        answers: [
+                                            {
+                                                "codQuestao": codQuestao,
+                                                "resposta": "" + resposta + ""
+                                            }]
+                                    }
+
+                                )
+                            );
+
+                        }
+
+                    })
+
+                } catch (error) {
+
+                    console.log('NAO TEM RESPOSTA, INSERINDO A PRIMEIRA')
+
+                }
+
+            } else {
+                Alert.alert('Opss', 'Preencha sua resposta.', [
+
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ]);
             }
+
 
 
         }
@@ -564,8 +660,19 @@ export default function Quatorze(props) {
         }
 
 
-        checkResposta(codQuestao, resposta)
-        manageRoute()
+        console.log(resposta.length)
+
+        if (resposta.length > 0) {
+
+            checkResposta(codQuestao, resposta)
+            manageRoute()
+
+        } else {
+            Alert.alert('Opss', 'Preencha o campo.', [
+
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+        }
 
 
 
@@ -583,52 +690,106 @@ export default function Quatorze(props) {
 
     } else {
 
-        return (
+        if (orientation == "PORTRAIT") {
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
-                    <Header />
-                    <ScrollView style={screenWidth >= 768 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+            
 
+            return (
 
-                        {/* <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
-
-                        <Text style={screenWidth >= 768 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
-
-                        <Text style={screenWidth >= 768 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
-
-                        <TextInput
-                            multiline={true}
-                            // numberOfLines={4}
-                            textAlignVertical="top"
-                            value={resposta}
-                            onChangeText={(text) => {
-                                console.log(text);
-                                setResposta(text)
-                            }}
-                            style={screenWidth >= 768 ? Styles.InputSugestionTablet : Styles.InputSugestion}
-                        />
-
-                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[screenWidth >= 768 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
-                            {/* <View style={screenWidth >= 768 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
-                            <Text style={screenWidth >= 768 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
-                            <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={screenWidth >= 768 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
-                            {/* </View> */}
-                        </TouchableOpacity>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                        <Header />
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }}  >
+                            {/* <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
 
-                            <Text style={screenWidth >= 768 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+                            <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
-                        </TouchableOpacity>
+                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
 
-                    </ScrollView>
-                    <Footer />
-                </SafeAreaView>
-            </ScrollView>
+                            <TextInput
+                                multiline={true}
+                                // numberOfLines={4}
+                                textAlignVertical="top"
+                                value={resposta}
+                                onChangeText={(text) => {
+                                    console.log(text);
+                                    setResposta(text)
+                                }}
+                                style={deviceType != 1 ? Styles.InputSugestionTablet : Styles.InputSugestion}
+                            />
 
-        );
+                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[deviceType != 1 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
+                                {/* <View style={deviceType != 1 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                                <Text style={deviceType != 1 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                                <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={deviceType != 1 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                                {/* </View> */}
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity onPress={() => { skipNps() }}  >
+
+                                <Text style={deviceType != 1 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+
+                            </TouchableOpacity>
+
+                        </ScrollView>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView>
+
+            );
+
+        } else {
+
+            return (
+
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                        <Header />
+                        <ScrollView style={deviceType != 1 ? Styles.LANDContainerSugestionTablet : Styles.LANDContainerSugestion}>
+
+
+                            {/* <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
+
+                            <Text style={deviceType != 1 ? Styles.LANDTitleSugestionTablet : Styles.LANDTitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
+
+                            <Text style={deviceType != 1 ? Styles.LANDLabelSugestionTablet : Styles.LANDLabelSugestion} >Sua Mensagem</Text>
+
+                            <TextInput
+                                multiline={true}
+                                // numberOfLines={4}
+                                textAlignVertical="top"
+                                value={resposta}
+                                onChangeText={(text) => {
+                                    console.log(text);
+                                    setResposta(text)
+                                }}
+                                style={deviceType != 1 ? Styles.LANDInputSugestionTablet : Styles.LANDInputSugestion}
+                            />
+
+                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[deviceType != 1 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull]} >
+                                {/* <View style={deviceType != 1 ? Styles.ButtonViewSugestionTablet : Styles.ButtonViewSugestion} > */}
+                                <Text style={deviceType != 1 ? Styles.ButtonTextSugestionTablet : Styles.ButtonTextSugestion} >AVANÇAR</Text>
+                                <IconButton icon="arrow-right-thin" iconColor={ColorsApp.PRIMARY} size={40} style={deviceType != 1 ? Styles.ButtonIconSugestionTablet : Styles.ButtonIconSugestion} ></IconButton>
+                                {/* </View> */}
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity onPress={() => { skipNps() }}  >
+
+                                <Text style={deviceType != 1 ? Styles.NextSugestionTablet : Styles.NextSugestion} >PULAR ESSA ETAPA</Text>
+
+                            </TouchableOpacity>
+
+                        </ScrollView>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView>
+
+            );
+        }
 
     }
 

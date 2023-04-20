@@ -13,10 +13,42 @@ import { useIsFocused } from "@react-navigation/native";
 import { useKeepAwake } from 'expo-keep-awake';
 
 import AppLoading from '../components/AppLoading';
+import * as Device from 'expo-device';
 
 export default function StepObrigado(props) {
 
     useKeepAwake();
+
+    const [deviceType, setDeviceType] = useState("")
+    const [orientation, setOrientation] = useState("PORTRAIT");
+
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+
+    // Orientation   
+
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+            console.log(orientation)
+
+        })
+
+
+    }, [orientation]);
 
     console.log('======== PAGINA - STEP OBRIGADO =============')
 
@@ -29,7 +61,6 @@ export default function StepObrigado(props) {
 
 
 
-    const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState("");
     const [countDown, setCountDown] = useState();
 
@@ -84,7 +115,7 @@ export default function StepObrigado(props) {
     useEffect(() => {
 
 
-        if (screenWidth >= 768) {
+        if (deviceType != 1) {
             setIconSize(150)
 
         } else {
@@ -348,6 +379,8 @@ export default function StepObrigado(props) {
 
     } else {
 
+       if (orientation == "PORTRAIT") {
+
         return (
 
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -356,18 +389,18 @@ export default function StepObrigado(props) {
 
                     <Header />
 
-                    <View style={screenWidth >= 768 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
+                    <View style={deviceType != 1 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
 
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-                            <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={screenWidth >= 768 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
+                            <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={deviceType != 1 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
-                            <Text style={screenWidth >= 768 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
-                            <Text style={screenWidth >= 768 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
+                            <Text style={deviceType != 1 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
+                            <Text style={deviceType != 1 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
 
 
                             <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
-                                <Text style={screenWidth >= 768 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
+                                <Text style={deviceType != 1 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
                             </TouchableOpacity>
 
 
@@ -383,6 +416,46 @@ export default function StepObrigado(props) {
 
 
         );
+
+       } else {
+
+        return (
+
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
+
+
+                    <Header />
+
+                    <View style={deviceType != 1 ? Styles.LANDContainerObrigadoTablet : Styles.LANDContainerObrigado}>
+
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+                            <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={deviceType != 1 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
+
+                            <Text style={deviceType != 1 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
+                            <Text style={deviceType != 1 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
+
+
+                            <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
+                                <Text style={deviceType != 1 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
+                            </TouchableOpacity>
+
+
+                        </View>
+                    </View>
+
+                    <Footer />
+
+
+
+                </SafeAreaView>
+            </ScrollView>
+
+
+        );
+
+       }
 
     }
 }

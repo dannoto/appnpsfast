@@ -12,12 +12,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { useIsFocused } from "@react-navigation/native";
 
 import { useKeepAwake } from 'expo-keep-awake';
+import { DeviceType } from 'expo-device';
+
+
+import * as Device from 'expo-device';
+
 
 export default function PontosContato(props) {
 
 
     useKeepAwake();
-    
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+                setOrientation("PORTRAIT")
+            } else {
+                setOrientation("LANDSCAPE")
+            }
+
+            console.log(orientation)
+        })
+
+    }, [orientation]);
+    // Orientation
+
     console.log('======== PAGINA -PONTOS DE CONTATO =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -49,7 +80,7 @@ export default function PontosContato(props) {
                         if (data.token) {
 
                             console.log('sucessfull check autentiocatoin')
-                           
+
 
                         } else {
                             console.log('no data.token  check autentiocatoin')
@@ -108,27 +139,53 @@ export default function PontosContato(props) {
 
     } else {
 
-        return (
+
+        if (orientation == "PORTRAIT") {
+            return (
 
 
-            <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
-                <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
+                <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+                    <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
 
 
-                    <View style={screenWidth >= 768 ? Styles.HomeContentTablet : Styles.HomeContent}>
-                       
-                        <View style={{ marginBottom: 50, marginTop: 80 }}>
-                            <View>
-                                <Text style={screenWidth >= 768 ? Styles.HomeSubtitleTablet : Styles.HomeSubtitle}>PONTOS DE CONTATO</Text>
+                        <View style={deviceType != 1 ? Styles.HomeContentTablet : Styles.HomeContent}>
+
+                            <View style={{ marginBottom: 50, marginTop: 80 }}>
+                                <View>
+                                    <Text style={deviceType != 1 ? Styles.HomeSubtitleTablet : Styles.HomeSubtitle}>PONTOS DE CONTATO</Text>
+                                </View>
+
+                                <Pontos />
                             </View>
-
-                            <Pontos />
                         </View>
-                    </View>
-                </SafeAreaView>
-            </ScrollView>
+                    </SafeAreaView>
+                </ScrollView>
 
 
-        );
+            );
+        } else {
+            return (
+
+
+                <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
+                    <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
+
+
+                        <View style={deviceType != 1 ? Styles.HomeContentTablet : Styles.HomeContent}>
+
+                            <View style={{ marginBottom: 50, marginTop: 80 }}>
+                                <View>
+                                    <Text style={deviceType != 1 ? Styles.HomeSubtitleTablet : Styles.HomeSubtitle}>PONTOS DE CONTATO</Text>
+                                </View>
+
+                                <Pontos />
+                            </View>
+                        </View>
+                    </SafeAreaView>
+                </ScrollView>
+
+
+            );
+        }
     }
 }

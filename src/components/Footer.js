@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import InnerLoading from './InnerLoading';
 import ColorsApp from '../config/ColorsApp';
+import * as Device from 'expo-device';
 
 
 export default function Footer(props) {
@@ -148,6 +149,34 @@ export default function Footer(props) {
     }
 
 
+    // 
+    const [deviceType, setDeviceType] = useState("")
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+            }
+        })
+
+
+
+    }, []);
+    // 
+
 
     if (!isLoaded) {
         return (
@@ -156,55 +185,124 @@ export default function Footer(props) {
     }
 
     if (isLoaded) {
-        return (
 
-            <View>
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={handleModalOpen}>
-                        {/* <MaterialIcons name="add" size={24} color="black" /> */}
-                    </TouchableOpacity>
-                    <Modal
-                        animationType="slide"
-                        transparent={false}
-                        visible={modalVisible}
-                    >
-                        <View style={styles.modalContainer}>
-                            <View style={styles.modalHeader}>
-                                <TouchableOpacity onPress={handleModalClose}>
-                                    <MaterialIcons name="close" size={50} color="black" />
-                                </TouchableOpacity>
-                            </View>
-                            {/* <Text style={styles.labelText}>Digita a senha para retornar.</Text> */}
-                            <View style={styles.modalContent}>
-                                <TextInput
-                                    style={ screenWidth >= 768 ? styles.TabletInput : styles.Input}
-                                    onChangeText={handleInputChange}
-                                    value={inputValue}
-                                    placeholder="DIGITE A SENHA PARA RETORNAR"
-                                />
-                                <TouchableOpacity title="ENVIAR" style={styles.button} onPress={handleSave} >
-                                    <Text style={ screenWidth >= 768 ? styles.TabletButtonText : styles.ButtonText}>ENVIAR</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
+        if (orientation == "PORTRAIT") {
 
-                <View style={{}}>
-                    <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 5, paddingTop: 15, paddingLeft: 10, paddingRight: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: ColorsApp.BACK }}>
+            return (
 
-                        <TouchableOpacity onPress={() => { handleModalOpen() }}>
-                            <Image resizeMode={"contain"} source={require('./../../assets/logo.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
+                <View>
+                    <View style={styles.container}>
+                        <TouchableOpacity onPress={handleModalOpen}>
+                            {/* <MaterialIcons name="add" size={24} color="black" /> */}
                         </TouchableOpacity>
-
-                        <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={screenWidth >= 768 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
-
-
-
+                        <Modal
+                            animationType="slide"
+                            transparent={false}
+                            visible={modalVisible}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalHeader}>
+                                    <TouchableOpacity onPress={handleModalClose}>
+                                        <MaterialIcons name="close" size={50} color="black" />
+                                    </TouchableOpacity>
+                                </View>
+                                {/* <Text style={styles.labelText}>Digita a senha para retornar.</Text> */}
+                                <View style={styles.modalContent}>
+                                    <TextInput
+                                        style={ deviceType != 1 ? styles.TabletInput : styles.Input}
+                                        onChangeText={handleInputChange}
+                                        value={inputValue}
+                                        placeholder="DIGITE A SENHA PARA RETORNAR"
+                                        secureTextEntry={true} // habilita a mascara da senha
+    
+                                    />
+                                    <TouchableOpacity title="ENVIAR" style={styles.button} onPress={handleSave} >
+                                        <Text style={ deviceType != 1 ? styles.TabletButtonText : styles.ButtonText}>ENVIAR</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                    </View>
+    
+                    <View style={{}}>
+                        <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 2, paddingTop: 7, paddingLeft: 10, paddingRight: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: ColorsApp.BACK }}>
+    
+                            {/* <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={deviceType != 1 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image> */}
+                            
+                            
+                            <TouchableOpacity onPress={() => { handleModalOpen() }}>
+                                <Image resizeMode={"contain"} source={require('./../../assets/logo.png')} style={deviceType != 1 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image>
+                            </TouchableOpacity>
+    
+    
+    
+    
+                        </View>
                     </View>
                 </View>
-            </View>
+    
+            );
+    
 
-        );
+        } else {
+
+            return (
+
+                <View>
+                    <View style={styles.container}>
+                        <TouchableOpacity onPress={handleModalOpen}>
+                            {/* <MaterialIcons name="add" size={24} color="black" /> */}
+                        </TouchableOpacity>
+                        <Modal
+                            animationType="slide"
+                            transparent={false}
+                            visible={modalVisible}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalHeader}>
+                                    <TouchableOpacity onPress={handleModalClose}>
+                                        <MaterialIcons name="close" size={50} color="black" />
+                                    </TouchableOpacity>
+                                </View>
+                                {/* <Text style={styles.labelText}>Digita a senha para retornar.</Text> */}
+                                <View style={styles.modalContent}>
+                                    <TextInput
+                                        style={ deviceType != 1 ? styles.TabletInput : styles.Input}
+                                        onChangeText={handleInputChange}
+                                        value={inputValue}
+                                        placeholder="DIGITE A SENHA PARA RETORNAR"
+                                        secureTextEntry={true} // habilita a mascara da senha
+    
+                                    />
+                                    <TouchableOpacity title="ENVIAR" style={styles.button} onPress={handleSave} >
+                                        <Text style={ deviceType != 1 ? styles.TabletButtonText : styles.ButtonText}>ENVIAR</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                    </View>
+    
+                    <View style={{}}>
+                        <View style={{ borderTopColor: ColorsApp.SECONDARY, borderTopWidth: 2, paddingTop: 7, paddingLeft: 10, paddingRight: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: ColorsApp.BACK }}>
+    
+                            {/* <Image resizeMode={"contain"} source={require('./../../assets/hsr.png')} style={deviceType != 1 ? Styles.ImageFooterTablet : Styles.ImageFooter} ></Image> */}
+                            
+                            
+                            <TouchableOpacity onPress={() => { handleModalOpen() }}>
+                                <Image resizeMode={"contain"} source={require('./../../assets/logo.png')} style={deviceType !=  1 ? Styles. LANDImageFooterTablet : Styles. LANDImageFooter} ></Image>
+                            </TouchableOpacity>
+    
+    
+    
+    
+                        </View>
+                    </View>
+                </View>
+    
+            );
+    
+        }
+
+       
     }
 }

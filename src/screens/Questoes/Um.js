@@ -23,10 +23,56 @@ import AppLoading from '../../components/AppLoading';
 
 import { replaceDescription } from '../../config/Replace';
 
+import * as Device from 'expo-device';
+
+
 
 export default function Um(props) {
 
     useKeepAwake();
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation    
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+
+            console.log(orientation)
+        })
+
+        function getQuestion() {
+            setQuestion([]);
+            setQuestion(props.route.params);
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
+        }
+
+        getQuestion()
+
+    }, [orientation]);
+    // Orientation
+
     console.log('======== PAGINA - UM =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -37,16 +83,12 @@ export default function Um(props) {
     const [password, setPassword] = useState('');
 
 
-    const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
 
 
     const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
-
-
-
 
 
     // Start Expiration Pack
@@ -139,7 +181,7 @@ export default function Um(props) {
                 email = data.email
                 telefone1 = data.telefone.substring(2);
                 ddd1 = data.telefone.substring(0, 2);
-                
+
 
             } else {
                 contato = "Anonimo"
@@ -603,82 +645,164 @@ export default function Um(props) {
 
     } else {
 
+        if (orientation == "PORTRAIT") {
 
 
-        if (question.nrQuestao == "RESPOSTA_UNICA_VERTICAL") {
+            if (question.nrQuestao == "RESPOSTA_UNICA_VERTICAL") {
 
-            return (
+                return (
 
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={screenWidth >= 768 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                                <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
 
-                                {map(question.opcoes, (item, i) => (
+                                    {map(question.opcoes, (item, i) => (
 
-                                    < View key={i} style={screenWidth >= 768 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
-
-
-                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
-
-                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
-
-                                        </TouchableOpacity>
-                                    </View>
-
-                                ))}
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
 
 
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
 
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
                             </View>
-                        </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
-            );
+                );
 
-        } else if (question.nrQuestao == "RESPOSTA_UNICA_HORIZONTAL") {
+            } else if (question.nrQuestao == "RESPOSTA_UNICA_HORIZONTAL") {
 
-            return (
+                return (
 
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={screenWidth >= 768 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
 
-                                {map(question.opcoes, (item, i) => (
+                                    {map(question.opcoes, (item, i) => (
 
-                                    < View key={i} style={screenWidth >= 768 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
-
-
-                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
-
-                                            <Text style={[screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
-
-                                        </TouchableOpacity>
-                                    </View>
-
-                                ))}
+                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
 
 
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
 
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
                             </View>
-                        </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
-            );
+                );
 
 
+            }
+
+        } else {
+
+            if (question.nrQuestao == "RESPOSTA_UNICA_VERTICAL") {
+
+                return (
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                                <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
+                            </View>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
+
+                );
+
+            } else if (question.nrQuestao == "RESPOSTA_UNICA_HORIZONTAL") {
+
+                return (
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
+                            </View>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
+
+                );
+
+
+            }
         }
+
+
+
     }
 
 }

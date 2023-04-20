@@ -23,17 +23,57 @@ import AppLoading from '../../components/AppLoading';
 
 import { replaceDescription } from '../../config/Replace';
 
+import * as Device from 'expo-device';
 
 export default function Dezesseis(props) {
 
-    // const { id, nome } = route.params;
-
-
-    // console.log('INICIO QUESTAO')
-    // console.log(props.route.params)
-    // console.log('FIM QUESTAO')
-
     useKeepAwake();
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation    
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+
+            console.log(orientation)
+
+        })
+
+        function getQuestion() {
+            setQuestion([]);
+            setQuestion(props.route.params);
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
+        }
+
+        getQuestion()
+
+    }, [orientation]);
+    // Orientation
+
+      
+
     console.log('======== PAGINA - DEZESSEIS =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -44,17 +84,12 @@ export default function Dezesseis(props) {
     const [password, setPassword] = useState('');
 
 
-    const [orientation, setOrientation] = useState("PORTRAIT");
     const [IconSize, setIconSize] = useState(80);
 
     const [question, setQuestion] = useState([]);
 
 
     const labelStyles = [Styles.LabelNPS0, Styles.LabelNPS1, Styles.LabelNPS2, Styles.LabelNPS3, Styles.LabelNPS4, Styles.LabelNPS5, Styles.LabelNPS6, Styles.LabelNPS7, Styles.LabelNPS8, Styles.LabelNPS9, Styles.LabelNPS10];
-
-
-
-
 
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
@@ -146,7 +181,7 @@ export default function Dezesseis(props) {
                 email = data.email
                 telefone1 = data.telefone.substring(2);
                 ddd1 = data.telefone.substring(0, 2);
-                
+
 
             } else {
                 contato = "Anonimo"
@@ -321,57 +356,6 @@ export default function Dezesseis(props) {
     //  End Expiration Pack
 
 
-
-
-
-    useEffect(() => {
-
-        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-
-            if (width < height) {
-
-                setOrientation("PORTRAIT")
-
-                if (screenWidth >= 768) {
-                    setIconSize(150)
-
-                } else {
-
-                    setIconSize(80)
-                }
-
-            } else {
-
-                setOrientation("LANDSCAPE")
-
-                if (screenWidth >= 768) {
-                    setIconSize(80)
-
-                } else {
-
-                    setIconSize(20)
-                }
-
-
-            }
-        })
-
-
-        function getQuestion() {
-            setQuestion([]);
-            setQuestion(props.route.params);
-            setLoading(true)
-            // console.log('paraaaaaaaaaaamsssssssssss')
-            // console.log(props.route.params)
-        }
-
-        getQuestion()
-
-
-
-    }, []);
-
-
     const navigation = useNavigation();
 
     const onChangeScreen = (screen) => {
@@ -426,8 +410,6 @@ export default function Dezesseis(props) {
 
 
     }, []);
-
-
 
 
     const sendNPS = async (codQuestao, resposta) => {
@@ -594,7 +576,6 @@ export default function Dezesseis(props) {
 
     }
 
-
     // console.log(orientation)
     function getSrcValue(imgString) {
         const srcRegex = /<img.*?src="(.*?)".*?>/g;
@@ -606,9 +587,9 @@ export default function Dezesseis(props) {
     }
 
     function getSrc(src) {
-      
+
         const srcValue = getSrcValue(src);
-        const imageUrl = `https://app.npsfast.com.br${srcValue}`;
+        const imageUrl = `https://ccoanalitica.com/npsfast/${srcValue}`;
 
         console.log(imageUrl)
         return imageUrl;
@@ -616,170 +597,334 @@ export default function Dezesseis(props) {
 
 
     if (!loading) {
+
         return (
             <Loading />
-
         );
-
 
     } else {
 
 
-
-        if (question.nrQuestao == "SATISFACAO_VERTICAL_3") {
-
-            return (
-
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+        if (orientation == "PORTRAIT") {
 
 
+            if (question.nrQuestao == "SATISFACAO_VERTICAL_3") {
 
-                            <View style={screenWidth >= 768 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                return (
 
-                                {map(question.opcoes, (item, i) => (
+                    
 
-                                    < View key={i} style={screenWidth >= 768 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
-
-
-                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
-
-                                            {/* <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
-                                            <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
-
-                                        </TouchableOpacity>
-                                    </View>
-
-                                ))}
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
 
 
+                                <View style={deviceType != 1? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
                             </View>
-                        </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
-            );
+                );
 
-        } else if (question.nrQuestao == "SATISFACAO_VERTICAL_5") {
+            } else if (question.nrQuestao == "SATISFACAO_VERTICAL_5") {
 
-            return (
+                return (
 
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}   >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={screenWidth >= 768 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                                <View style={deviceType != 1? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
 
-                                {map(question.opcoes, (item, i) => (
+                                    {map(question.opcoes, (item, i) => (
 
-                                    < View key={i} style={screenWidth >= 768 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
-
-
-                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
-
-                                            {/* <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
-                                            <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
-
-                                        </TouchableOpacity>
-                                    </View>
-
-                                ))}
+                                        < View key={i} style={deviceType != 1? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
 
 
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
 
+                                                {/* <Text style={deviceType != 1? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
                             </View>
-                        </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
-            );
-
-
-        } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_3") {
-
-            return (
-
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
-
-                            <View style={screenWidth >= 768 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
-
-                                {map(question.opcoes, (item, i) => (
-
-                                    < View key={i} style={screenWidth >= 768 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+                );
 
 
-                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+            } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_3") {
 
-                                            {/* <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
-                                            <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+                return (
 
-                                        </TouchableOpacity>
-                                    </View>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                ))}
+                                <View style={deviceType != 1? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
 
 
 
+                                </View>
                             </View>
-                        </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
-            );
-
-
-        } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_5") {
-
-            return (
-
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
-
-                            <View style={screenWidth >= 768 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
-
-                                {map(question.opcoes, (item, i) => (
-
-                                    < View key={i} style={screenWidth >= 768 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+                );
 
 
-                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[screenWidth >= 768 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+            } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_5") {
 
-                                            {/* <Text style={screenWidth >= 768 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
-                                            <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+                return (
 
-                                        </TouchableOpacity>
-                                    </View>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                ))}
+                                <View style={deviceType != 1? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
 
 
 
+                                </View>
                             </View>
-                        </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
-            );
+                );
 
 
+            }
+
+        } else {
+
+
+            if (question.nrQuestao == "SATISFACAO_VERTICAL_3") {
+
+                return (
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+
+
+                                <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
+                            </View>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
+
+                );
+
+            } else if (question.nrQuestao == "SATISFACAO_VERTICAL_5") {
+
+                return (
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                                <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
+                            </View>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
+
+                );
+
+
+            } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_3") {
+
+                return (
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
+                            </View>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
+
+                );
+
+
+            } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_5") {
+
+                return (
+
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <Header />
+                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+
+                                    {map(question.opcoes, (item, i) => (
+
+                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
+
+                                                {/* <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
+                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    ))}
+
+
+
+                                </View>
+                            </View>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
+
+                );
+
+
+            }
         }
+
+
 
     }
 

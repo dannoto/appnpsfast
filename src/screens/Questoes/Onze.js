@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { npsEnviarRespostas } from '../../config/DataApp';
 
-import {replaceDescription} from '../../config/Replace';
+import { replaceDescription } from '../../config/Replace';
 
 
 import { map } from 'lodash';
@@ -24,17 +24,55 @@ import { useKeepAwake } from 'expo-keep-awake';
 import AppLoading from '../../components/AppLoading';
 
 
+import * as Device from 'expo-device';
 
 export default function Onze(props) {
 
-    // const { id, nome } = route.params;
-
-
-    // console.log('INICIO QUESTAO')
-    // console.log(props.route.params)
-    // console.log('FIM QUESTAO')
-
     useKeepAwake();
+
+    const [orientation, setOrientation] = useState("PORTRAIT");
+    const [deviceType, setDeviceType] = useState("")
+
+    // DeviceType
+    Device.getDeviceTypeAsync().then((v) => {
+        setDeviceType(v)
+    })
+    // DeviceType
+
+    // Orientation    
+    useEffect(() => {
+
+        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+
+            if (width < height) {
+
+                setOrientation("PORTRAIT")
+
+
+            } else {
+
+                setOrientation("LANDSCAPE")
+
+
+            }
+
+            console.log(orientation)
+
+        })
+
+        function getQuestion() {
+            setQuestion([]);
+            setQuestion(props.route.params);
+            setLoading(true)
+            // console.log('paraaaaaaaaaaamsssssssssss')
+            // console.log(props.route.params)
+        }
+
+        getQuestion()
+
+    }, [orientation]);
+    // Orientation
+
     console.log('======== PAGINA - ONZE =============')
 
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -44,14 +82,7 @@ export default function Onze(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-
-    const [orientation, setOrientation] = useState("PORTRAIT");
-    const [IconSize, setIconSize] = useState(80);
-
     const [question, setQuestion] = useState([]);
-
-
-
 
     // Start Expiration Pack
     const [countDown, setCountDown] = useState();
@@ -143,7 +174,7 @@ export default function Onze(props) {
                 email = data.email
                 telefone1 = data.telefone.substring(2);
                 ddd1 = data.telefone.substring(0, 2);
-                
+
 
             } else {
                 contato = "Anonimo"
@@ -320,57 +351,6 @@ export default function Onze(props) {
     //  End Expiration Pack
 
 
-
-
-
-    useEffect(() => {
-
-        Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-
-            if (width < height) {
-
-                setOrientation("PORTRAIT")
-
-                if (screenWidth >= 768) {
-                    setIconSize(150)
-
-                } else {
-
-                    setIconSize(80)
-                }
-
-            } else {
-
-                setOrientation("LANDSCAPE")
-
-                if (screenWidth >= 768) {
-                    setIconSize(80)
-
-                } else {
-
-                    setIconSize(20)
-                }
-
-
-            }
-        })
-
-
-        function getQuestion() {
-            setQuestion([]);
-            setQuestion(props.route.params);
-            setLoading(true)
-            // console.log('paraaaaaaaaaaamsssssssssss')
-            // console.log(props.route.params)
-        }
-
-        getQuestion()
-
-
-
-    }, []);
-
-
     const navigation = useNavigation();
 
     const onChangeScreen = (screen) => {
@@ -425,8 +405,6 @@ export default function Onze(props) {
 
 
     }, []);
-
-
 
 
     const sendNPS = async () => {
@@ -528,13 +506,6 @@ export default function Onze(props) {
 
     }
 
-
-    // console.log(orientation)
-
-
-
-
-
     if (!loading) {
         return (
             <Loading />
@@ -543,30 +514,58 @@ export default function Onze(props) {
 
 
     } else {
-        return (
 
+        if (orientation == "PORTRAIT") {
 
+            return (
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <Header />
-                    <View style={screenWidth >= 768 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                        <Text style={screenWidth >= 768 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
-
-                        <View style={screenWidth >= 768 ? Styles.DivNPSTablet : Styles.DivNPS}>
-
-                            <TouchableOpacity onPress={() => sendNPS() } style={screenWidth >= 768 ? Styles.OnzeTabletButton : Styles.OnzeButton}>
-                                <Text style={screenWidth >= 768 ? Styles.OnzeTabletButtonText : Styles.OnzeButtonText}>COMEÇAR</Text>
-                            </TouchableOpacity>
-
-
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+    
+                            <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
+    
+                                <TouchableOpacity onPress={() => sendNPS()} style={deviceType != 1 ? Styles.OnzeTabletButton : Styles.OnzeButton}>
+                                    <Text style={deviceType != 1 ? Styles.OnzeTabletButtonText : Styles.OnzeButtonText}>CONTINUAR</Text>
+                                </TouchableOpacity>
+    
+    
+                            </View>
                         </View>
-                    </View>
-                    <Footer />
-                </SafeAreaView>
-            </ScrollView >
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
+    
+            );
 
-        );
+        } else {
+
+            return (
+
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Header />
+                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+
+                            <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
+
+                                <TouchableOpacity onPress={() => sendNPS()} style={deviceType != 1 ? Styles.OnzeTabletButton : Styles.OnzeButton}>
+                                    <Text style={deviceType != 1 ? Styles.OnzeTabletButtonText : Styles.OnzeButtonText}>CONTINUAR</Text>
+                                </TouchableOpacity>
+
+
+                            </View>
+                        </View>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
+
+            );
+
+        }
     }
 
 }
