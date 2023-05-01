@@ -108,14 +108,14 @@ export default function DrawerNavigation(props) {
 		headerTintColor: "black",
 		headerBackTitleVisible: false,
 		headerTitleAlign: 'center',
-		gestureEnabled: true,
+		gestureEnabled: false,
 		/*cardOverlayEnabled: true,
 		...TransitionPresets.ModalPresentationIOS*/
 	}
 
 	return (
 
-		<RootStack.Navigator screenOptions={(route) => { return navigatorOptions }}>
+		<RootStack.Navigator  	screenOptions={(route) => { return navigatorOptions }}>
 
  
       <RootStack.Screen name="login" component={Login} options={{ title: null, headerTransparent: true }} />

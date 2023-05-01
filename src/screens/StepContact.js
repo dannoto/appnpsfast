@@ -313,6 +313,12 @@ export default function StepContact(props) {
 
 
 
+    const updateEmail = (v) => {
+        var v = v.replace(" ", "")
+        setEmail(v)
+    }
+
+    
 
     const navigation = useNavigation();
 
@@ -488,7 +494,7 @@ export default function StepContact(props) {
                         <View style={deviceType != 1? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
-                            <Text style={deviceType != 1? Styles.TitleContactTablet : Styles.TitleContact} > <Text> Muito Obrigado por deixar sua opinião.</Text> </Text>
+                            <Text style={deviceType != 1? Styles.TitleContactTablet : Styles.TitleContact} >  Muito Obrigado por deixar sua opinião. </Text>
                             <Text style={deviceType != 1? Styles.SubTitleContactTablet : Styles.SubTitleContact} >Aproveite e cadastre-se para receber ofertas exclusivas:</Text>
 
 
@@ -506,7 +512,7 @@ export default function StepContact(props) {
                                 multiline={false}
                                 numberOfLines={1}
                                 value={email}
-                                onChangeText={text => setEmail(text)}
+                                onChangeText={text => updateEmail(text)}
                                 style={deviceType != 1? Styles.InputDefaultTablet : Styles.InputDefault}
                             />
 

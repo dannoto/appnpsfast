@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { npsEnviarRespostas } from '../../config/DataApp';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 import { map } from 'lodash';
 import Empty from '../../components/Empty';
@@ -652,32 +654,54 @@ export default function Um(props) {
 
                 return (
 
+
+
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                             <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                                <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
 
                                     {map(question.opcoes, (item, i) => (
 
-                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
 
 
-                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
+                                            >
+                                                <Icon
+                                                    name="check-circle"
+                                                    size={40}
+                                                    color={
+                                                        selectedOptions.includes(item.opcao)
+                                                            ? '#FFF'
+                                                            : ColorsApp.PRIMARY
+                                                    }
+                                                    backgroundColor={'#000'}
+                                                    style={{
+                                                        position: 'relative',
+                                                        left: 5, // posiciona o ícone no início esquerdo do botão
+                                                        top: '50%',
+                                                        // transform: [{ translateY: -20 }] 
+                                                    }}
+                                                />
 
-                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
 
                                             </TouchableOpacity>
                                         </View>
+
 
                                     ))}
 
 
 
                                 </View>
-                            </View>
+                              
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -689,31 +713,51 @@ export default function Um(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                             <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+                                <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
 
                                     {map(question.opcoes, (item, i) => (
 
-                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
 
 
-                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
+                                            >
+                                                <Icon
+                                                    name="check-circle"
+                                                    size={40}
+                                                    color={
+                                                        selectedOptions.includes(item.opcao)
+                                                            ? '#FFF'
+                                                            : ColorsApp.PRIMARY
+                                                    }
+                                                    backgroundColor={'#000'}
+                                                    style={{
+                                                        position: 'relative',
+                                                        left: 5, // posiciona o ícone no início esquerdo do botão
+                                                        top: '50%',
+                                                        // transform: [{ translateY: -20 }] 
+                                                    }}
+                                                />
 
-                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
 
                                             </TouchableOpacity>
                                         </View>
+
 
                                     ))}
 
 
 
                                 </View>
-                            </View>
+                              
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -730,34 +774,54 @@ export default function Um(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                        <Header />
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                            <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
 
-                                    {map(question.opcoes, (item, i) => (
-
-                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+                                {map(question.opcoes, (item, i) => (
 
 
-                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
-
-                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
-
-                                            </TouchableOpacity>
-                                        </View>
-
-                                    ))}
+                                    < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
 
 
+                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
+                                        >
+                                            <Icon
+                                                name="check-circle"
+                                                size={40}
+                                                color={
+                                                    selectedOptions.includes(item.opcao)
+                                                        ? '#FFF'
+                                                        : ColorsApp.PRIMARY
+                                                }
+                                                backgroundColor={'#000'}
+                                                style={{
+                                                    position: 'relative',
+                                                    left: 5, // posiciona o ícone no início esquerdo do botão
+                                                    top: '50%',
+                                                    // transform: [{ translateY: -20 }] 
+                                                }}
+                                            />
 
-                                </View>
+                                            <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
+
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                ))}
+
+
+
                             </View>
-                            <Footer />
-                        </SafeAreaView>
-                    </ScrollView >
+                          
+                        </ScrollView>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
 
                 );
 
@@ -766,34 +830,54 @@ export default function Um(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                        <Header />
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+                            <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
 
-                                    {map(question.opcoes, (item, i) => (
-
-                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+                                {map(question.opcoes, (item, i) => (
 
 
-                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
-
-                                                <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, , { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
-
-                                            </TouchableOpacity>
-                                        </View>
-
-                                    ))}
+                                    < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
 
 
+                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
+                                        >
+                                            <Icon
+                                                name="check-circle"
+                                                size={40}
+                                                color={
+                                                    selectedOptions.includes(item.opcao)
+                                                        ? '#FFF'
+                                                        : ColorsApp.PRIMARY
+                                                }
+                                                backgroundColor={'#000'}
+                                                style={{
+                                                    position: 'relative',
+                                                    left: 5, // posiciona o ícone no início esquerdo do botão
+                                                    top: '50%',
+                                                    // transform: [{ translateY: -20 }] 
+                                                }}
+                                            />
 
-                                </View>
+                                            <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
+
+                                        </TouchableOpacity>
+                                    </View>
+
+
+                                ))}
+
+
+
                             </View>
-                            <Footer />
-                        </SafeAreaView>
-                    </ScrollView >
+                          
+                        </ScrollView>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
 
                 );
 

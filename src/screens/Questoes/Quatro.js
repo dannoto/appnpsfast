@@ -37,6 +37,27 @@ export default function Quatro(props) {
     })
     // DeviceType
 
+    const screenWidth = Math.round(Dimensions.get('window').width);
+    const screenHeight = Math.round(Dimensions.get('window').height);
+
+
+    // const triggerDimensions = () => {
+
+    //     if (screenWidth < screenHeight) {
+
+    //         setOrientation("")
+
+    //     } else {
+
+    //         setOrientation("LANDSCAPE")
+    //     }
+
+    //     console.log(orientation)
+
+    // }
+
+    // triggerDimensions()
+
     // Orientation    
     useEffect(() => {
 
@@ -72,8 +93,7 @@ export default function Quatro(props) {
 
     console.log('======== PAGINA - QUATRO =============')
 
-    const screenWidth = Math.round(Dimensions.get('window').width);
-    const screenHeight = Math.round(Dimensions.get('window').height);
+
     const [loading, setLoading] = useState(false);
     const [IconSize, setIconSize] = useState(80);
     const [question, setQuestion] = useState([]);
@@ -695,7 +715,7 @@ export default function Quatro(props) {
 
                             <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
-                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
+                            {/* <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text> */}
 
                             <TextInput
                                 multiline={true}
@@ -737,14 +757,14 @@ export default function Quatro(props) {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                         <Header />
-                        <ScrollView style={deviceType != 1 ? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+                        <ScrollView style={deviceType != 1 ? Styles.LANDContainerSugestionTablet : Styles.LANDContainerSugestion}>
 
 
                             {/* <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >Deseja deixar alguma <Text>sugestão</Text> ou <Text >comentário</Text>?</Text> */}
 
                             <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
-                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
+                            {/* <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text> */}
 
                             <TextInput
                                 multiline={true}
@@ -755,7 +775,7 @@ export default function Quatro(props) {
                                     console.log(text);
                                     setResposta(text)
                                 }}
-                                style={deviceType != 1 ? Styles.InputSugestionTablet : Styles.InputSugestion}
+                                style={deviceType != 1 ? Styles.LANDInputSugestionTablet : Styles.LANDInputSugestion}
                             />
 
                             <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, resposta) }} style={[deviceType != 1 ? Styles.ButtonNpsFullTablet : Styles.ButtonNpsFull, { marginTop: 20 }]} >

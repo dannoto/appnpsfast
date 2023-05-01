@@ -75,8 +75,27 @@ export default function Onze(props) {
 
     console.log('======== PAGINA - ONZE =============')
 
+
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
+
+
+    // const triggerDimensions = () => {
+
+    //     if (screenWidth < screenHeight) {
+
+    //         setOrientation("")
+
+    //     } else {
+
+    //         setOrientation("LANDSCAPE")
+    //     }
+
+    //     console.log(orientation)
+
+    // }
+
+    // triggerDimensions()
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
@@ -520,12 +539,12 @@ export default function Onze(props) {
             return (
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK}}>
                         <Header />
-                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                             <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
     
-                            <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
+                            <View style={deviceType != 1 ? Styles.OnzeDivNPSTablet : Styles.OnzeDivNPS}>
     
                                 <TouchableOpacity onPress={() => sendNPS()} style={deviceType != 1 ? Styles.OnzeTabletButton : Styles.OnzeButton}>
                                     <Text style={deviceType != 1 ? Styles.OnzeTabletButtonText : Styles.OnzeButtonText}>CONTINUAR</Text>
@@ -533,7 +552,7 @@ export default function Onze(props) {
     
     
                             </View>
-                        </View>
+                        </ScrollView>
                         <Footer />
                     </SafeAreaView>
                 </ScrollView >
@@ -545,20 +564,21 @@ export default function Onze(props) {
             return (
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK}}>
                         <Header />
-                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                             <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
-
-                            <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
-
+    
+                            <View style={deviceType != 1 ? Styles.OnzeDivNPSTablet : Styles.OnzeDivNPS}>
+    
                                 <TouchableOpacity onPress={() => sendNPS()} style={deviceType != 1 ? Styles.OnzeTabletButton : Styles.OnzeButton}>
                                     <Text style={deviceType != 1 ? Styles.OnzeTabletButtonText : Styles.OnzeButtonText}>CONTINUAR</Text>
                                 </TouchableOpacity>
-
-
+    
                             </View>
-                        </View>
+
+                            
+                        </ScrollView>
                         <Footer />
                     </SafeAreaView>
                 </ScrollView >

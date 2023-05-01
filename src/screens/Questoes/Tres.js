@@ -74,8 +74,7 @@ export default function Tres(props) {
 
     console.log('======== PAGINA - TRES =============')
 
-    const screenWidth = Math.round(Dimensions.get('window').width);
-    const screenHeight = Math.round(Dimensions.get('window').height);
+
 
     const [loading, setLoading] = useState(false);
 
@@ -266,6 +265,28 @@ export default function Tres(props) {
 
     }
 
+
+   
+    const screenWidth = Math.round(Dimensions.get('window').width);
+    const screenHeight = Math.round(Dimensions.get('window').height);
+
+
+    // const triggerDimensions = () => {
+
+    //     if (screenWidth < screenHeight) {
+
+    //         setOrientation("")
+
+    //     } else {
+
+    //         setOrientation("LANDSCAPE")
+    //     }
+
+    //     console.log(orientation)
+
+    // }
+
+    // triggerDimensions()
 
     useEffect(() => {
         const interval = setInterval(() => {

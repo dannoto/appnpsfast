@@ -598,16 +598,16 @@ export default function Treze(props) {
             return (
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                         <Header />
-                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                             <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                             <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
 
                                 {map(question.opcoes, (item, i) => (
 
-                                    < View key={i} style={deviceType != 1 ? Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+                                    < View key={i} style={deviceType != 1 ? Styles.VerticalTrezeItemNPSTablet : Styles.VerticalTrezeItemNPS} >
 
 
                                         <TouchableOpacity onPress={() => {  toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
@@ -622,7 +622,7 @@ export default function Treze(props) {
 
 
                             </View>
-                        </View>
+                        </ScrollView>
                         <Footer />
                     </SafeAreaView>
                 </ScrollView >
@@ -634,32 +634,34 @@ export default function Treze(props) {
             return (
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Header />
-                        <View style={deviceType != 1 ?Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={deviceType != 1 ?Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                    <Header />
+                    <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={deviceType != 1 ?Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
+                        <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
 
-                                {map(question.opcoes, (item, i) => (
+                            {map(question.opcoes, (item, i) => (
 
-                                    < View key={i} style={deviceType != 1 ?Styles.VerticalDezesseisItemNPSTablet : Styles.VerticalDezesseisItemNPS} >
+                                < View key={i} style={deviceType != 1 ? Styles.VerticalTrezeItemNPSTablet : Styles.VerticalTrezeItemNPS} >
 
 
-                                        <TouchableOpacity onPress={() => {  toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ?Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
+                                    <TouchableOpacity onPress={() => {  toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, {borderWidth: 1, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF" }]}>
 
-                                            <Text style={[deviceType != 1 ?Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
+                                        <Text style={[deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY }]}>{item.descOpcao}</Text>
 
-                                        </TouchableOpacity>
-                                    </View>
+                                    </TouchableOpacity>
+                                </View>
 
-                                ))}
+                            ))}
 
-                            </View>
+
+
                         </View>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+                    </ScrollView>
+                    <Footer />
+                </SafeAreaView>
+            </ScrollView >
 
             );
         }

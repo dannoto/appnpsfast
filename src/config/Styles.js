@@ -24,8 +24,8 @@ export default StyleSheet.create({
 
 
 
-    OnzeTabletButton: { width: '80%', marginLeft: '10%', backgroundColor: ColorsApp.PRIMARY, height: 50, padding: 10 },
-    OnzeButton: { width: '80%', marginLeft: '10%', backgroundColor: ColorsApp.PRIMARY, height: 50, padding: 10 },
+    OnzeTabletButton: { width: '80%', marginLeft: '10%', backgroundColor: ColorsApp.PRIMARY, height: 60, paddingTop:10,  borderRadius:5 },
+    OnzeButton: { width: '80%', marginLeft: '10%', backgroundColor: ColorsApp.PRIMARY, height: 50,  paddingTop:10, borderRadius:5 },
 
     OnzeTabletButtonText: { color: '#FFF', textAlign: 'center', verticalAlign: 'middle', fontSize: 23 },
     OnzeButtonText: { color: '#FFF', textAlign: 'center', verticalAlign: 'middle', fontSize: 16 },
@@ -1048,7 +1048,7 @@ export default StyleSheet.create({
 
     IconObrigado: {
 
-        marginTop: 30,
+        marginTop: 0,
         marginBottom: 15
     },
 
@@ -1056,7 +1056,7 @@ export default StyleSheet.create({
     IconObrigadoTablet: {
 
 
-        marginTop: 30,
+        marginTop: 0,
         marginBottom: 30
 
     },
@@ -1088,15 +1088,15 @@ export default StyleSheet.create({
 
 
     TitleObrigado: {
-        fontSize: 12, fontWeight: 'bold', marginTop: 10, textTransform: 'uppercase', textAlign: 'center'
+        fontSize: 14, fontWeight: 'bold', marginTop: 10, textTransform: 'uppercase', textAlign: 'center'
     },
 
     SubtitleObrigado: {
-        fontSize: 12, fontWeight: 'normal', marginTop: 5, textTransform: 'uppercase', textAlign: 'center'
+        fontSize: 14, fontWeight: 'normal', marginTop: 5, textTransform: 'uppercase', textAlign: 'center'
     },
 
     ReturnTextObrigado: {
-        fontSize: 12, fontWeight: 'bold', textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
+        fontSize: 14, fontWeight: 'bold', textTransform: 'uppercase', color: ColorsApp.PRIMARY, textAlign: 'center'
     },
 
 
@@ -1127,14 +1127,14 @@ export default StyleSheet.create({
     TitleSugestionTablet: {
         textAlign: 'center',
         fontSize: 27,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         marginTop: 30
     },
 
     TitleSugestion: {
         textAlign: 'center',
         fontSize: 17,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         marginTop: 30
     },
 
@@ -1164,7 +1164,7 @@ export default StyleSheet.create({
     InputSugestionTablet: {
         marginTop: 20,
         marginBottom: 30,
-
+        borderRadius:5,
         height: 200,
         width: '100%',
         borderColor: ColorsApp.PRIMARY,
@@ -1180,7 +1180,7 @@ export default StyleSheet.create({
 
         marginTop: 20,
         marginBottom: 30,
-
+        borderRadius:5,
         height: 200,
         width: '100%',
         borderColor: ColorsApp.PRIMARY,
@@ -1265,9 +1265,8 @@ export default StyleSheet.create({
 
     // StepNPS
 
-    TitleNPS: { fontSize: 17, marginTop: 15, marginBottom: 15, fontWeight: 'normal', textAlign: 'center' },
+    TitleNPS: { fontSize: 17, marginTop: 15, marginBottom: 15, fontWeight: 'bold', textAlign: 'center' },
 
-    DivNPS: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
 
     ItemNPS: { height: 40, width: '9%' },
 
@@ -1290,6 +1289,27 @@ export default StyleSheet.create({
         flex: 1, width: '100%', flexDirection: 'column', margin: 'auto', marginTop: 20 
     },
 
+    VerticalDoisDivNPS: {
+        flex: 1, width: '100%', flexDirection: 'column', margin: 'auto', marginTop: 5
+    },
+    VerticalDoisDivNPSTablet: {
+        flex: 1, width: '100%', flexDirection: 'column', margin: 'auto', marginTop: 5 
+    },
+
+
+    VerticalDoisItemNPS: {
+        height:'auto',minHeight:50, width: '90%', margin:10, flex:1,  marginBottom:5, marginLeft:'5%'
+     },
+     VerticalDoisItemNPSTablet: {
+        height:'auto',minHeight:70, width: '90%', margin:10, flex:1,  marginBottom:5, marginLeft:'5%'
+     },
+
+     VerticalUmItemNPS: {
+        height:'auto',minHeight:50, width: '90%', margin:10, flex:1,  marginBottom:5, marginLeft:'5%'
+     },
+     VerticalUmItemNPSTablet: {
+        height:'auto',minHeight:70, width: '90%', margin:10, flex:1,  marginBottom:5, marginLeft:'5%'
+     },
 
 
     VerticalDezesseisItemNPS: {
@@ -1299,6 +1319,20 @@ export default StyleSheet.create({
        height:80, width: '50%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
     },
 
+    VerticalTrezeItemNPS: {
+        height:65, width: '80%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
+     },
+     VerticalTrezeItemNPSTablet: {
+        height:80, width: '80%', flex:1, margin:'auto', marginBottom:20, marginLeft:'25%'
+     },
+
+    VerticalTrezeItemNPS: {
+        height:65, width: '50%', flex:1, borderRadius:5,  margin:'auto', marginBottom:20, marginLeft:'25%'
+     },
+     VerticalTrezeItemNPSTablet: {
+        height:80, width: '50%', flex:1, borderRadius:5,  margin:'auto', marginBottom:20, marginLeft:'25%'
+     },
+
     HorizontalDezesseisItemNPS: {
         height:100, width: '20%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
      },
@@ -1306,9 +1340,25 @@ export default StyleSheet.create({
         height:100, width: '30%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
      },
 
+     HorizontalTresDezesseisItemNPS: {
+        height:65, width: '10%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
+     },
+     HorizontalTresDezesseisItemNPSTablet: {
+        height:80, width: '20%', flex:1, margin:'auto', marginBottom:20, marginLeft:'3%'
+     },
+
 
     DezesseisItemTouchNPSTablet: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
     DezesseisItemTouchNPS: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+
+    LANDDezesseisItemTouchNPSTablet: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+    LANDDezesseisItemTouchNPS: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+
+    LANDTrezeItemTouchNPSTablet: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+    LANDTrezeItemTouchNPS: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+
+    UmItemTouchNPSTablet: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
+    UmItemTouchNPS: { height: 'auto', flex: 1, justifyContent: 'center', margin: 1 },
 
     DezesseisItemImagem: {
         width: '100%',
@@ -1326,6 +1376,9 @@ export default StyleSheet.create({
     ItemTextNPS: { textAlign: 'center', fontWeight: 'bold', color: '#FFF' },
 
 
+    ItemTextDoisNPS: { textAlign: 'left', fontWeight: 'bold', color: '#FFF' },
+    ItemTextDoisNPSTablet: { textAlign: 'left', fontSize: 30, fontWeight: 'bold', color: '#FFF' },
+
 
     // ContainerNPSTablet: {flex:1,height:'100%', paddingTop: 30, marginHorizontal: 20 },
     ContainerNPSFullTablet: { flex: 1, height: '100%', paddingTop: 20, marginHorizontal: 50 },
@@ -1338,6 +1391,11 @@ export default StyleSheet.create({
     TitleNPSTablet: { fontSize: 27, marginTop: 30, marginBottom: 30, fontWeight: 'normal', textAlign: 'center' },
 
     DivNPSTablet: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
+    DivNPS: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
+
+    OnzeDivNPSTablet: { flex: 1, width: '100%', flexDirection: 'row', marginTop: 20 },
+    OnzeDivNPS: { flex: 1, width: '100%', flexDirection: 'row',  marginTop: 20 },
+
 
     ItemNPSTablet: { height: 80, width: '9%' },
 
@@ -1387,7 +1445,7 @@ export default StyleSheet.create({
     TitleContactTablet: {
         textAlign: 'center',
         fontSize: 27,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         marginTop: 20,
 
     },
@@ -1395,7 +1453,7 @@ export default StyleSheet.create({
     TitleContact: {
         textAlign: 'center',
         fontSize: 17,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         marginTop: 20,
 
     },
@@ -1443,7 +1501,9 @@ export default StyleSheet.create({
         borderColor: ColorsApp.PRIMARY,
         borderWidth: 2,
         marginTop: 10,
-        borderWidth: 2,
+        borderWidth: 1,
+        borderRadius:5,
+
         borderColor: ColorsApp.PRIMARY,
         backgroundColor: 'transparent',
         // textAlignVertical: 'top',
@@ -1457,7 +1517,8 @@ export default StyleSheet.create({
         borderColor: ColorsApp.PRIMARY,
         borderWidth: 2,
         marginTop: 10,
-        borderWidth: 2,
+        borderWidth: 1,
+        borderRadius:5,
         borderColor: ColorsApp.PRIMARY,
         fontSize: 15,
         backgroundColor: 'transparent',
@@ -1476,26 +1537,30 @@ export default StyleSheet.create({
     ButtonNpsFullTablet: {
         marginTop: 2,
         padding: 10,
+        paddingTop:7,
         marginBottom: 10,
-        height: 70,
+        height: 65,
         // flex:1,
+        borderRadius:5,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         // justifyContent:'space-between',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: ColorsApp.PRIMARY,
 
     },
     ButtonNpsFull: {
         marginTop: 2,
         padding: 10,
+        paddingTop:7,
         marginBottom: 10,
         height: 50,
+        borderRadius:5,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: ColorsApp.PRIMARY,
     },
     ButtonDefaultTablet: {
@@ -1596,6 +1661,7 @@ export default StyleSheet.create({
     LANDInputSugestionTablet: {
         marginTop: 20,
         marginBottom: 15,
+        borderRadius:5,
 
         height: 100,
         width: '100%',
@@ -1612,6 +1678,7 @@ export default StyleSheet.create({
 
         marginTop: 20,
         marginBottom: 15,
+        borderRadius:5,
 
         height: 100,
         width: '100%',
@@ -1627,7 +1694,7 @@ export default StyleSheet.create({
     LANDTitleSugestionTablet: {
         textAlign: 'center',
         fontSize: 27,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         marginTop: 15
     },
 

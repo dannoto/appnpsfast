@@ -612,9 +612,9 @@ export default function Doze(props) {
 
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                         <Header />
-                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                             <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                             <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
@@ -635,7 +635,7 @@ export default function Doze(props) {
 
 
                             </View>
-                        </View>
+                        </ScrollView>
                         <Footer />
                     </SafeAreaView>
                 </ScrollView >
@@ -649,9 +649,9 @@ export default function Doze(props) {
 
 
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                         <Header />
-                        <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                             <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                             <View style={deviceType != 1 ? Styles.DivNPSTablet : Styles.DivNPS}>
@@ -663,7 +663,7 @@ export default function Doze(props) {
 
                                         <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.ItemTouchNPSTablet : Styles.ItemTouchNPS, labelStyles[i]]}>
 
-                                            <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{orientation}{item.descOpcao}</Text>
+                                            <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text>
                                         </TouchableOpacity>
                                     </View>
 
@@ -671,7 +671,7 @@ export default function Doze(props) {
 
 
                             </View>
-                        </View>
+                        </ScrollView>
                         <Footer />
                     </SafeAreaView>
                 </ScrollView >

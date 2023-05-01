@@ -615,9 +615,9 @@ export default function Dezesseis(props) {
                     
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                             <Header />
-                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
 
@@ -642,7 +642,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -654,9 +654,9 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}   >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                             <Header />
-                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                                 <View style={deviceType != 1? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
@@ -679,7 +679,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -692,16 +692,16 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                             <Header />
-                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                                 <View style={deviceType != 1? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
 
                                     {map(question.opcoes, (item, i) => (
 
-                                        < View key={i} style={deviceType != 1? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+                                        < View key={i} style={deviceType != 1? Styles.HorizontalTresDezesseisItemNPSTablet : Styles.HorizontalTresDezesseisItemNPS} >
 
 
                                             <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
@@ -717,7 +717,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -730,21 +730,20 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK}}>
                             <Header />
-                            <View style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                                 <View style={deviceType != 1? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
 
                                     {map(question.opcoes, (item, i) => (
 
-                                        < View key={i} style={deviceType != 1? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
+                                        < View key={i} style={deviceType != 1? Styles.HorizontalTresDezesseisItemNPSTablet : Styles.HorizontalTresDezesseisItemNPS} >
 
 
                                             <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
 
-                                                {/* <Text style={deviceType != 1? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
                                                 <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
 
                                             </TouchableOpacity>
@@ -755,7 +754,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -773,9 +772,9 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK}}>
                             <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
 
@@ -800,7 +799,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -812,9 +811,9 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK}}>
                             <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                                 <View style={deviceType != 1 ? Styles.VerticalDezesseisDivNPSTablet : Styles.VerticalDezesseisDivNPS}>
@@ -837,7 +836,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -850,9 +849,9 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                             <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
                                 <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
                                 <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
@@ -875,7 +874,7 @@ export default function Dezesseis(props) {
 
 
                                 </View>
-                            </View>
+                            </ScrollView>
                             <Footer />
                         </SafeAreaView>
                     </ScrollView >
@@ -888,35 +887,35 @@ export default function Dezesseis(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
-                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK, flexDirection: 'column', justifyContent: 'space-between' }}>
-                            <Header />
-                            <View style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK}}>
+                        <Header />
+                        <ScrollView style={deviceType != 1? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                            <Text style={deviceType != 1? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                                <View style={deviceType != 1 ? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
+                            <View style={deviceType != 1? Styles.HorizontalDezesseisDivNPSTablet : Styles.HorizontalDezesseisDivNPS}>
 
-                                    {map(question.opcoes, (item, i) => (
+                                {map(question.opcoes, (item, i) => (
 
-                                        < View key={i} style={deviceType != 1 ? Styles.HorizontalDezesseisItemNPSTablet : Styles.HorizontalDezesseisItemNPS} >
-
-
-                                            <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
-
-                                                {/* <Text style={deviceType != 1 ? Styles.ItemTextNPSTablet : Styles.ItemTextNPS}>{item.descOpcao}</Text> */}
-                                                <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
-
-                                            </TouchableOpacity>
-                                        </View>
-
-                                    ))}
+                                    < View key={i} style={deviceType != 1? Styles.HorizontalTresDezesseisItemNPSTablet : Styles.HorizontalTresDezesseisItemNPS} >
 
 
+                                        <TouchableOpacity onPress={() => { sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS]}>
 
-                                </View>
+                                            <Image source={{ uri: getSrc(item.descOpcao) }} resizeMode={"contain"} style={Styles.DezesseisItemImagem} />
+
+                                        </TouchableOpacity>
+                                    </View>
+
+                                ))}
+
+
+
                             </View>
-                            <Footer />
-                        </SafeAreaView>
-                    </ScrollView >
+                        </ScrollView>
+                        <Footer />
+                    </SafeAreaView>
+                </ScrollView >
+
 
                 );
 

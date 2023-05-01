@@ -116,7 +116,7 @@ export default function StepObrigado(props) {
 
 
         if (deviceType != 1) {
-            setIconSize(150)
+            setIconSize(120)
 
         } else {
 
@@ -391,7 +391,7 @@ export default function StepObrigado(props) {
 
                     <View style={deviceType != 1 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
 
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center', marginTop:0 }}>
 
                             <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={deviceType != 1 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
@@ -399,7 +399,7 @@ export default function StepObrigado(props) {
                             <Text style={deviceType != 1 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
 
 
-                            <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
+                            <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25,  marginBottom:30 }}>
                                 <Text style={deviceType != 1 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
                             </TouchableOpacity>
 
@@ -422,36 +422,35 @@ export default function StepObrigado(props) {
         return (
 
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: ColorsApp.BACK }}>
 
 
-                    <Header />
+                <Header />
 
-                    <View style={deviceType != 1 ? Styles.LANDContainerObrigadoTablet : Styles.LANDContainerObrigado}>
+                <View style={deviceType != 1 ? Styles.ContainerObrigadoTablet : Styles.ContainerObrigado}>
 
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ flex: 1, alignItems: 'center', marginTop:0 }}>
 
-                            <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={deviceType != 1 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
+                        <IconButton icon="check-decagram" iconColor={ColorsApp.THIRD} size={IconSize} style={deviceType != 1 ? Styles.IconObrigadoTablet : Styles.IconObrigado} />
 
-                            <Text style={deviceType != 1 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
-                            <Text style={deviceType != 1 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
-
-
-                            <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25 }}>
-                                <Text style={deviceType != 1 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
-                            </TouchableOpacity>
+                        <Text style={deviceType != 1 ? Styles.TitleObrigadoTablet : Styles.TitleObrigado}>SUA RESPOSTA foi ENVIADA com sucesso</Text>
+                        <Text style={deviceType != 1 ? Styles.SubtitleObrigadoTablet : Styles.SubtitleObrigado}>Volte sempre, adoramos ter você por aqui.</Text>
 
 
-                        </View>
+                        <TouchableOpacity onPress={() => { sendNPS() }} style={{ marginTop: 25,  marginBottom:30 }}>
+                            <Text style={deviceType != 1 ? Styles.ReturnTextObrigadoTablet : Styles.ReturnTextObrigado}>retornar para a tela principal</Text>
+                        </TouchableOpacity>
+
+
                     </View>
+                </View>
 
-                    <Footer />
+                <Footer />
 
 
 
-                </SafeAreaView>
-            </ScrollView>
-
+            </SafeAreaView>
+        </ScrollView>
 
         );
 

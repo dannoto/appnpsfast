@@ -75,8 +75,27 @@ export default function Quatorze(props) {
 
     console.log('======== PAGINA - QUATORZE =============')
 
+
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
+
+
+    // const triggerDimensions = () => {
+
+    //     if (screenWidth < screenHeight) {
+
+    //         setOrientation("")
+
+    //     } else {
+
+    //         setOrientation("LANDSCAPE")
+    //     }
+
+    //     console.log(orientation)
+
+    // }
+
+    // triggerDimensions()
 
     const [loading, setLoading] = useState(false);
 
@@ -706,7 +725,7 @@ export default function Quatorze(props) {
 
                             <Text style={deviceType != 1 ? Styles.TitleSugestionTablet : Styles.TitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
-                            <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text>
+                            {/* <Text style={deviceType != 1 ? Styles.LabelSugestionTablet : Styles.LabelSugestion} >Sua Mensagem</Text> */}
 
                             <TextInput
                                 multiline={true}
@@ -755,7 +774,7 @@ export default function Quatorze(props) {
 
                             <Text style={deviceType != 1 ? Styles.LANDTitleSugestionTablet : Styles.LANDTitleSugestion} >{replaceDescription(question.descQuestao)}</Text>
 
-                            <Text style={deviceType != 1 ? Styles.LANDLabelSugestionTablet : Styles.LANDLabelSugestion} >Sua Mensagem</Text>
+                            {/* <Text style={deviceType != 1 ? Styles.LANDLabelSugestionTablet : Styles.LANDLabelSugestion} >Sua Mensagem</Text> */}
 
                             <TextInput
                                 multiline={true}
