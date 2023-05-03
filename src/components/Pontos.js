@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import InnerLoading from './InnerLoading';
 import Empty from './Empty';
 
-// import { TouchableOpacity } from 'react-native-web';
+// import { TouchableOpacity } from 'react-native';
 import ColorsApp from '../config/ColorsApp';
 import { npsJornadas, npsPontosContato, npsQuestoes } from '../config/DataApp';
 import { map } from 'lodash';

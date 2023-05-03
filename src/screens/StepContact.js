@@ -491,7 +491,7 @@ export default function StepContact(props) {
 
                     <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
                         <Header />
-                        <View style={deviceType != 1? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
+                        <ScrollView style={deviceType != 1? Styles.ContainerSugestionTablet : Styles.ContainerSugestion}>
 
 
                             <Text style={deviceType != 1? Styles.TitleContactTablet : Styles.TitleContact} >  Muito Obrigado por deixar sua opinião. </Text>
@@ -548,7 +548,7 @@ export default function StepContact(props) {
 
                             </TouchableOpacity>
 
-                        </View>
+                        </ScrollView>
                         <Footer />
                     </SafeAreaView>
                 </ScrollView>

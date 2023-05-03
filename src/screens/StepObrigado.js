@@ -92,11 +92,13 @@ export default function StepObrigado(props) {
 
                     console.log('NÃO TEM FINAL_EXPIRATION, CRIANDO');
 
-                    const storageExpirationTimeInMinutes = 1; // in this case, we only want to keep the data for 30min
+                    const storageExpirationTimeInMinutes = 10; // in this case, we only want to keep the data for 30min
 
                     const now = new Date();
-                    now.setMinutes(now.getMinutes() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
+                    now.setSeconds(now.getSeconds() + storageExpirationTimeInMinutes); // add the expiration time to the current Date time
                     const expiryTimeInTimestamp = Math.floor(now.getTime() / 1000); // convert the expiry time in UNIX timestamp
+
+                    console.log('=================NOVA EXPIRAÇÃO '+expiryTimeInTimestamp)
 
                     AsyncStorage.setItem(
                         'final_expiration',
@@ -105,7 +107,7 @@ export default function StepObrigado(props) {
                 }
             });
 
-        }, 10000);
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [countDown]);

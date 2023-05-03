@@ -660,19 +660,30 @@ export default function Dois(props) {
 
                                             <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
                                             >
-                                                <Icon
-                                                    name="check-circle"
-                                                    size={40}
+                                              <Icon
+                                                    name= {
+                                                        selectedOptions.includes(item.opcao)
+                                                            ? 'check'
+                                                            : 'circle'
+                                                    }
+                                                    size={30}
+                                                  
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
-                                                            : ColorsApp.PRIMARY
+                                                            : 'transparent'
                                                     }
-                                                    backgroundColor={'#000'}
+                                                    // backgroundColor={
+                                                    //     selectedOptions.includes(item.opcao)
+                                                    //         ?  ColorsApp.PRIMARY
+                                                    //         : '#FFF'
+                                                    // }
                                                     style={{
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
+                                                        borderWidth:1,
+                                                        borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
                                                 />
@@ -725,23 +736,33 @@ export default function Dois(props) {
 
                                             <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
                                             >
-                                                 <Icon
-                                                    name="check-circle"
-                                                    size={40}
+                                                  <Icon
+                                                    name= {
+                                                        selectedOptions.includes(item.opcao)
+                                                            ? 'check'
+                                                            : 'circle'
+                                                    }
+                                                    size={30}
+                                                  
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
-                                                            : ColorsApp.PRIMARY
+                                                            : 'transparent'
                                                     }
-                                                    backgroundColor={'#000'}
+                                                    // backgroundColor={
+                                                    //     selectedOptions.includes(item.opcao)
+                                                    //         ?  ColorsApp.PRIMARY
+                                                    //         : '#FFF'
+                                                    // }
                                                     style={{
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
+                                                        borderWidth:1,
+                                                        borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
                                                 />
-
                                                 <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
 
                                             </TouchableOpacity>
@@ -795,19 +816,30 @@ export default function Dois(props) {
 
                                             <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
                                             >
-                                                 <Icon
-                                                    name="check-circle"
-                                                    size={40}
+                                                <Icon
+                                                    name= {
+                                                        selectedOptions.includes(item.opcao)
+                                                            ? 'check'
+                                                            : 'circle'
+                                                    }
+                                                    size={30}
+                                                  
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
-                                                            : ColorsApp.PRIMARY
+                                                            : 'transparent'
                                                     }
-                                                    backgroundColor={'#000'}
+                                                    // backgroundColor={
+                                                    //     selectedOptions.includes(item.opcao)
+                                                    //         ?  ColorsApp.PRIMARY
+                                                    //         : '#FFF'
+                                                    // }
                                                     style={{
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
+                                                        borderWidth:1,
+                                                        borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
                                                 />
@@ -862,22 +894,32 @@ export default function Dois(props) {
                                             <TouchableOpacity onPress={() => { toggleOption(item.opcao); updateRespostas(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
                                             >
                                                  <Icon
-                                                    name="check-circle"
-                                                    size={40}
+                                                    name= {
+                                                        selectedOptions.includes(item.opcao)
+                                                            ? 'check'
+                                                            : 'circle'
+                                                    }
+                                                    size={30}
+                                                  
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
-                                                            : ColorsApp.PRIMARY
+                                                            : 'transparent'
                                                     }
-                                                    backgroundColor={'#000'}
+                                                    // backgroundColor={
+                                                    //     selectedOptions.includes(item.opcao)
+                                                    //         ?  ColorsApp.PRIMARY
+                                                    //         : '#FFF'
+                                                    // }
                                                     style={{
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
+                                                        borderWidth:1,
+                                                        borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
                                                 />
-                                                
                                                 <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
 
                                             </TouchableOpacity>

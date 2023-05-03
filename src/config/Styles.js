@@ -1301,7 +1301,7 @@ export default StyleSheet.create({
         height:'auto',minHeight:50, width: '90%', margin:10, flex:1,  marginBottom:5, marginLeft:'5%'
      },
      VerticalDoisItemNPSTablet: {
-        height:'auto',minHeight:70, width: '90%', margin:10, flex:1,  marginBottom:5, marginLeft:'5%'
+        height:'auto',minHeight:70, width: '90%', margin:20, flex:1,  marginBottom:5, marginLeft:'5%'
      },
 
      VerticalUmItemNPS: {
@@ -1381,7 +1381,7 @@ export default StyleSheet.create({
 
 
     // ContainerNPSTablet: {flex:1,height:'100%', paddingTop: 30, marginHorizontal: 20 },
-    ContainerNPSFullTablet: { flex: 1, height: '100%', paddingTop: 20, marginHorizontal: 50 },
+    ContainerNPSFullTablet: { flex: 1, height: '100%', paddingTop: 20, marginBottom:30, marginHorizontal: 50 },
     ContainerNPSFull: { flex: 1, height: '100%', paddingTop: 20, marginHorizontal: 20 },
 
     ContainerNPS: { paddingTop: 30, marginHorizontal: 15 },
@@ -1390,7 +1390,7 @@ export default StyleSheet.create({
 
     TitleNPSTablet: { fontSize: 27, marginTop: 30, marginBottom: 30, fontWeight: 'normal', textAlign: 'center' },
 
-    DivNPSTablet: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
+    DivNPSTablet: { flex: 1, width: '100%', flexDirection: 'row', height: 100, margin: 'auto', marginTop: 20 },
     DivNPS: { flex: 1, width: '100%', flexDirection: 'row', height: 40, margin: 'auto', marginTop: 20 },
 
     OnzeDivNPSTablet: { flex: 1, width: '100%', flexDirection: 'row', marginTop: 20 },
