@@ -55,10 +55,11 @@ export default function Pontos(props) {
 
                             try {
 
-                                // console.log(response.results)
+
+                                const filteredResult = response.results.filter(element => element.visivel === true);
 
 
-                                if (response.results.length > 0) {
+                                if (filteredResult.length > 0) {
 
                                     AsyncStorage.setItem(
                                         'currentIndex',
@@ -85,17 +86,20 @@ export default function Pontos(props) {
 
                                     console.log('[*] SETANDO EXPIRATION INICAL: ' + expiryTimeInTimestamp)
 
+                                    
+
+
                                     AsyncStorage.setItem(
                                         'dataQuestions',
                                         JSON.stringify(
-                                            { qtd: response.results.length, questions: response.results }
+                                            { qtd: filteredResult.length, questions: filteredResult}
 
                                         )
                                     );
 
                                     AsyncStorage.setItem(
                                         'currentType',
-                                        JSON.stringify(response.results[0].codTipoQuestao)
+                                        JSON.stringify(filteredResult[0].codTipoQuestao)
                                     );
 
                                     // Salvando dataAnswerInicial

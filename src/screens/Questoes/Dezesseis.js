@@ -83,6 +83,9 @@ export default function Dezesseis(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+
+
 
     const [IconSize, setIconSize] = useState(80);
 
@@ -424,51 +427,63 @@ export default function Dezesseis(props) {
             try {
 
                 // Pegando Index
-                await AsyncStorage.getItem('dataAnswer', (error, result) => {
+
+                if (!buttonDisabled) {
+                    setButtonDisabled(true);
+                
+                    // Insere no async storage
+                    await AsyncStorage.getItem('dataAnswer', (error, result) => {
+
+                        if (result) {
+    
+                            console.log('JA TEM RESPOSTA, INSERINDO MAIS')
+    
+                            var oldAnswer = JSON.parse(result)
+    
+                            oldAnswer.answers.push({
+                                "codQuestao": codQuestao,
+                                "resposta": "" + resposta + ""
+                            });
+    
+                            const newDataAnswer = oldAnswer
+    
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(newDataAnswer)
+                            );
+    
+
+    
+                        } else {
+    
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(
+                                    {
+                                        answers: [
+                                            {
+                                                "codQuestao": codQuestao,
+                                                "resposta": "" + resposta + ""
+                                            }]
+                                    }
+    
+                                )
+                            );
+    
+                        }
+    
+                    })
+                
+                    setTimeout(() => {
+                      setButtonDisabled(false);
+                    }, 2000); // 2 segundos de tempo de espera
+                    console.log('===================foi==================')
 
 
-
-
-
-                    if (result) {
-
-                        console.log('JA TEM RESPOSTA, INSERINDO MAIS')
-
-                        var oldAnswer = JSON.parse(result)
-
-                        oldAnswer.answers.push({
-                            "codQuestao": codQuestao,
-                            "resposta": "" + resposta + ""
-                        });
-
-                        const newDataAnswer = oldAnswer
-
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(newDataAnswer)
-                        );
-
-
-
-                    } else {
-
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(
-                                {
-                                    answers: [
-                                        {
-                                            "codQuestao": codQuestao,
-                                            "resposta": "" + resposta + ""
-                                        }]
-                                }
-
-                            )
-                        );
-
-                    }
-
-                })
+                  } else {
+                    console.log('===================desabilitado==================')
+                  }
+               
 
             } catch (error) {
 
@@ -685,6 +700,8 @@ export default function Dezesseis(props) {
                     </ScrollView >
 
                 );
+
+
 
 
             } else if (question.nrQuestao == "SATISFACAO_HORIZONTAL_3") {

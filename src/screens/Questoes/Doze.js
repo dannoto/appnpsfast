@@ -37,6 +37,7 @@ export default function Doze(props) {
         setDeviceType(v)
     })
     // DeviceType
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     // Orientation    
     useEffect(() => {
@@ -440,52 +441,65 @@ export default function Doze(props) {
 
             try {
 
-                // Pegando Index
-                await AsyncStorage.getItem('dataAnswer', (error, result) => {
+                if (!buttonDisabled) {
+                    setButtonDisabled(true);
+                    // Pegando Index
+                    await AsyncStorage.getItem('dataAnswer', (error, result) => {
 
 
 
 
 
-                    if (result) {
+                        if (result) {
 
-                        console.log('JA TEM RESPOSTA, INSERINDO MAIS')
+                            console.log('JA TEM RESPOSTA, INSERINDO MAIS')
 
-                        var oldAnswer = JSON.parse(result)
+                            var oldAnswer = JSON.parse(result)
 
-                        oldAnswer.answers.push({
-                            "codQuestao": codQuestao,
-                            "resposta": "" + resposta + ""
-                        });
+                            oldAnswer.answers.push({
+                                "codQuestao": codQuestao,
+                                "resposta": "" + resposta + ""
+                            });
 
-                        const newDataAnswer = oldAnswer
+                            const newDataAnswer = oldAnswer
 
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(newDataAnswer)
-                        );
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(newDataAnswer)
+                            );
 
 
 
-                    } else {
+                        } else {
 
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(
-                                {
-                                    answers: [
-                                        {
-                                            "codQuestao": codQuestao,
-                                            "resposta": "" + resposta + ""
-                                        }]
-                                }
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(
+                                    {
+                                        answers: [
+                                            {
+                                                "codQuestao": codQuestao,
+                                                "resposta": "" + resposta + ""
+                                            }]
+                                    }
 
-                            )
-                        );
+                                )
+                            );
 
-                    }
+                        }
 
-                })
+                    })
+
+                    setTimeout(() => {
+                        setButtonDisabled(false);
+                    }, 2000); // 2 segundos de tempo de espera
+                    console.log('===================foi==================')
+
+
+                } else {
+                    console.log('===================desabilitado==================')
+                }
+
 
             } catch (error) {
 

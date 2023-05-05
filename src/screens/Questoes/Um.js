@@ -84,6 +84,8 @@ export default function Um(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+
 
     const [IconSize, setIconSize] = useState(80);
 
@@ -472,52 +474,66 @@ export default function Um(props) {
 
             try {
 
-                // Pegando Index
-                await AsyncStorage.getItem('dataAnswer', (error, result) => {
+                if (!buttonDisabled) {
+                    setButtonDisabled(true);
+
+
+                    // Pegando Index
+                    await AsyncStorage.getItem('dataAnswer', (error, result) => {
 
 
 
 
 
-                    if (result) {
+                        if (result) {
 
-                        console.log('JA TEM RESPOSTA, INSERINDO MAIS')
+                            console.log('JA TEM RESPOSTA, INSERINDO MAIS')
 
-                        var oldAnswer = JSON.parse(result)
+                            var oldAnswer = JSON.parse(result)
 
-                        oldAnswer.answers.push({
-                            "codQuestao": codQuestao,
-                            "resposta": "" + resposta + ""
-                        });
+                            oldAnswer.answers.push({
+                                "codQuestao": codQuestao,
+                                "resposta": "" + resposta + ""
+                            });
 
-                        const newDataAnswer = oldAnswer
+                            const newDataAnswer = oldAnswer
 
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(newDataAnswer)
-                        );
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(newDataAnswer)
+                            );
 
 
 
-                    } else {
+                        } else {
 
-                        AsyncStorage.setItem(
-                            'dataAnswer',
-                            JSON.stringify(
-                                {
-                                    answers: [
-                                        {
-                                            "codQuestao": codQuestao,
-                                            "resposta": "" + resposta + ""
-                                        }]
-                                }
+                            AsyncStorage.setItem(
+                                'dataAnswer',
+                                JSON.stringify(
+                                    {
+                                        answers: [
+                                            {
+                                                "codQuestao": codQuestao,
+                                                "resposta": "" + resposta + ""
+                                            }]
+                                    }
 
-                            )
-                        );
+                                )
+                            );
 
-                    }
+                        }
 
-                })
+                    })
+
+                    setTimeout(() => {
+                        setButtonDisabled(false);
+                    }, 2000); // 2 segundos de tempo de espera
+                    console.log('===================foi==================')
+
+
+                } else {
+                    console.log('===================desabilitado==================')
+                }
 
             } catch (error) {
 
@@ -672,14 +688,14 @@ export default function Um(props) {
 
                                             <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
                                             >
-                                                  <Icon
-                                                    name= {
+                                                <Icon
+                                                    name={
                                                         selectedOptions.includes(item.opcao)
                                                             ? 'check'
                                                             : 'circle'
                                                     }
                                                     size={30}
-                                                  
+
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
@@ -694,7 +710,7 @@ export default function Um(props) {
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
-                                                        borderWidth:1,
+                                                        borderWidth: 1,
                                                         borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
@@ -711,8 +727,8 @@ export default function Um(props) {
 
 
                                 </View>
-                                <View style={{marginBottom:20}}></View>
-                              
+                                <View style={{ marginBottom: 20 }}></View>
+
                             </ScrollView>
                             <Footer />
                         </SafeAreaView>
@@ -741,13 +757,13 @@ export default function Um(props) {
                                             <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
                                             >
                                                 <Icon
-                                                    name= {
+                                                    name={
                                                         selectedOptions.includes(item.opcao)
                                                             ? 'check'
                                                             : 'circle'
                                                     }
                                                     size={30}
-                                                  
+
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
@@ -762,7 +778,7 @@ export default function Um(props) {
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
-                                                        borderWidth:1,
+                                                        borderWidth: 1,
                                                         borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
@@ -779,8 +795,8 @@ export default function Um(props) {
 
 
                                 </View>
-                                <View style={{marginBottom:20}}></View>
-                              
+                                <View style={{ marginBottom: 20 }}></View>
+
                             </ScrollView>
                             <Footer />
                         </SafeAreaView>
@@ -798,29 +814,29 @@ export default function Um(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
-                        <Header />
-                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                            <Header />
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
+                                <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
 
-                                {map(question.opcoes, (item, i) => (
-
-
-                                    < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
+                                    {map(question.opcoes, (item, i) => (
 
 
-                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
-                                        >
-                                            <Icon
-                                                    name= {
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
+                                            >
+                                                <Icon
+                                                    name={
                                                         selectedOptions.includes(item.opcao)
                                                             ? 'check'
                                                             : 'circle'
                                                     }
                                                     size={30}
-                                                  
+
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
@@ -835,28 +851,28 @@ export default function Um(props) {
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
-                                                        borderWidth:1,
+                                                        borderWidth: 1,
                                                         borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
                                                 />
 
-                                            <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
 
-                                        </TouchableOpacity>
-                                    </View>
-
-
-                                ))}
+                                            </TouchableOpacity>
+                                        </View>
 
 
+                                    ))}
 
-                            </View>
-                          
-                        </ScrollView>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+
+
+                                </View>
+
+                            </ScrollView>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
                 );
 
@@ -865,29 +881,29 @@ export default function Um(props) {
                 return (
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
-                        <Header />
-                        <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
-                            <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
+                        <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: ColorsApp.BACK }}>
+                            <Header />
+                            <ScrollView style={deviceType != 1 ? Styles.ContainerNPSTablet : Styles.ContainerNPS}>
+                                <Text style={deviceType != 1 ? Styles.TitleNPSTablet : Styles.TitleNPS}>{replaceDescription(question.descQuestao)}</Text>
 
-                            <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
+                                <View style={deviceType != 1 ? Styles.VerticalDoisDivNPSTablet : Styles.VerticalDoisDivNPS}>
 
-                                {map(question.opcoes, (item, i) => (
-
-
-                                    < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
+                                    {map(question.opcoes, (item, i) => (
 
 
-                                        <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
-                                        >
-                                            <Icon
-                                                    name= {
+                                        < View key={i} style={deviceType != 1 ? Styles.VerticalDoisItemNPSTablet : Styles.VerticalDoisItemNPS} >
+
+
+                                            <TouchableOpacity onPress={() => { toggleOption(item.opcao); sendNPS(question.codQuestao, item.opcao) }} style={[deviceType != 1 ? Styles.DezesseisItemTouchNPSTablet : Styles.DezesseisItemTouchNPS, { borderWidth: 1, borderRadius: 5, borderColor: ColorsApp.PRIMARY, backgroundColor: selectedOptions.includes(item.opcao) ? ColorsApp.PRIMARY : "#FFF", flexDirection: "row", alignItems: 'flex-start', flexWrap: "wrap", height: 'auto', alignItems: "center" },]}
+                                            >
+                                                <Icon
+                                                    name={
                                                         selectedOptions.includes(item.opcao)
                                                             ? 'check'
                                                             : 'circle'
                                                     }
                                                     size={30}
-                                                  
+
                                                     color={
                                                         selectedOptions.includes(item.opcao)
                                                             ? '#FFF'
@@ -902,28 +918,28 @@ export default function Um(props) {
                                                         position: 'relative',
                                                         left: 5, // posiciona o ícone no início esquerdo do botão
                                                         top: '50%',
-                                                        borderWidth:1,
+                                                        borderWidth: 1,
                                                         borderColor: ColorsApp.PRIMARY
                                                         // transform: [{ translateY: -20 }] 
                                                     }}
                                                 />
 
-                                            <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
+                                                <Text style={[deviceType != 1 ? Styles.ItemTextDoisNPSTablet : Styles.ItemTextDoisNPS, { color: selectedOptions.includes(item.opcao) ? "#FFF" : ColorsApp.PRIMARY, flex: 1, paddingTop: 10, marginLeft: 15, marginRight: 5, paddingBottom: 10 }]}>{item.descOpcao}</Text>
 
-                                        </TouchableOpacity>
-                                    </View>
-
-
-                                ))}
+                                            </TouchableOpacity>
+                                        </View>
 
 
+                                    ))}
 
-                            </View>
-                          
-                        </ScrollView>
-                        <Footer />
-                    </SafeAreaView>
-                </ScrollView >
+
+
+                                </View>
+
+                            </ScrollView>
+                            <Footer />
+                        </SafeAreaView>
+                    </ScrollView >
 
                 );
 
