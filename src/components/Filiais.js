@@ -59,6 +59,8 @@ export default function Filiais(props) {
                                     setFiliais([])
                                     setFiliais(response.results)
 
+                                    console.log(response.results.length)
+
                                 } else {
                                      setFiliais([])
                                     console.log("vazio")
@@ -172,7 +174,7 @@ export default function Filiais(props) {
                         ))}
 
                         {
-                            !filiais.results  ?
+                            filiais.length == 0   ?
 
                                 <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
                                 <Empty />

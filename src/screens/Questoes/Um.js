@@ -653,6 +653,7 @@ export default function Um(props) {
         }
     };
 
+    console.log(question)
 
     if (!loading) {
         return (
@@ -666,7 +667,7 @@ export default function Um(props) {
         if (orientation == "PORTRAIT") {
 
 
-            if (question.nrQuestao == "RESPOSTA_UNICA_VERTICAL") {
+            if (question.RespostasNaVertical) {
 
                 return (
 
@@ -736,7 +737,7 @@ export default function Um(props) {
 
                 );
 
-            } else if (question.nrQuestao == "RESPOSTA_UNICA_HORIZONTAL") {
+            } else if (!question.RespostasNaVertical) {
 
                 return (
 
@@ -805,11 +806,11 @@ export default function Um(props) {
                 );
 
 
-            }
+            } 
 
         } else {
 
-            if (question.nrQuestao == "RESPOSTA_UNICA_VERTICAL") {
+            if (question.RespostasNaVertical) {
 
                 return (
 
@@ -876,7 +877,7 @@ export default function Um(props) {
 
                 );
 
-            } else if (question.nrQuestao == "RESPOSTA_UNICA_HORIZONTAL") {
+            } else if (!question.RespostasNaVertical) {
 
                 return (
 
@@ -944,7 +945,7 @@ export default function Um(props) {
                 );
 
 
-            }
+            } 
         }
 
 

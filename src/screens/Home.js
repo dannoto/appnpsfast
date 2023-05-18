@@ -12,6 +12,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useKeepAwake } from 'expo-keep-awake';
 
 
+
 import * as Device from 'expo-device';
 
 export default function Home(props) {

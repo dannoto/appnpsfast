@@ -640,7 +640,7 @@ export default function Dois(props) {
 
         if (orientation == "PORTRAIT") {
 
-            if (question.nrQuestao == "RESPOSTA_MULTIPLA_VERTICAL") {
+            if (question.RespostasNaVertical) {
 
                 return (
 
@@ -716,7 +716,7 @@ export default function Dois(props) {
 
 
 
-            } else if (question.nrQuestao == "RESPOSTA_MULTIPLA_HORIZONTAL") {
+            } else if (!question.RespostasNaVertical) {
 
                 return (
 
@@ -796,7 +796,7 @@ export default function Dois(props) {
         } else {
 
 
-            if (question.nrQuestao == "RESPOSTA_MULTIPLA_VERTICAL") {
+            if (question.RespostasNaVertical) {
 
                 return (
 
@@ -873,7 +873,7 @@ export default function Dois(props) {
 
 
 
-            } else if (question.nrQuestao == "RESPOSTA_MULTIPLA_HORIZONTAL") {
+            } else if (!question.RespostasNaVertical) {
 
                 return (
 

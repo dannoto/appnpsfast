@@ -140,7 +140,10 @@ export default function Home(props) {
 
                 try {
 
-                    var response = JSON.parse(response)
+
+                    // var response = JSON.parse(response)
+                    // console.log("==============")
+                    // console.log(response)
 
                     if (response.token.length > 0) {
                         console.log('logado com sucesso')
@@ -194,16 +197,16 @@ export default function Home(props) {
             <ScrollView style={{ backgroundColor: ColorsApp.BACK }}>
                 <SafeAreaView style={{ flex: 1, justifyContent: 'center', marginBottom: 30, paddingVertical: 60 }}>
                     <Image source={require('../../assets/logo.png')} resizeMode={"contain"} style={Styles.AuthLogo} />
-                    <View style={deviceType != 1? Styles.AuthContentTablet : Styles.AuthContent}>
-                        <Text style={deviceType != 1? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
-                        <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={deviceType != 1? Styles.TabletAuthInput : Styles.AuthInput} />
-                        <Text style={deviceType != 1? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
-                        <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={deviceType != 1? Styles.TabletAuthInput : Styles.AuthInput} />
+                    <View style={deviceType != 1 ? Styles.AuthContentTablet : Styles.AuthContent}>
+                        <Text style={deviceType != 1 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>EMAIL</Text>
+                        <TextInput onChangeText={text => setEmail(text)} mode="flat" autoCapitalize="none" style={deviceType != 1 ? Styles.TabletAuthInput : Styles.AuthInput} />
+                        <Text style={deviceType != 1 ? Styles.TabletAuthInputLabel : Styles.AuthInputLabel}>SENHA</Text>
+                        <TextInput onChangeText={text => setPassword(text)} mode="flat" secureTextEntry={true} style={deviceType != 1 ? Styles.TabletAuthInput : Styles.AuthInput} />
                         <TouchableOpacity activeOpacity={0.9} onPress={() => onChangeScreen('recuperacao')}>
-                            <Text style={deviceType != 1? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
+                            <Text style={deviceType != 1 ? Styles.TabletForgotPass : Styles.ForgotPass}>Esqueci minha senha</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity mode="contained" onPress={() => Authenticando()} dark={true} style={deviceType != 1? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={deviceType != 1? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={deviceType != 1? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
-                            <Text style={deviceType != 1? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
+                        <TouchableOpacity mode="contained" onPress={() => Authenticando()} dark={true} style={deviceType != 1 ? Styles.TabletAuthButton : Styles.AuthButton} contentStyle={deviceType != 1 ? Styles.AuthButtonContentTablet : Styles.AuthButtonContent} labelStyle={deviceType != 1 ? Styles.TabletAuthButtonLabel : Styles.AuthButtonLabel}>
+                            <Text style={deviceType != 1 ? Styles.ButtonTextAuthTablet : Styles.ButtonTextAuth} >FAZER LOGIN</Text>
                         </TouchableOpacity>
                     </View>
                 </SafeAreaView>
