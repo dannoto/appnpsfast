@@ -2,7 +2,7 @@
   "expo": {
     "name": "NPS Fast",
     "slug": "npsfast",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,8 +18,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-     
+      "supportsTablet": true,
+      "bundleIdentifier": "com.danotto.npsfast",
+      "buildNumber": 2
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,8 @@
       "permissions": [
         "INTERNET",
         "ACCESS_WIFI_STATE"
-      ]
+      ],
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
